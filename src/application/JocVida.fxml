@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.JocVidaController">
+<VBox fx:id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.JocVidaController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="882.0" spacing="125.0">
          <children>
@@ -17,13 +17,13 @@
          </children>
       </HBox>
       <GridPane fx:id="gridPane" alignment="CENTER" gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="882.0" spacing="400.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="882.0" spacing="200.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="400.0" spacing="40.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="597.0" spacing="40.0">
                <children>
                   <Button fx:id="botonPausa" mnemonicParsing="false" onAction="#pausar" text="Pause" />
                   <Button fx:id="botonReanudar" mnemonicParsing="false" onAction="#reanudar" text="Reanudar" />
-                  <Button fx:id="botonStop" mnemonicParsing="false" onAction="#acabar" text="Stop" />
+                  <Button fx:id="botonStop" mnemonicParsing="false" onAction="#acabar" text="Volver a elegir dificultad" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0" spacing="40.0">

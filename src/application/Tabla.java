@@ -4,18 +4,44 @@ import java.util.Random;
 
 public class Tabla {
 
-	public static final int MAX_GEN = 200;
-	public static final int LONG_MATRIZ = 10;
-
-	private int generaciones = 1;
-	private String[][] matriu_actual = new String[LONG_MATRIZ][LONG_MATRIZ];
-	private String[][] matriu_posterior = new String[LONG_MATRIZ][LONG_MATRIZ];
-
 	public int contadorCreadas;
 	public int contadorMuertes;
 
-	
-	
+	private int maxGen;
+	private int longMatriz;
+	private int minimoCelulas;
+	private int maximoCelulas;
+
+	private int generaciones = 1;
+	private String[][] matriu_actual;
+	private String[][] matriu_posterior;
+
+	public Tabla(int longMatriz, int maxGen, int minimoCelulas, int maximoCelulas) {
+		this.longMatriz = longMatriz;
+		this.maxGen = maxGen;
+		this.minimoCelulas = minimoCelulas;
+		this.maximoCelulas = maximoCelulas;
+
+		this.matriu_actual = new String[longMatriz][longMatriz];
+		this.matriu_posterior = new String[longMatriz][longMatriz];
+	}
+
+	public int getLongMatriz() {
+		return longMatriz;
+	}
+
+	public int getMaxGen() {
+		return maxGen;
+	}
+
+	public int getMinimoCelulas() {
+		return minimoCelulas;
+	}
+
+	public int getMaximoCelulas() {
+		return maximoCelulas;
+	}
+
 	public int getContadorCreadas() {
 		return contadorCreadas;
 	}
@@ -62,16 +88,15 @@ public class Tabla {
 
 	public void llenarMatrizInicial() {
 		Random aleatorio = new Random();
-		for (int i = 0; i < aleatorio.nextInt(25,50); i++) {
+		for (int i = 0; i < aleatorio.nextInt(minimoCelulas, maximoCelulas); i++) {
 			int numero = aleatorio.nextInt(0, matriu_actual.length);
 			int numero2 = aleatorio.nextInt(0, matriu_actual.length);
 			if (matriu_actual[numero][numero2] != "*") {
-			    matriu_actual[numero][numero2] = "*";
-			    contadorCreadas++;
+				matriu_actual[numero][numero2] = "*";
+				contadorCreadas++;
 			} else {
-			    i--;
+				i--;
 			}
-
 
 		}
 	}
@@ -117,7 +142,6 @@ public class Tabla {
 		generaciones++;
 	}
 
-
 	public int contarCelulas() {
 		int numero = 0;
 		for (int i = 0; i < matriu_actual.length; i++) {
@@ -130,5 +154,18 @@ public class Tabla {
 		return numero;
 	}
 
+	public void reiniciar() {
+		for (int i = 0; i < matriu_actual.length; i++) {
+			for (int j = 0; j < matriu_actual[i].length; j++) {
+				if (matriu_actual[i][j] != null) {
+					matriu_actual[i][j] = null;
+					matriu_posterior[i][j] = null;
+				}
+			}
+		}
+		generaciones = 1;
+		contadorCreadas = 0;
+		contadorMuertes = 0;
+	}
 
 }

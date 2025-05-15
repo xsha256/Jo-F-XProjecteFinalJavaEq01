@@ -1,18 +1,27 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class JocVidaController implements Initializable {
 
+	@FXML
+	private VBox root;
 	@FXML
 	private GridPane gridPane;
 	@FXML
@@ -34,11 +43,11 @@ public class JocVidaController implements Initializable {
 	@FXML
 	private Button botonE2;
 
-	private final int FILAS = Tabla.LONG_MATRIZ;
-	private final int COLUMNAS = Tabla.LONG_MATRIZ;
-
-	private Label[][] etiquetas = new Label[FILAS][COLUMNAS];
+	private int FILAS;
+	private int COLUMNAS;
+	private Label[][] etiquetas;
 	private Tabla tabla;
+	
 	private int tiempoEspera = 1000;
 	private boolean continuar = true;
 	
@@ -47,42 +56,67 @@ public class JocVidaController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		tabla = new Tabla();
-		tabla.llenarMatrizInicial();
 
-		for (int i = 0; i < FILAS; i++) {
-			for (int j = 0; j < COLUMNAS; j++) {
-				Label label = new Label();
-				label.setPrefSize(20, 20);
-				label.setStyle("-fx-border-color: black; -fx-alignment: center;");
-				etiquetas[i][j] = label;
-				gridPane.add(label, j, i);
-			}
-		}
+	    Platform.runLater(() -> {
+	        Stage window = (Stage) root.getScene().getWindow();
+	        String opcion = (String) window.getUserData();
 
-		actualizar();
+	        // Crear la tabla con parámetros según dificultad
+	        if (opcion.equals("Pequeño")) {
+	            tabla = new Tabla(10, 200, 25, 50);
+	        } else if (opcion.equals("Mediano")) {
+	            tabla = new Tabla(15, 300, 75, 100);
+	        } else {
+	            tabla = new Tabla(20, 400, 100, 150);
+	        }
 
-		Thread hilo = new Thread(() -> {
-			try {
-				while (tabla.getGeneraciones() < Tabla.MAX_GEN) {
-					synchronized (lock) {
-                        while (!continuar) {
-                            lock.wait();
-                        }
-                    }
-					Thread.sleep(tiempoEspera);
+	        FILAS = tabla.getLongMatriz();
+	        COLUMNAS = tabla.getLongMatriz();
 
-					tabla.cambiarMatriz();
+	        // Inicializar matriz de etiquetas
+	        etiquetas = new Label[FILAS][COLUMNAS];
 
-					Platform.runLater(() -> actualizar());
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		});
-		hilo.setDaemon(true);
-		hilo.start();
-	}
+	        // Limpiar gridPane para evitar superposición de nodos
+	        gridPane.getChildren().clear();
+
+	        // Inicializar matriz inicial con células
+	        tabla.llenarMatrizInicial();
+
+	        // Crear etiquetas y agregarlas al gridPane
+	        for (int i = 0; i < FILAS; i++) {
+	            for (int j = 0; j < COLUMNAS; j++) {
+	                Label label = new Label();
+	                label.setPrefSize(20, 20);
+	                label.setStyle("-fx-border-color: black; -fx-alignment: center;");
+	                etiquetas[i][j] = label;
+	                gridPane.add(label, j, i);
+	            }
+	        }
+
+	        actualizar();
+
+	        // Crear y arrancar hilo que actualiza el juego
+	        Thread hilo = new Thread(() -> {
+	            try {
+	                while (tabla.getGeneraciones() < tabla.getMaxGen() && (tabla.contarCelulas() != 0)) {
+	                    synchronized (lock) {
+	                        while (!continuar) {
+	                            lock.wait();
+	                        }
+	                    }
+	                    Thread.sleep(tiempoEspera);
+
+	                    tabla.cambiarMatriz();
+
+	                    Platform.runLater(() -> actualizar());
+	                }
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        });
+	        hilo.setDaemon(true);
+	        hilo.start();
+	    });}
 
 	public void actualizar() {
 		String[][] matriz = tabla.getMatriu_actual();
@@ -119,15 +153,23 @@ public class JocVidaController implements Initializable {
 
 	public void reanudar() {
 		continuar = true;
-		// Despierta el hilo cuando se reanuda
 		synchronized (lock) {
-			lock.notify(); // Notifica al hilo que puede continuar
+			lock.notify();
 		}
 	}
 
-	public void acabar() {
-		Platform.exit();
-	}
+	public void acabar(ActionEvent e) {
+		try {
+			tabla.reiniciar();
+			 VBox root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
+			 Scene escena2 = new Scene(root2,1000,1000);
+			 Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			 window.setScene(escena2);
+			 window.setTitle("Eleccion de Dificultad");
+			 window.show();
+			 } catch (IOException e1) {
+			 e1.printStackTrace();
+			 }	}
 
 	public void x2() {
 		tiempoEspera = tiempoEspera / 2;
