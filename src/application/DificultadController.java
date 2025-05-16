@@ -40,7 +40,7 @@ public class DificultadController implements Initializable {
 			try {
 				VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 				
-				Scene escena2 = new Scene(root2, 1000, 1000);
+				Scene escena2 = new Scene(root2, 1000, 800);
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);

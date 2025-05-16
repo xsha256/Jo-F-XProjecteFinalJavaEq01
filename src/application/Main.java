@@ -12,7 +12,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			VBox root = (VBox)FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-			Scene scene = new Scene(root,1000,1000);
+			Scene scene = new Scene(root,1000,800);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -26,9 +26,3 @@ public class Main extends Application {
 		launch(args);
 	}
 }
-
-//preguntar como pausar y como reanudar el juego
-//las casillas aleatorias entre que numeros deben estar
-//preguntar que tiene que hacer el boton de stop
-//como puedo ver si esta muerta de antes,acaba de morir, acaba de nacer o estaba viva de antes
-//el maximo de generaciones tiene que variar dependiendo el tamaño?

@@ -15,6 +15,8 @@ public class Tabla {
 	private int generaciones = 1;
 	private String[][] matriu_actual;
 	private String[][] matriu_posterior;
+	private String[][] matriu_anterior;
+	private String[][] estados;
 
 	public Tabla(int longMatriz, int maxGen, int minimoCelulas, int maximoCelulas) {
 		this.longMatriz = longMatriz;
@@ -24,6 +26,32 @@ public class Tabla {
 
 		this.matriu_actual = new String[longMatriz][longMatriz];
 		this.matriu_posterior = new String[longMatriz][longMatriz];
+		this.matriu_anterior = new String[longMatriz][longMatriz];
+		this.estados = new String[longMatriz][longMatriz];
+
+	}
+
+	
+	
+	public String[][] getMatriu_anterior() {
+		return matriu_anterior;
+	}
+
+
+
+	public void setMatriu_anterior(String[][] matriu_anterior) {
+		this.matriu_anterior = matriu_anterior;
+	}
+
+
+
+	public String[][] getEstados() {
+		return estados;
+	}
+
+
+	public void setEstados(String[][] estados) {
+		this.estados = estados;
 	}
 
 	public int getLongMatriz() {
@@ -93,11 +121,19 @@ public class Tabla {
 			int numero2 = aleatorio.nextInt(0, matriu_actual.length);
 			if (matriu_actual[numero][numero2] != "*") {
 				matriu_actual[numero][numero2] = "*";
+				estados[numero][numero2] = "recienNacida";
 				contadorCreadas++;
 			} else {
 				i--;
 			}
 
+		}
+		for(int i = 0;i<matriu_actual.length;i++) {
+			for(int j = 0;j<matriu_actual.length;j++) {
+				if(matriu_actual[i][j] == null) {
+					estados[i][j] = "muerta";
+				}
+			}
 		}
 	}
 
@@ -120,22 +156,27 @@ public class Tabla {
 				if (matriu_actual[i][j] == null) {
 					if (contadorVecinas == 3) {
 						matriu_posterior[i][j] = "*";
+						estados[i][j] = "recienNacida";
 						contadorCreadas++;
 					} else {
 						matriu_posterior[i][j] = null;
+						estados[i][j] = "muerta";
 					}
 				} else {
 					if (contadorVecinas < 2 || contadorVecinas > 3) {
 						matriu_posterior[i][j] = null;
+						estados[i][j] = "recienMuerta";
 						contadorMuertes++;
 					} else {
 						matriu_posterior[i][j] = "*";
+						estados[i][j] = "viva";
 					}
 				}
 			}
 		}
 		for (int i = 0; i < matriu_actual.length; i++) {
 			for (int j = 0; j < matriu_actual[i].length; j++) {
+				matriu_anterior[i][j] = matriu_actual[i][j];
 				matriu_actual[i][j] = matriu_posterior[i][j];
 			}
 		}
@@ -168,4 +209,23 @@ public class Tabla {
 		contadorMuertes = 0;
 	}
 
+	public boolean comparar() {
+
+		boolean continuar = true;
+		int contador = 0;
+		for (int i = 0; i < matriu_actual.length; i++) {
+			for (int j = 0; j < matriu_actual[i].length; j++) {
+				if (matriu_actual[i][j] == matriu_anterior[i][j]) {
+					contador++;
+					System.out.println(contador);
+				}
+			}
+		}
+		if(contador == Math.pow(matriu_actual.length, 2)) {
+			continuar = false;
+		}
+		contador = 0;
+		return continuar;
+	
+	}
 }
