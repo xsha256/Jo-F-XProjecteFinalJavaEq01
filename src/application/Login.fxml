@@ -13,76 +13,97 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
-   <children>
-      <ImageView id="loginimg" fitHeight="447.0" fitWidth="386.0" pickOnBounds="true" preserveRatio="true">
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-         <image>
-            <Image url="@/img/login.png" />
-         </image>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
-         <viewport>
-            <Rectangle2D />
-         </viewport></ImageView>
-      <VBox prefHeight="450.0" prefWidth="403.0">
-         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Benvingut" textFill="#e8e8e8">
-               <font>
-                  <Font size="30.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="25.0" top="90.0" />
-               </VBox.margin>
-            </Label>
-            <TextField prefHeight="30.0" prefWidth="0.0" promptText="Correu electronic" style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8; -fx-prompt-text-fill: #e8e8e8;">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </TextField>
-            <TextField prefHeight="30.0" promptText="Contrasenya" style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8; -fx-prompt-text-fill: #e8e8e8;">
-               <VBox.margin>
-                  <Insets bottom="30.0" />
-               </VBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" style="-fx-background-color: #2a7963;" text="Accedir" textFill="#e8e8e8">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </Button>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Encara no estàs registrat?!" textFill="#e8e8e8">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets left="15.0" top="5.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Hyperlink style="-fx-font-style: italic;" text="Fes clic asi" textFill="#2a7963">
-                     <HBox.margin>
-                        <Insets left="3.0" top="2.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Arial Italic" size="13.0" />
-                     </font>
-                  </Hyperlink>
-               </children>
-            </HBox>
-         </children>
-         <opaqueInsets>
-            <Insets top="90.0" />
-         </opaqueInsets>
-         <padding>
-            <Insets left="60.0" right="60.0" />
-         </padding>
-      </VBox>
-   </children>
+
+<HBox prefHeight="450.0" prefWidth="700.0"
+	style="-fx-background-color: #0d262e;"
+	xmlns="http://javafx.com/javafx/23.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="application.LoginController">
+	<children>
+		<ImageView id="loginimg" fitHeight="447.0" fitWidth="386.0"
+			pickOnBounds="true" preserveRatio="true">
+			<cursor>
+				<Cursor fx:constant="DEFAULT" />
+			</cursor>
+			<image>
+				<Image url="@/img/login.png" />
+			</image>
+			<HBox.margin>
+				<Insets />
+			</HBox.margin>
+			<viewport>
+				<Rectangle2D />
+			</viewport>
+		</ImageView>
+		<VBox prefHeight="450.0" prefWidth="403.0">
+			<children>
+				<Label alignment="CENTER" contentDisplay="CENTER"
+					text="Benvingut" textFill="#e8e8e8">
+					<font>
+						<Font size="30.0" />
+					</font>
+					<opaqueInsets>
+						<Insets />
+					</opaqueInsets>
+					<VBox.margin>
+						<Insets bottom="25.0" top="90.0" />
+					</VBox.margin>
+				</Label>
+				<Label fx:id="labelCorreu" text="Correu electrònic"
+           style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;"
+           visible="false" />
+				<TextField fx:id="correutxt" prefHeight="30.0" prefWidth="0.0"
+					promptText="Correu electrònic"
+					style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8; -fx-prompt-text-fill: #e8e8e8;">
+					<VBox.margin>
+						<Insets bottom="20.0" />
+					</VBox.margin>
+				</TextField>
+					<Label fx:id="labelContrasenya" text="Contrasenya"
+           style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;"
+           visible="false" />
+				<TextField fx:id="contrasenyatxt" prefHeight="30.0" promptText="Contrasenya"
+					style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8; -fx-prompt-text-fill: #e8e8e8;">
+					<VBox.margin>
+						<Insets bottom="30.0" />
+					</VBox.margin>
+				</TextField>
+				<Button mnemonicParsing="false" prefHeight="30.0"
+					prefWidth="300.0" style="-fx-background-color: #2a7963;"
+					text="Accedir" textFill="#e8e8e8">
+					<VBox.margin>
+						<Insets bottom="20.0" />
+					</VBox.margin>
+				</Button>
+				<HBox prefHeight="100.0" prefWidth="200.0">
+					<children>
+						<Label alignment="CENTER" contentDisplay="CENTER"
+							text="Encara no estàs registrat?!" textFill="#e8e8e8">
+							<opaqueInsets>
+								<Insets />
+							</opaqueInsets>
+							<HBox.margin>
+								<Insets left="15.0" top="5.0" />
+							</HBox.margin>
+						</Label>
+						<Hyperlink style="-fx-font-style: italic;"
+							text="Fes clic asi" textFill="#2a7963">
+							<HBox.margin>
+								<Insets left="3.0" top="2.0" />
+							</HBox.margin>
+							<font>
+								<Font name="Arial Italic" size="13.0" />
+							</font>
+						</Hyperlink>
+					</children>
+				</HBox>
+			</children>
+			<opaqueInsets>
+				<Insets top="90.0" />
+			</opaqueInsets>
+			<padding>
+				<Insets left="60.0" right="60.0" />
+			</padding>
+		</VBox>
+	</children>
 </HBox>
