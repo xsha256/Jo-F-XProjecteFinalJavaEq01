@@ -8,7 +8,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
 <HBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.WordleController">
+=======
+<HBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.WordleController">
+>>>>>>> eeaf1abf7c33cdb1670a93fca5e964566d1d70ec
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="600.0">
          <children>
@@ -67,7 +71,11 @@
                   </Button>
                   <Button fx:id="delete" mnemonicParsing="false" prefHeight="61.0" prefWidth="59.0" text="⌫" GridPane.columnIndex="9" GridPane.rowIndex="1">
                      <font>
+<<<<<<< HEAD
                         <Font size="15.0" />
+=======
+                        <Font name="DejaVu Serif Bold" size="15.0" />
+>>>>>>> eeaf1abf7c33cdb1670a93fca5e964566d1d70ec
                      </font>
                   </Button>
                </children>
