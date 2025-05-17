@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1076.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PixelArtController">
+<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1076.0" style="-fx-background-color: GREEN;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PixelArtController">
    <children>
-      <GridPane fx:id="graella" gridLinesVisible="true" layoutX="280.0" layoutY="20.0" prefHeight="685.0" prefWidth="775.0">
+      <GridPane fx:id="graella" alignment="CENTER" gridLinesVisible="true" layoutX="280.0" layoutY="20.0" prefHeight="685.0" prefWidth="775.0">
 
       </GridPane>
-      <ColorPicker fx:id="color" layoutX="58.0" layoutY="498.0" prefHeight="25.0" prefWidth="89.0" />
-      <Button fx:id="borrador" layoutX="77.0" layoutY="232.0" mnemonicParsing="false" text="Borrador" textAlignment="CENTER" />
-      <Button fx:id="pinzell" layoutX="77.0" layoutY="129.0" mnemonicParsing="false" text="Pinzell" textAlignment="CENTER" />
+      <ColorPicker fx:id="color" layoutX="71.0" layoutY="300.0" prefHeight="62.0" prefWidth="100.0" />
+      <Button fx:id="borrador" layoutX="71.0" layoutY="195.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="63.0" text="Borrador" textAlignment="CENTER" />
+      <Button fx:id="pinzell" layoutX="71.0" layoutY="109.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="63.0" text="Pinzell" textAlignment="CENTER" />
    </children>
 </Pane>
