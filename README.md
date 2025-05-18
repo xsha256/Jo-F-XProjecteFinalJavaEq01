@@ -36,7 +36,7 @@
  │ ├️ 🗂 jocvida/         → Joc de la Vida (Game of Life)
  │ ├️ 🗂 wordle/          → Joc Wordle
  │ └️ 📜 Main.java        → Inici de l'aplicació
- │ scriptCreateJoFX.sql  → Script creació de BBDD
+ ├️ scriptCreateJoFX.sql  → Script creació de BBDD
  └️ README.md
 ```
 
