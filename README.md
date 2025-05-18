@@ -46,7 +46,7 @@
 
 ## 🗄️ 4. UML per a BBDD
 
-<img src="imgs/uml.png" alt="Diagrama UML" title="Este es un diagrama UML" style="width:800px;">
+<img src="imgs/UML.jpg" alt="Diagrama UML" title="Este es un diagrama UML" style="width:800px;">
 
 ---
 
@@ -164,7 +164,9 @@ java --module-path /ruta/javafx-sdk-21.0.7/lib --add-modules javafx.controls,jav
 ---
 
 ## ✏️ 10. To-Do
+<img src="imgs/ToDo.jpg" alt="Diagrama UML" title="Este es un diagrama UML" style="width:800px;">
 
+---
 ## 👨‍💻 11. Autors
 
 * Nom: Lluis, Helena, Patryk, Yordan, Moha
