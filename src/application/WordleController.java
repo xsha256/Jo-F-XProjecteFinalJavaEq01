@@ -1,6 +1,7 @@
 package application;
 
 
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -9,37 +10,29 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
-<<<<<<< HEAD
 import javafx.scene.control.TextFormatter;
-=======
->>>>>>> eeaf1abf7c33cdb1670a93fca5e964566d1d70ec
 import javafx.scene.layout.GridPane;
 
 public class WordleController implements Initializable {
 
-<<<<<<< HEAD
+
 	@FXML private GridPane grid1; //tabla de paraules
 	@FXML private GridPane grid2;//teclat
 	
 	
 	private TextField[][] caselles = new TextField[6][5];
 	private String paraula="ENVIO";
-=======
-	@FXML private GridPane grid1; //tabla de palabras
-	@FXML private GridPane grid2;//teclado
 	
 	
->>>>>>> eeaf1abf7c33cdb1670a93fca5e964566d1d70ec
-	@Override
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		for (int fila = 0; fila < 6; fila++) {
 			for (int columna = 0; columna < 5; columna++) {
 				TextField celda = new TextField();
-<<<<<<< HEAD
+
 				celda.setPrefWidth(65);//donar mida a la casella
 				celda.setPrefHeight(65);
 				celda.setStyle("-fx-background-color: white;"
-						+ "-fx-border-color: grey;"
 						+"-fx-border-radius: 5;"
 						+ "-fx-font-size: 20px;"
 						+ "-fx-font-weight: bold;");
@@ -48,9 +41,10 @@ public class WordleController implements Initializable {
 				//format per a que sols es puga anyadir una lletra en cada casella
 				celda.setTextFormatter(new TextFormatter<>(c -> {
 					String text = c.getControlNewText();
-					if (text.length()>1 || !text.matches("[A-Z]")) {//no permet mes d'un caracter i que siga una mayuscula
+					if (text.length()>1 || !text.matches("[a-zA-Z]")) {//no permet mes d'un caracter i que siga una mayuscula
 						return null;
 					}
+					c.setText(c.getText().toUpperCase());
 					return c;
 				}));
 				
@@ -104,10 +98,10 @@ public class WordleController implements Initializable {
 				
 			if (lletraUsuari == lletraCorrecta) {
 		            // Verd: lletra correcta i posició correcta
-		            celda.setStyle("-fx-background-color: green; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+		            celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
 		        } else if (paraula.contains(String.valueOf(lletraUsuari))) {
 		            // Groc: lletra està en la paraula però en altra posició
-		            celda.setStyle("-fx-background-color: gold; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+		            celda.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
 		        } else {
 		            // Gris: lletra no està en la paraula
 		            celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
@@ -117,25 +111,9 @@ public class WordleController implements Initializable {
 				
 			}
 			
-		
-=======
-				celda.setPrefWidth(80);//donar mida a la casella
-				celda.setPrefHeight(80);
-				celda.setStyle("-fx-background-color: white;"
-						+ "-fx-border-color: grey;"
-						+"-fx-border-radius: 5;");
-				celda.setAlignment(Pos.CENTER);
 				
-				grid1.add(celda, columna, fila);
-				
-			}
-			
-		}
-		grid1.setAlignment(Pos.CENTER);
-		grid1.setHgap(10);
-		grid1.setVgap(10);
->>>>>>> eeaf1abf7c33cdb1670a93fca5e964566d1d70ec
 	}
+			
 	
 	
 	
