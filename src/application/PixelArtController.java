@@ -1,12 +1,15 @@
 package application;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -17,7 +20,7 @@ public class PixelArtController implements Initializable {
 	@FXML
 	private Button borrador;
 	@FXML
-	private Pane root;
+	private BorderPane root;
 	@FXML
 	private GridPane graella;
 	@FXML
@@ -30,26 +33,29 @@ public class PixelArtController implements Initializable {
 	@Override
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
 
-		// ACÍ HA DE TRIAR EL USUARI LA MIDA
+			// ACÍ HA DE TRIAR EL USUARI LA MIDA
 
-		int contador = 0;
+			int contador = 0;
 
-		for (int fila = 0; fila < files; fila++) {
-			for (int col = 0; col < columnes; col++) {
-				if (contador % 2 == 0) {
-					String colorBase = "white";
-					Pane celda = crearPanell(colorBase);
-					graella.add(celda, col, fila);
-				} else {
-					String colorBase = "#cccccc";
-					Pane celda = crearPanell(colorBase);
-					graella.add(celda, col, fila);
+			for (int fila = 0; fila < files; fila++) {
+				for (int col = 0; col < columnes; col++) {
+					if (contador % 2 == 0) {
+						String colorBase = "white";
+						Pane celda = crearPanell(colorBase);
+						graella.add(celda, col, fila);
+					} else {
+						String colorBase = "#cccccc";
+						Pane celda = crearPanell(colorBase);
+						graella.add(celda, col, fila);
+					}
+					contador++;
 				}
 				contador++;
 			}
-			contador++;
-		}
+		
+	
 	}
 
 	private Pane crearPanell(String colorBase) {

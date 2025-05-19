@@ -1,6 +1,5 @@
 package application;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,9 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 
 public class PixelArtIniciController implements Initializable {
 
@@ -40,64 +39,94 @@ public class PixelArtIniciController implements Initializable {
 	@FXML
 	private TextField altura;
 
-
-	//funcions
+	// funcions
 	public void jugar(ActionEvent e) {
 		try {
-			//carreguem el fitxer fxml
-			Parent root = FXMLLoader.load(getClass().getResource("PixelArtFXML.fxml"));
-			//obtenim la finestra a partir de l'esdeveniment
+			// carreguem el fitxer fxml
+			Parent root2 = FXMLLoader.load(getClass().getResource("PixelArtFXML.fxml"));
+
+			// creem un nou controlador de l'escena següent
+			// establim el graf d'escena a l'escena
+			Scene escena2 = new Scene(root2);
+			// obtenim la finestra a partir de l'esdeveniment
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
-			//creem un nou controlador de l'escena següent
-			//establim el graf d'escena a l'escena
-			Scene escena2 = new Scene(root);
-			//establim el fitxer d'estils css (el mateix de l'actual)
-			escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			//establim l'escena a la finestra
+			// establim el fitxer d'estils css (el mateix de l'actual)
+			// establim l'escena a la finestra
 			window.setScene(escena2);
-			//establim el títol de l'escena
+			// establim el títol de l'escena
 			window.setTitle("Pixel Art");
-			//mostrem la finestra
+			// mostrem la finestra
 			window.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
-	
-	//CANVI DE PANTALLA A LA SELECCIO DE JOC
+
+	// CANVI DE PANTALLA A LA SELECCIO DE JOC
 	public void enrere() {
-		
-	}
-	
-	
-	//CANVI DE PANTALLA A LA SELECCIÓ DE DESATS
-	public void desats() {
-		
-	}
-	
-	//MIDA DE 16X16
-	public void triarXicotet() {
-		
-	}
-	
-	//MIDA DE 32X32
-	public void triarMitja() {
-		
-	}
-	
-	//MIDA DE 64X64
-	public void triarGran() {
-		
+
 	}
 
-	
+	// CANVI DE PANTALLA A LA SELECCIÓ DE DESATS
+	public void desats() {
+
+	}
+
+	// MIDA DE 16X16
+	public void triarXicotet() {
+		amplada.setText("16");
+		amplada.setStyle("-fx-text-fill: #e8e8e8");
+		amplada.setStyle("-fx-background-color:  #365057");
+		altura.setText("16");
+		altura.setStyle("-fx-text-fill: #e8e8e8");
+		altura.setStyle("-fx-background-color:  #365057");
+	}
+
+	public void canviXicotet() {
+		xicotet.setOnMouseEntered(e -> xicotet.setStyle("-fx-font-size: 20px;"));
+		xicotet.setOnMouseExited(e -> xicotet.setStyle(""));
+	}
+
+	// MIDA DE 32X32
+	public void triarMitja() {
+		amplada.setText("32");
+		amplada.setStyle("-fx-text-fill: #e8e8e8");
+		amplada.setStyle("-fx-background-color:  #365057");
+		altura.setText("32");
+		altura.setStyle("-fx-text-fill: #e8e8e8");
+		altura.setStyle("-fx-background-color:  #365057");
+
+	}
+
+	public void canviMitja() {
+		mitja.setOnMouseEntered(e -> mitja.setStyle("-fx-font-size: 20px;"));	
+		mitja.setOnMouseExited(e -> mitja.setStyle(""));
+	}
+
+	// MIDA DE 64X64
+	public void triarGran() {
+		amplada.setText("64");
+		amplada.setStyle("-fx-fill: #e8e8e8");
+		amplada.setStyle("-fx-background-color:  #365057");
+		altura.setText("64");
+		altura.setStyle("-fx-fill: #e8e8e8");
+		altura.setStyle("-fx-background-color:  #365057");
+
+	}
+
+	public void canviGran() {
+		gran.setOnMouseEntered(e -> gran.setStyle("-fx-font-size: 20px;"));
+		gran.setOnMouseExited(e -> gran.setStyle(""));
+
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		// ACÍ HA DE TRIAR EL USUARI LA MIDA
-
-		
-
+		canviGran();
+		canviMitja();
+		canviXicotet();
 
 	}
 }
