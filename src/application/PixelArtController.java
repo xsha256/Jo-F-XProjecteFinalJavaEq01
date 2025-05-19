@@ -1,10 +1,8 @@
 package application;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -25,37 +23,40 @@ public class PixelArtController implements Initializable {
 	private GridPane graella;
 	@FXML
 	private ColorPicker color;
-	
-	int files = 50;
-	int columnes = 50;
-	int grandariaCelda = 15;
+
+	private Taulell taulell;
+
+	private int files;
+	private int columnes;
+	private int grandariaCelda = 15;
 
 	@Override
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
 
-			// ACÍ HA DE TRIAR EL USUARI LA MIDA
+		DadesPixelArt dades = DadesPixelArt.getInstancia();
+		taulell = dades.getTaulell();
+		this.files = taulell.getAltura();
+		this.columnes = taulell.getAmple();
 
-			int contador = 0;
+		int contador = 0;
 
-			for (int fila = 0; fila < files; fila++) {
-				for (int col = 0; col < columnes; col++) {
-					if (contador % 2 == 0) {
-						String colorBase = "white";
-						Pane celda = crearPanell(colorBase);
-						graella.add(celda, col, fila);
-					} else {
-						String colorBase = "#cccccc";
-						Pane celda = crearPanell(colorBase);
-						graella.add(celda, col, fila);
-					}
-					contador++;
+		for (int fila = 0; fila < files; fila++) {
+			for (int col = 0; col < columnes; col++) {
+				if (contador % 2 == 0) {
+					String colorBase = "white";
+					Pane celda = crearPanell(colorBase);
+					graella.add(celda, col, fila);
+				} else {
+					String colorBase = "#cccccc";
+					Pane celda = crearPanell(colorBase);
+					graella.add(celda, col, fila);
 				}
 				contador++;
 			}
-		
-	
+			contador++;
+		}
+
 	}
 
 	private Pane crearPanell(String colorBase) {
@@ -68,9 +69,9 @@ public class PixelArtController implements Initializable {
 																							// passat en el color picker
 		});
 
-		// Cuando empieza el drag
+		
 		celda.setOnDragDetected(e -> {
-			celda.startFullDrag(); // Muy importante para habilitar drag en celdas vecinas
+			celda.startFullDrag(); //Habilitar el drag en totes les cel·les
 			celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");
 		});
 

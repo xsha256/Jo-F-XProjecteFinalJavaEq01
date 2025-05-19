@@ -39,15 +39,21 @@ public class PixelArtIniciController implements Initializable {
 	@FXML
 	private TextField altura;
 
+	private Taulell taulell;
+
 	// funcions
 	public void jugar(ActionEvent e) {
 		try {
+
+			taulell.setAmple(Integer.parseInt(amplada.getText()));
+			taulell.setAltura(Integer.parseInt(altura.getText()));
+			DadesPixelArt.getInstancia().setTaulell(taulell);
 			// carreguem el fitxer fxml
-			Parent root2 = FXMLLoader.load(getClass().getResource("PixelArtFXML.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("PixelArtFXML.fxml"));
 
 			// creem un nou controlador de l'escena següent
 			// establim el graf d'escena a l'escena
-			Scene escena2 = new Scene(root2);
+			Scene escena2 = new Scene(root);
 			// obtenim la finestra a partir de l'esdeveniment
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			// establim el fitxer d'estils css (el mateix de l'actual)
@@ -55,6 +61,8 @@ public class PixelArtIniciController implements Initializable {
 			window.setScene(escena2);
 			// establim el títol de l'escena
 			window.setTitle("Pixel Art");
+			window.setMaximized(true);
+			System.out.println("Finestra maximitzada: " + window.isMaximized());
 			// mostrem la finestra
 			window.show();
 		} catch (IOException e1) {
@@ -75,11 +83,9 @@ public class PixelArtIniciController implements Initializable {
 	// MIDA DE 16X16
 	public void triarXicotet() {
 		amplada.setText("16");
-		amplada.setStyle("-fx-text-fill: #e8e8e8");
-		amplada.setStyle("-fx-background-color:  #365057");
+		amplada.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
 		altura.setText("16");
-		altura.setStyle("-fx-text-fill: #e8e8e8");
-		altura.setStyle("-fx-background-color:  #365057");
+		altura.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
 	}
 
 	public void canviXicotet() {
@@ -90,28 +96,22 @@ public class PixelArtIniciController implements Initializable {
 	// MIDA DE 32X32
 	public void triarMitja() {
 		amplada.setText("32");
-		amplada.setStyle("-fx-text-fill: #e8e8e8");
-		amplada.setStyle("-fx-background-color:  #365057");
+		amplada.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
 		altura.setText("32");
-		altura.setStyle("-fx-text-fill: #e8e8e8");
-		altura.setStyle("-fx-background-color:  #365057");
-
+		altura.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
 	}
 
 	public void canviMitja() {
-		mitja.setOnMouseEntered(e -> mitja.setStyle("-fx-font-size: 20px;"));	
+		mitja.setOnMouseEntered(e -> mitja.setStyle("-fx-font-size: 20px;"));
 		mitja.setOnMouseExited(e -> mitja.setStyle(""));
 	}
 
 	// MIDA DE 64X64
 	public void triarGran() {
 		amplada.setText("64");
-		amplada.setStyle("-fx-fill: #e8e8e8");
-		amplada.setStyle("-fx-background-color:  #365057");
+		amplada.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
 		altura.setText("64");
-		altura.setStyle("-fx-fill: #e8e8e8");
-		altura.setStyle("-fx-background-color:  #365057");
-
+		altura.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
 	}
 
 	public void canviGran() {
@@ -123,10 +123,18 @@ public class PixelArtIniciController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		// ACÍ HA DE TRIAR EL USUARI LA MIDA
 		canviGran();
 		canviMitja();
 		canviXicotet();
+
+		//pose una mida per defecte
+		triarMitja();
+
+		int ample = Integer.parseInt(amplada.getText());
+		int alt = Integer.parseInt(altura.getText());
+		taulell = new Taulell(ample, alt);
+
+		DadesPixelArt.getInstancia().setTaulell(taulell);
 
 	}
 }
