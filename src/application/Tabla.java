@@ -209,23 +209,4 @@ public class Tabla {
 		contadorMuertes = 0;
 	}
 
-	public boolean comparar() {
-
-		boolean continuar = true;
-		int contador = 0;
-		for (int i = 0; i < matriu_actual.length; i++) {
-			for (int j = 0; j < matriu_actual[i].length; j++) {
-				if (matriu_actual[i][j] == matriu_anterior[i][j]) {
-					contador++;
-					System.out.println(contador);
-				}
-			}
-		}
-		if(contador == Math.pow(matriu_actual.length, 2)) {
-			continuar = false;
-		}
-		contador = 0;
-		return continuar;
-	
-	}
 }

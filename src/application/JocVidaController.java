@@ -61,12 +61,12 @@ public class JocVidaController implements Initializable {
 			Stage window = (Stage) root.getScene().getWindow();
 			String opcion = (String) window.getUserData();
 
-			if (opcion.equals("Pequeño")) {
+			if (opcion.equals("Petita")) {
 				tabla = new Tabla(10, 200, 25, 50);
-			} else if (opcion.equals("Mediano")) {
-				tabla = new Tabla(20, 300, 175, 200);
+			} else if (opcion.equals("Mitjana")) {
+				tabla = new Tabla(20, 400, 175, 200);
 			} else {
-				tabla = new Tabla(30, 400, 450, 500);
+				tabla = new Tabla(30, 600, 450, 500);
 			}
 
 			FILAS = tabla.getLongMatriz();
@@ -92,7 +92,7 @@ public class JocVidaController implements Initializable {
 
 			Thread hilo = new Thread(() -> {
 				try {
-					while (tabla.getGeneraciones() < tabla.getMaxGen() && tabla.comparar()) {
+					while (tabla.getGeneraciones() < tabla.getMaxGen()) {
 						synchronized (lock) {
 							while (!continuar) {
 								lock.wait();
@@ -109,18 +109,11 @@ public class JocVidaController implements Initializable {
 							Alert alerta = new Alert(Alert.AlertType.INFORMATION);
 							alerta.setTitle("Aviso");
 							alerta.setHeaderText(null);
-							alerta.setContentText("Has llegado a la maxima generacion,Felicidades!!!");
-							alerta.showAndWait();
-						});
-					} else if (tabla.comparar()) {
-						Platform.runLater(() -> {
-							Alert alerta = new Alert(Alert.AlertType.WARNING);
-							alerta.setTitle("Aviso");
-							alerta.setHeaderText(null);
-							alerta.setContentText("Has llegado a un bucle,Lo siento");
+							alerta.setContentText("Has llegado a la maxima generacion, Felicidades!!!");
 							alerta.showAndWait();
 						});
 					}
+
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -191,7 +184,7 @@ public class JocVidaController implements Initializable {
 		try {
 			tabla.reiniciar();
 			VBox root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-			Scene escena2 = new Scene(root2, 1000, 800);
+			Scene escena2 = new Scene(root2, 600, 500);
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Eleccion de Dificultad");
