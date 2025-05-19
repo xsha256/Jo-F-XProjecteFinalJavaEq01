@@ -1,1 +1,121 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+/* fondo para todo */
+.root {
+    /*-fx-background-color: #021f21;*/
+    -fx-background-image: url("images/fons2.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    
+}
+
+/* titulo superior */
+.label-titol {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e8e8e8;
+}
+
+/* titulos cada juego */
+.label-titolJoc {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e8e8e8;
+}
+/* sub-titulo cada juego */
+.label-subtitolJoc {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e8e8e8;
+}
+
+/* boton juegos */
+.boto-joc{
+	-fx-font-size:15px;
+	-fx-background-color: #2a7963;
+	-fx-text-fill: #e8e8e8;
+	-fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 15, 0.2, 2, 1);
+    
+}
+
+/* pasar raton  */
+.boto-joc:hover {
+    -fx-background-color: #159a91;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.3;
+    -fx-scale-y: 1.3;
+}
+
+/* cada ventana de cada juego  */
+.vbox-finestraJoc{
+	/*-fx-background-color: #133538 ;*/
+	-fx-background-color: #0d262e;
+	-fx-background-radius: 20px;
+	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 15, 0.2, 2, 1);
+}
+
+.vbox-fonsFinestra{
+	-fx-background-color: #365057;
+	-fx-background-radius: 20px;
+	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 15, 0.2, 2, 1);
+}
+
+/*Boton del perfil de la cuenta */
+
+/* boton de perfil */
+.boto-perfil {
+	-fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+    -fx-background-radius: 25px;
+    -fx-background-color: #e8e8e8;
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 15, 0.2, 2, 1);
+}
+.boto-perfil:hover{
+	-fx-background-color: #ffffff;
+	-fx-cursor: hand;
+}
+
+.boto-perfil .arrow-button,
+.boto-perfil .menu-button .arrow {
+    -fx-opacity: 0;
+    -fx-shape: null;
+    -fx-padding: 0;
+}
+
+
+/*el menu desplegable */
+.menu-button .menu-item {
+    -fx-background-color: white ;
+    -fx-background-radius:10px;
+    -fx-font-size: 14px;
+    -fx-padding: 8 12;
+}
+
+.menu-button .menu-item:hover {
+    -fx-background-color: #0d262e;
+    -fx-background-radius:20px;
+    -fx-cursor: hand;
+}
+
+.menu-button .menu-item > .label {
+    -fx-text-fill: black;
+}
+
+.menu-button .menu-item:hover > .label {
+    -fx-text-fill: white;
+}
+
+/* sombra y borde al menu*/
+.context-menu {
+    -fx-background-radius:10px;
+    -fx-border-color: #0d262e;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 6, 0, 0, 5);
+}
+
