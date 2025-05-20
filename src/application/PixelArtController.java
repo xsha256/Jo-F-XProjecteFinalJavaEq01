@@ -39,6 +39,9 @@ public class PixelArtController implements Initializable {
 		this.files = taulell.getAltura();
 		this.columnes = taulell.getAmple();
 
+		root.prefWidthProperty().bind(root.widthProperty());
+		root.prefHeightProperty().bind(root.heightProperty());
+		
 		int contador = 0;
 
 		for (int fila = 0; fila < files; fila++) {

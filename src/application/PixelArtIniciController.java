@@ -1,5 +1,5 @@
 package application;
-
+ 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -70,8 +70,12 @@ public class PixelArtIniciController implements Initializable {
 		}
 	}
 
-	// CANVI DE PANTALLA A LA SELECCIO DE JOC
+	// CANVI DE PANTALLA A LA SELECCIO DE JOC LA TE YORDAN
+	
 	public void enrere() {
+
+		Stage stage = (Stage) botoEnrere.getScene().getWindow();
+		stage.close();
 
 	}
 
