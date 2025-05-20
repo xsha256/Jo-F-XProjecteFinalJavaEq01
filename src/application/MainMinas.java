@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
 
 
-public class Main extends Application {
+public class MainMinas extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {

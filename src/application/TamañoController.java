@@ -26,11 +26,11 @@ public class TamañoController {
             try {
 				VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
 				
-				Scene escena2 = new Scene(root2, 600, 500);
+				Scene escena2 = new Scene(root2, 1000, 800);
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);
-				window.setTitle("Juego de la Vida");
+				window.setTitle("PescaMines");
 				window.show();
 			} catch (IOException e1) {
 				e1.printStackTrace();
