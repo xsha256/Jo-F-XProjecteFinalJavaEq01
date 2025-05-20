@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
-public class Main extends Application {
+public class MainWordle extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
