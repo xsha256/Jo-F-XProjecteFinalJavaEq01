@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.fxml.FXMLLoader;
 
 
-public class Main extends Application {
+public class MainRegistre extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {

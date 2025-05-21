@@ -3,10 +3,17 @@ package application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -19,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class RegistreController implements Initializable {
@@ -57,12 +65,12 @@ public class RegistreController implements Initializable {
 
 	private Stage stage;
 
-	private final String promptNom = "Nom";
-	private final String promptCognoms = "Cognoms";
-	private final String promptCorreu = "Correu electrònic";
-	private final String promptPoblacio = "Població";
-	private final String promptContrasenya = "Contrasenya";
-	private final String promptConfContrasenya = "Confirmació de contrasenya";
+	private final String promptNom = "Nom*";
+	private final String promptCognoms = "Cognoms*";
+	private final String promptCorreu = "Correu electrònic*";
+	private final String promptPoblacio = "Població*";
+	private final String promptContrasenya = "Contrasenya*";
+	private final String promptConfContrasenya = "Confirmació de contrasenya*";
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
@@ -88,20 +96,29 @@ public class RegistreController implements Initializable {
 			labelNom.setVisible(false);
 			labelNom.setStyle("-fx-text-fill: #e8e8e8;");
 			nomtxt.setPromptText(promptNom);
-			nomtxt.setStyle("-fx-background-color: #0d262e;");
+			nomtxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 			if (cognoms.matches("[\\w]+")) {
 				labelCognoms.setText(promptCognoms);
 				labelCognoms.setVisible(false);
 				labelCognoms.setStyle("-fx-text-fill: #e8e8e8;");
-				if (poblacio.matches("[\\w]+")) {
-					labelPoblacio.setText(promptPoblacio);
-					labelPoblacio.setVisible(false);
-					labelPoblacio.setStyle("-fx-text-fill: #e8e8e8;");
-					if (correu.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-						labelCorreu.setText(promptCorreu);
-						labelCorreu.setVisible(false);
-						labelCorreu.setStyle("-fx-text-fill: #e8e8e8;");
-						if (contrasenya.equals(confcontrasenya)) {
+				cognomstxt.setPromptText(promptCognoms);
+				cognomstxt.setStyle(
+						"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+				if (correu.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+					labelCorreu.setText(promptCorreu);
+					labelCorreu.setVisible(false);
+					labelCorreu.setStyle("-fx-text-fill: #e8e8e8;");
+					correutxt.setPromptText(promptCorreu);
+					correutxt.setStyle(
+							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+					if (poblacio.matches("[\\w]+")) {
+						labelPoblacio.setText(promptPoblacio);
+						labelPoblacio.setVisible(false);
+						labelPoblacio.setStyle("-fx-text-fill: #e8e8e8;");
+						poblaciotxt.setPromptText(promptPoblacio);
+						poblaciotxt.setStyle(
+								"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+						if (contrasenya.matches("[\\w]+") && contrasenya.equals(confcontrasenya)) {
 							inserirBBDD(nom, cognoms, correu, poblacio, contrasenya, imginput.getText());
 							nomtxt.setText("");
 							nomtxt.setText("");
@@ -110,18 +127,24 @@ public class RegistreController implements Initializable {
 							poblaciotxt.setText("");
 							contrasenyatxt.setText("");
 							confcontrasenyatxt.setText("");
-							nomtxt.setPromptText("Nom");
-							cognomstxt.setPromptText("Cognoms");
-							correutxt.setPromptText("Correu electrònic");
-							poblaciotxt.setPromptText("Poblaciò");
-							contrasenyatxt.setPromptText("Contrasenya");
-							confcontrasenyatxt.setPromptText("Confirmació de contrasenya");
+							nomtxt.setPromptText("Nom*");
+							cognomstxt.setPromptText("Cognoms*");
+							correutxt.setPromptText("Correu electrònic*");
+							poblaciotxt.setPromptText("Poblaciò*");
+							contrasenyatxt.setPromptText("Contrasenya*");
+							confcontrasenyatxt.setPromptText("Confirmació de contrasenya*");
 							labelContrasenya.setText(promptContrasenya);
 							labelContrasenya.setVisible(false);
+							contrasenyatxt.setPromptText(promptContrasenya);
+							contrasenyatxt.setStyle(
+									"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 							labelContrasenya.setStyle("-fx-text-fill: #e8e8e8;");
 							labelConfContrasenya.setText(promptConfContrasenya);
 							labelConfContrasenya.setStyle("-fx-text-fill: #e8e8e8;");
 							labelConfContrasenya.setVisible(false);
+							confcontrasenyatxt.setPromptText(promptConfContrasenya);
+							confcontrasenyatxt.setStyle(
+									"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 							Image imageShow = new Image(getClass().getResourceAsStream("/imgdefault.jpg"));
 							showPic.setImage(imageShow);
 							imginput.setText("Pujar imatge");
@@ -131,25 +154,41 @@ public class RegistreController implements Initializable {
 							labelContrasenya.setStyle("-fx-text-fill: red;");
 							labelConfContrasenya.setText("La contrasenya no es la mateixa");
 							labelConfContrasenya.setStyle("-fx-text-fill: red;");
+							contrasenyatxt.setPromptText("La contrasenya no es la mateixa");
+							contrasenyatxt.setStyle(
+									"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+							confcontrasenyatxt.setPromptText("La contrasenya no es la mateixa");
+							confcontrasenyatxt.setStyle(
+									"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 						}
 					} else {
-						labelCorreu.setText("Correu no vàlid ex: email@emailcom");
-						labelCorreu.setStyle("-fx-text-fill: red;");
+						labelPoblacio.setText("El poble és obligatori");
+						labelPoblacio.setStyle("-fx-text-fill: red;");
+						poblaciotxt.setPromptText("El poble és obligatori");
+						poblaciotxt.setStyle(
+								"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 					}
 				} else {
-					labelCognoms.setText("El poble és obligatori");
-					labelCognoms.setStyle("-fx-text-fill: red;");
+
+					labelCorreu.setText("Correu no vàlid ex: email@emailcom");
+					labelCorreu.setStyle("-fx-text-fill: red;");
+					correutxt.setPromptText("Correu no vàlid ex: email@emailcom");
+					correutxt.setStyle(
+							"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 				}
 			} else {
 				labelCognoms.setText("Els cognoms són obligatoris");
 				labelCognoms.setStyle("-fx-text-fill: red;");
+				cognomstxt.setPromptText("Els cognoms són obligatoris");
+				cognomstxt
+						.setStyle("-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 			}
 
 		} else {
 			labelNom.setText("El nom és obligatori");
 			labelNom.setStyle("-fx-text-fill: red;");
 			nomtxt.setPromptText("El nom és obligatori");
-			nomtxt.setStyle("-fx-background-color: red;");
+			nomtxt.setStyle("-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 		}
 
 	}
@@ -157,7 +196,7 @@ public class RegistreController implements Initializable {
 	public void addimg() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Selecciona una imatge");
-		File archivo = fileChooser.showOpenDialog(stage); 
+		File archivo = fileChooser.showOpenDialog(stage);
 		if (archivo != null) {
 			System.out.println("Archivo seleccionado: " + archivo.getAbsolutePath());
 			imginput.setText(archivo.toString());
@@ -174,12 +213,13 @@ public class RegistreController implements Initializable {
 		correutxt.setText("");
 		poblaciotxt.setText("");
 		contrasenyatxt.setText("");
-		nomtxt.setPromptText("Nom");
-		cognomstxt.setPromptText("Cognoms");
-		correutxt.setPromptText("Correu electrònic");
-		poblaciotxt.setPromptText("Poblaciò");
-		contrasenyatxt.setPromptText("Contrasenya");
-		confcontrasenyatxt.setPromptText("Confirmació de contrasenya");
+		confcontrasenyatxt.setText("");
+		nomtxt.setPromptText("Nom*");
+		cognomstxt.setPromptText("Cognoms*");
+		correutxt.setPromptText("Correu electrònic*");
+		poblaciotxt.setPromptText("Poblaciò*");
+		contrasenyatxt.setPromptText("Contrasenya*");
+		confcontrasenyatxt.setPromptText("Confirmació de contrasenya*");
 		Image imageShow = new Image(getClass().getResourceAsStream("/imgdefault.jpg"));
 		showPic.setImage(imageShow);
 		imginput.setText("Pujar imatge");
@@ -187,34 +227,148 @@ public class RegistreController implements Initializable {
 	}
 
 	public void inserirBBDD(String nom, String cognoms, String email, String poblacio, String contrasenya, String img) {
+
 		try {
 
 			Class.forName("org.mariadb.jdbc.Driver");
 			String urlBaseDades = "jdbc:mariadb://localhost:3308/jofx";
 			String user = "root";
 			String pwd = "root";
-			if (img.equals("Pujar imatge")) {
-				img = "bin/imgdefault.jpg";
-			}
-			System.out.println(img);
+			boolean valid = comprobarEmail(email, urlBaseDades, user, pwd);
+			if (valid) {
+				if (img.equals("Pujar imatge")) {
+					img = "bin/imgdefault.jpg";
+				}
+				System.out.println(img);
 
-			File imagen = new File(img);
-			FileInputStream fis = new FileInputStream(imagen);
-			String contrasenyaCifString = hashPassword(contrasenya);
-			Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
-			String sentencia = "INSERT INTO usuari(nom, cognoms, email, imatge, contrasenya, poblacio) VALUES (?,?,?,?,?,?)";
-			PreparedStatement s = c.prepareStatement(sentencia);
-			s.setString(1, nom);
-			s.setString(2, cognoms);
-			s.setString(3, email);
-			s.setBinaryStream(4, fis, (int) imagen.length());
-			s.setString(5, contrasenyaCifString);
-			s.setString(6, poblacio);
-			s.executeUpdate();
+				File imagen = new File(img);
+				FileInputStream fis = new FileInputStream(imagen);
+				String contrasenyaCifString = hashPassword(contrasenya);
+				Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
+				String sentencia = "INSERT INTO usuari(nom, cognoms, email, imatge, contrasenya, poblacio) VALUES (?,?,?,?,?,?)";
+				PreparedStatement s = c.prepareStatement(sentencia);
+				s.setString(1, nom);
+				s.setString(2, cognoms);
+				s.setString(3, email);
+				s.setBinaryStream(4, fis, (int) imagen.length());
+				s.setString(5, contrasenyaCifString);
+				s.setString(6, poblacio);
+				s.executeUpdate();
+	try {
+					
+					Alert alert = new Alert(AlertType.NONE);
+					alert.setTitle("🎮 Per fi!");
+					alert.getDialogPane().setPrefSize(290, 530);
+
+			
+					Image iconAlert = new Image(getClass().getResourceAsStream("/creatUsuari.png"));
+					ImageView alertView = new ImageView(iconAlert);
+					alertView.setFitWidth(200);
+					alertView.setPreserveRatio(true);
+
+				
+					Label msg = new Label("🐭 — Cervell, cervell! He creat una compte! Què farem ara?\n"
+							+ "🧠 — El mateix que fem sempre, Pinky… dominar el joc! 🎮");
+					
+					msg.setMaxWidth(500);
+					msg.setWrapText(true);
+					msg.getStyleClass().add("msgAlertError");
+
+				
+					VBox content = new VBox(15, alertView, msg);
+					content.setAlignment(Pos.CENTER); 
+					content.setPadding(new Insets(20));
+					content.setPrefWidth(500); 
+					
+
+					alert.getDialogPane().setContent(content);
+					alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+					Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+
+					
+					okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
+
+					
+					okButton.getStyleClass().add("boton-hover");
+					alert.getDialogPane().getStyleClass().add("alertError");
+					
+					alert.showAndWait();
+				}catch (Exception e) {
+					System.out.println("Error: "+e);
+				}
+			}else {
+				try {
+					
+					Alert alert = new Alert(AlertType.NONE);
+					alert.setTitle("🚩 Error");
+					alert.getDialogPane().setPrefSize(250, 530);
+
+			
+					Image iconAlert = new Image(getClass().getResourceAsStream("/errorRegistre.png"));
+					ImageView alertView = new ImageView(iconAlert);
+					alertView.setFitWidth(400);
+					alertView.setPreserveRatio(true);
+
+				
+					Label msg = new Label("🧠 — Pinky, ¿saps què farem hui?\n"
+							+ "🐭 — El mateix que fem tots els dies, Cervell?\n"
+							+ "🧠 — No, hui ja tens compte als jocs. Ara, a conquerir-lo! 🕹️");
+					msg.setMaxWidth(500);
+					msg.setWrapText(true);
+					msg.getStyleClass().add("msgAlertError");
+
+				
+					VBox content = new VBox(15, alertView, msg);
+					content.setAlignment(Pos.CENTER); 
+					content.setPadding(new Insets(20));
+					content.setPrefWidth(500); 
+					
+
+					alert.getDialogPane().setContent(content);
+					alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+					Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+
+					
+					okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
+
+					
+					okButton.getStyleClass().add("boton-hover");
+					alert.getDialogPane().getStyleClass().add("alertError");
+					
+					alert.showAndWait();
+				}catch (Exception e) {
+					System.out.println("Error: "+e);
+				}
+			}
 
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
+	}
+
+	public boolean comprobarEmail(String email, String urlBaseDades, String user, String pwd) {
+		boolean valid = true;
+		try {
+
+			Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
+			String sentencia = "SELECT email FROM usuari WHERE email = ?";
+			PreparedStatement s = c.prepareStatement(sentencia);
+			s.setString(1, email);
+			ResultSet r = s.executeQuery();
+			while (r.next()) {
+				System.out.println("dentro while");
+				if (r.getString("email").equals(email)) {
+					valid = false;
+				}
+			}
+		}
+
+		catch (Exception e) {
+			System.out.println("Error: " + e);
+		}
+		return valid;
 	}
 
 	public static String hashPassword(String password) throws NoSuchAlgorithmException {
