@@ -79,9 +79,9 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <Button layoutX="618.0" layoutY="684.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="110.0" style="-fx-background-color: #365057; -fx-text-fill: #141414;" text="Enrere">
+            <Button fx:id="botoenrere2" layoutX="618.0" layoutY="684.0" mnemonicParsing="false" onAction="#enrereInici" prefHeight="49.0" prefWidth="110.0" style="-fx-background-color: #365057; -fx-text-fill: #141414;" text="Enrere">
                <font>
-                  <Font size="17.0" />
+                  <Font name="System Bold" size="17.0" />
                </font></Button>
          </children>
       </Pane>

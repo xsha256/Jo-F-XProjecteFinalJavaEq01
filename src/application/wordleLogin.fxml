@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="600.0" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="escena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="600.0" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.WordleLoginController">
    <children>
       <HBox alignment="CENTER" prefHeight="157.0" prefWidth="600.0">
          <children>
@@ -90,7 +90,7 @@
             <Insets top="40.0" />
          </VBox.margin>
          <children>
-            <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="91.0" prefWidth="178.0" style="-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;" text="A JUGAR!">
+            <Button fx:id="botojugar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#jugar" prefHeight="91.0" prefWidth="178.0" style="-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;" text="A JUGAR!">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
