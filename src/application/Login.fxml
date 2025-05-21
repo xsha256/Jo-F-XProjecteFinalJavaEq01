@@ -13,20 +13,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox prefHeight="450.0" prefWidth="700.0"
-	style="-fx-background-color: #0d262e;"
-	xmlns="http://javafx.com/javafx/23.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="application.LoginController">
+<HBox prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
 	<children>
-		<ImageView id="loginimg" fitHeight="447.0" fitWidth="386.0"
-			pickOnBounds="true" preserveRatio="true">
+		<ImageView id="loginimg" fitHeight="447.0" fitWidth="386.0" pickOnBounds="true" preserveRatio="true">
 			<cursor>
 				<Cursor fx:constant="DEFAULT" />
 			</cursor>
 			<image>
-				<Image url="@/img/login.png" />
+				<Image url="@/login.png" />
 			</image>
 			<HBox.margin>
 				<Insets />
@@ -37,8 +31,7 @@
 		</ImageView>
 		<VBox prefHeight="450.0" prefWidth="403.0">
 			<children>
-				<Label alignment="CENTER" contentDisplay="CENTER"
-					text="Benvingut" textFill="#e8e8e8">
+				<Label alignment="CENTER" contentDisplay="CENTER" text="Benvingut" textFill="#e8e8e8">
 					<font>
 						<Font size="30.0" />
 					</font>
@@ -49,36 +42,26 @@
 						<Insets bottom="25.0" top="90.0" />
 					</VBox.margin>
 				</Label>
-				<Label fx:id="labelCorreu" text="Correu electrònic"
-           style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;"
-           visible="false" />
-				<TextField fx:id="correutxt" prefHeight="30.0" prefWidth="0.0"
-					promptText="Correu electrònic"
-					style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8; -fx-prompt-text-fill: #e8e8e8;">
+				<Label fx:id="labelCorreu" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Correu electrònic" visible="false" />
+				<TextField fx:id="correutxt" prefHeight="30.0" prefWidth="0.0" promptText="Correu electrònic" style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8; -fx-prompt-text-fill: #e8e8e8;">
 					<VBox.margin>
 						<Insets bottom="20.0" />
 					</VBox.margin>
 				</TextField>
-					<Label fx:id="labelContrasenya" text="Contrasenya"
-           style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;"
-           visible="false" />
-				<TextField fx:id="contrasenyatxt" prefHeight="30.0" promptText="Contrasenya"
-					style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8; -fx-prompt-text-fill: #e8e8e8;">
+					<Label fx:id="labelContrasenya" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Contrasenya" visible="false" />
+				<TextField fx:id="contrasenyatxt" prefHeight="30.0" promptText="Contrasenya" style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8; -fx-prompt-text-fill: #e8e8e8;">
 					<VBox.margin>
 						<Insets bottom="30.0" />
 					</VBox.margin>
 				</TextField>
-				<Button mnemonicParsing="false" prefHeight="30.0"
-					prefWidth="300.0" style="-fx-background-color: #2a7963;"
-					text="Accedir" textFill="#e8e8e8">
+				<Button fx:id="accedirBoton" mnemonicParsing="false" onAction="#accedir" prefHeight="30.0" prefWidth="300.0" style="-fx-background-color: #2a7963;" styleClass="boton-hover" text="Accedir" textFill="#e8e8e8">
 					<VBox.margin>
 						<Insets bottom="20.0" />
 					</VBox.margin>
 				</Button>
 				<HBox prefHeight="100.0" prefWidth="200.0">
 					<children>
-						<Label alignment="CENTER" contentDisplay="CENTER"
-							text="Encara no estàs registrat?!" textFill="#e8e8e8">
+						<Label alignment="CENTER" contentDisplay="CENTER" text="Encara no estàs registrat?!" textFill="#e8e8e8">
 							<opaqueInsets>
 								<Insets />
 							</opaqueInsets>
@@ -86,8 +69,7 @@
 								<Insets left="15.0" top="5.0" />
 							</HBox.margin>
 						</Label>
-						<Hyperlink style="-fx-font-style: italic;"
-							text="Fes clic asi" textFill="#2a7963">
+						<Hyperlink style="-fx-font-style: italic;" text="Fes clic asi" textFill="#2a7963">
 							<HBox.margin>
 								<Insets left="3.0" top="2.0" />
 							</HBox.margin>
