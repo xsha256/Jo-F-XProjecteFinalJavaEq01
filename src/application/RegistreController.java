@@ -9,10 +9,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
@@ -62,6 +64,8 @@ public class RegistreController implements Initializable {
 	private ImageView showPic;
 	@FXML
 	private ImageView imgurl;
+	@FXML
+	private Hyperlink accedirURL;
 
 	private Stage stage;
 
@@ -383,6 +387,11 @@ public class RegistreController implements Initializable {
 		return sb.toString();
 	}
 
+	
+	
+	public void accedirLogin(KeyEvent e) {
+		
+	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
