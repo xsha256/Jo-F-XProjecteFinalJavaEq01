@@ -62,7 +62,6 @@ public class PixelArtIniciController implements Initializable {
 			// establim el títol de l'escena
 			window.setTitle("Pixel Art");
 			window.setMaximized(true);
-			System.out.println("Finestra maximitzada: " + window.isMaximized());
 			// mostrem la finestra
 			window.show();
 		} catch (IOException e1) {

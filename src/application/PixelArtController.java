@@ -2,6 +2,7 @@ package application;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,7 +29,7 @@ public class PixelArtController implements Initializable {
 
 	private int files;
 	private int columnes;
-	private int grandariaCelda = 15;
+	private int grandariaCelda;
 
 	@Override
 
@@ -36,6 +37,15 @@ public class PixelArtController implements Initializable {
 
 		DadesPixelArt dades = DadesPixelArt.getInstancia();
 		taulell = dades.getTaulell();
+		if(taulell.getAmple()<64 && taulell.getAltura()<32) {
+			this.grandariaCelda=15;
+		}else if(taulell.getAmple()<128 && taulell.getAltura()<64) {
+			this.grandariaCelda=12;
+		}else if(taulell.getAmple()<256 && taulell.getAltura()<128) {
+			this.grandariaCelda=9;
+		}else {
+			this.grandariaCelda=5;
+		}
 		this.files = taulell.getAltura();
 		this.columnes = taulell.getAmple();
 
