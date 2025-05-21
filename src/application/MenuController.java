@@ -9,7 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MenuController {
@@ -22,29 +22,34 @@ public class MenuController {
 	
 	@FXML private HBox root;
 
-	private boolean juegoActivo =false;
 	
 	//Ponemos el "onAction" de cada botón jugar al ser pulsado
 	public void actionPescamines(ActionEvent e) { //boton jugar Pescamines
-		//comprobación de si hay un juego activo o no
+		try {
+			HBox root2 = (HBox)FXMLLoader.load(getClass().getResource("ventanaNueva.fxml"));
+			Scene scene2= new Scene(root2);
+			Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();
+			window.setScene(scene2);
+			window.setTitle("VentanaNueva");
+			window.setMaximized(true);
+//			window.show();
+			/*en vez de mostrar directamente, vamos a hacer que al abrir la nueva ventana, esta quede inactiva
+			 * y que solo vuelva a estar activa si se cierra la nueva ventana que se ha abierto
+			 */
+			
+			//Hacemos que esta ventana sea MODAL
+	        window.initModality(Modality.WINDOW_MODAL);
+
+	        //Establecemos que la ventana "dueña" es la del menu(la que pasa a ser inactiva)
+	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	        window.initOwner(menuStage);
+
+	        //Mostramos la ventana y bloqueamos la del menu hasta que se cierre esta
+	        window.showAndWait();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
-		if(juegoActivo==false) {
-			juegoActivo=true;
-			try {
-				HBox root2 = (HBox)FXMLLoader.load(getClass().getResource("ventanaNueva.fxml"));
-				Scene scene2= new Scene(root2);
-				Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();
-				window.setScene(scene2);
-				window.setTitle("VentanaNueva");
-				window.setMaximized(true);
-				window.show();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}else {
-			System.out.println("No se puede acceder a otro juego mientras hay uno en marcha!");
-		};
-		juegoActivo=false;
 	}
 	
 	

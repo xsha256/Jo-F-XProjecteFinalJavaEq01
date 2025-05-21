@@ -76,7 +76,7 @@
                                  <children>
                                     <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
-                                          <Image url="@images/pescamines.jpg" />
+                                          <Image url="@images/pescamines.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -124,7 +124,7 @@
                                  <children>
                                     <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
-                                          <Image url="@images/wordle.jpg" />
+                                          <Image url="@images/wordle.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -172,7 +172,7 @@
                                  <children>
                                     <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
-                                          <Image url="@images/jocdelavida.jpg" />
+                                          <Image url="@images/jocdelavida.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -220,7 +220,7 @@
                                  <children>
                                     <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
-                                          <Image url="@images/pixelart.jpg" />
+                                          <Image url="@images/pixelart.png" />
                                        </image>
                                     </ImageView>
                                  </children>
