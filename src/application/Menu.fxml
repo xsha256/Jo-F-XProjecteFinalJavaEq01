@@ -25,7 +25,7 @@
                <children>
                   <StackPane prefHeight="150.0" prefWidth="1300.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label styleClass="label-titol" text="A que t'apeteix jugar hui, @ ?" />
+                        <Label fx:id="tituloNomUsuari" styleClass="label-titol" text="A que t'apeteix jugar hui, @ ?" />
                      </children>
                   </StackPane>
                   <Region HBox.hgrow="ALWAYS" />
