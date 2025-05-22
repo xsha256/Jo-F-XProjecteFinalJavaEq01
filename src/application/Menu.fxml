@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="root" alignment="CENTER" styleClass="root" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
+   <children>
+      <BorderPane prefHeight="700.0" prefWidth="1200.0">
+         <top>
+            <HBox alignment="CENTER_LEFT" maxHeight="60.0" minHeight="60.0" prefHeight="60.0" spacing="20.0">
+               <children>
+                  <StackPane prefHeight="150.0" prefWidth="1300.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="tituloNomUsuari" styleClass="label-titol" text="A que t'apeteix jugar hui, @ ?" />
+                     </children>
+                  </StackPane>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <MenuButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="boto-perfil" textAlignment="CENTER">
+                    <items>
+                      <MenuItem mnemonicParsing="false" styleClass="menuitem-perfil" text="Donar-se de baixa" />
+                      <MenuItem mnemonicParsing="false" styleClass="menuitem-perfil" text="Tancar sessió" />
+                    </items>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/profile.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </MenuButton>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </top>
+         <center>
+            <GridPane hgap="40.0" prefHeight="500.0" prefWidth="1200.0" vgap="40.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" styleClass="vbox-finestraJoc">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="300.0" prefWidth="300.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" styleClass="vbox-fonsFinestra">
+                                 <children>
+                                    <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
+                                       <image>
+                                          <Image url="@images/pescamines.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="40.0" top="40.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0">
+                                 <children>
+                                    <Label styleClass="label-titolJoc" text="Pescamines">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label styleClass="label-subtitolJoc" text="Joc clàsic d'estratègia">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Button fx:id="jugarPescamines" mnemonicParsing="false" onAction="#actionPescamines" prefHeight="30.0" prefWidth="100.0" styleClass="boto-joc" text="Jugar">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" styleClass="vbox-finestraJoc" GridPane.columnIndex="1">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="300.0" prefWidth="300.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" styleClass="vbox-fonsFinestra">
+                                 <children>
+                                    <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
+                                       <image>
+                                          <Image url="@images/wordle.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="40.0" top="40.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0">
+                                 <children>
+                                    <Label styleClass="label-titolJoc" text="Wordle">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label styleClass="label-subtitolJoc" text="Endevina la paraula oculta">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Button fx:id="jugarWordle" mnemonicParsing="false" onAction="#actionWordle" prefHeight="30.0" prefWidth="100.0" styleClass="boto-joc" text="Jugar">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="630.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" styleClass="vbox-finestraJoc" GridPane.rowIndex="1">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="300.0" prefWidth="300.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" styleClass="vbox-fonsFinestra">
+                                 <children>
+                                    <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
+                                       <image>
+                                          <Image url="@images/jocdelavida.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="40.0" top="40.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0">
+                                 <children>
+                                    <Label styleClass="label-titolJoc" text="Joc de la Vida">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label styleClass="label-subtitolJoc" text="El joc de simulació">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Button fx:id="jugarJocDeLaVida" mnemonicParsing="false" onAction="#actionJocDeLaVida" prefHeight="30.0" prefWidth="100.0" styleClass="boto-joc" text="Jugar">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER" layoutX="30.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" styleClass="vbox-finestraJoc" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="300.0" prefWidth="300.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" styleClass="vbox-fonsFinestra">
+                                 <children>
+                                    <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
+                                       <image>
+                                          <Image url="@images/pixelart.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="40.0" top="40.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0">
+                                 <children>
+                                    <Label styleClass="label-titolJoc" text="Pixel Art">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label styleClass="label-subtitolJoc" text="Crea imatges amb píxels">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Button fx:id="jugarPixelArt" mnemonicParsing="false" onAction="#actionPixelArt" prefHeight="30.0" prefWidth="100.0" styleClass="boto-joc" text="Jugar">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </GridPane>
+         </center>
+      </BorderPane>
+   </children>
+</HBox>
