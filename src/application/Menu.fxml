@@ -35,7 +35,7 @@
                       <MenuItem mnemonicParsing="false" styleClass="menuitem-perfil" text="Tancar sessió" />
                     </items>
                      <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imatgePerfilUsuari" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/profile.png" />
                            </image>
