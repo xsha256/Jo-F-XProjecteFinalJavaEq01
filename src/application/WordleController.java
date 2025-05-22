@@ -11,6 +11,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+
+import javafx.scene.control.TextFormatter;
+
 import javafx.scene.layout.GridPane;
 
 public class WordleController implements Initializable {
@@ -22,10 +25,14 @@ public class WordleController implements Initializable {
 	
 	private TextField[][] caselles = new TextField[6][5];
 	private String paraula="ENVIO";
-	
-	
 
+
+	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//posar forma a la tabla de les paraules
+				grid1.setAlignment(Pos.CENTER);
+				grid1.setHgap(10);
+				grid1.setVgap(10);
 		for (int fila = 0; fila < 6; fila++) {
 			for (int columna = 0; columna < 5; columna++) {
 				TextField celda = new TextField();
@@ -70,22 +77,14 @@ public class WordleController implements Initializable {
 	                    	if (f<5) {//si es la ultima casella
 	                    		
 	                    		caselles[f+1][0].requestFocus();//mourer el foco a la primera casella de la següent fila
-
 							} else {
 		                    	celda.requestFocus();//si es la ultima casella i la ultima fila, deixem el foco ahi
-
 							}
 	                    }
 				}});
-			}
-			
+			}	
 		}
 		
-		
-		//posar forma a la tabla de les paraules
-		grid1.setAlignment(Pos.CENTER);
-		grid1.setHgap(10);
-		grid1.setVgap(10);
 		
 		
 	}
@@ -107,14 +106,15 @@ public class WordleController implements Initializable {
 		            celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
 		        }
 				
+		
+
 				
 				
-			}
-			
-				
+		}
+			} 
 	}
 			
 	
 	
 	
-}
+
