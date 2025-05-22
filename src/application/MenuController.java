@@ -41,7 +41,7 @@ public class MenuController implements Initializable {
 		String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofxs";
 		String usuario = "root";
 		String contra = "";
-		String sentencia = "SELECT imatge FROM usuari WHERE email ='"+nomUsuari+"'";
+		String sentencia = "SELECT imatge FROM usuari WHERE email ='"+LoginController.EMAIL+"'";
 		
 		try {
 			// cargar el driver de MariaDb

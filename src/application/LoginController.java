@@ -1,5 +1,16 @@
 package application;
 
+import java.io.IOException;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,21 +33,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 public class LoginController implements Initializable {
-//	@FXML private ImageView loginimg;
-//	private Image imatge;
+	// @FXML private ImageView loginimg;
+	// private Image imatge;
 
+	public static String EMAIL = "";
 	@FXML
 	private Label labelCorreu;
 	@FXML
@@ -64,15 +65,15 @@ public class LoginController implements Initializable {
 			labelCorreu.setStyle("-fx-text-fill: #e8e8e8;");
 			correutxt.setPromptText(promptCorreu);
 			correutxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-			if (contrasenya.trim()!="") {
+			if (contrasenya.trim() != "") {
 				labelContrasenya.setText(promptContrasenya);
 				labelContrasenya.setVisible(false);
 				labelContrasenya.setStyle("-fx-text-fill: #e8e8e8;");
 				contrasenyatxt.setPromptText(promptContrasenya);
 				contrasenyatxt.setStyle(
 						"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-			valid = consultaBBDD(correu, contrasenya, e);
-			}else {
+				valid = consultaBBDD(correu, contrasenya, e);
+			} else {
 				labelContrasenya.setText("Fa falta una contrasenya");
 				labelContrasenya.setStyle("-fx-text-fill: red;");
 				contrasenyatxt.setPromptText("Fa falta una contrasenya");
@@ -88,10 +89,12 @@ public class LoginController implements Initializable {
 		}
 		if (valid) {
 			System.out.println("Bienvenido");
+			EMAIL = correu;
+			System.out.println(correu);
 
 			try {
 
-				Parent nuevaVista = FXMLLoader.load(getClass().getResource("RegistreFXML.fxml"));
+				Parent nuevaVista = FXMLLoader.load(getClass().getResource("Menu.fxml"));
 
 				Scene nuevaEscena = new Scene(nuevaVista);
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -189,7 +192,6 @@ public class LoginController implements Initializable {
 					alert.getDialogPane().getStyleClass().add("alertError");
 					Optional<ButtonType> resultado = alert.showAndWait();
 
-				
 					if (resultado.isPresent() && resultado.get() == registrar) {
 						accedirRegistre(e);
 					}
@@ -197,12 +199,14 @@ public class LoginController implements Initializable {
 					labelCorreu.setStyle("-fx-text-fill: #e8e8e8;");
 					correutxt.setText("");
 					correutxt.setPromptText(promptCorreu);
-					correutxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+					correutxt.setStyle(
+							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 					labelContrasenya.setText(promptContrasenya);
 					labelContrasenya.setStyle("-fx-text-fill: #e8e8e8;");
 					contrasenyatxt.setText("");
 					contrasenyatxt.setPromptText(promptContrasenya);
-					contrasenyatxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+					contrasenyatxt.setStyle(
+							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 					System.out.println("Aqio bajo");
 				} catch (Exception er) {
 					System.out.println("Error fsdf: " + er);
