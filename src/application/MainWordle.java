@@ -4,18 +4,20 @@ import java.awt.Panel;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
 
 
-public class Main extends Application {
+public class MainWordle extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Pane root = (Pane)FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
-			Scene scene = new Scene(root);
+			VBox escena = (VBox)FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+			Scene scene = new Scene(escena);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
