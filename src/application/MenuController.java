@@ -2,6 +2,10 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -31,7 +35,25 @@ public class MenuController implements Initializable {
 	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
-		String nom="Yordan";
+		//String nomUsuari=//poner nombre archivo.nombreVariable del login de Moha;
+		String nom= "Yordan";
+		//Conexion BBDD
+		String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofxs";
+		String usuario = "root";
+		String contra = "";
+		String sentencia = "SELECT imatge FROM usuari WHERE email ='"+nomUsuari+"'";
+		
+		try {
+			// cargar el driver de MariaDb
+			Class.forName("org.mariadb.jdbc.Driver");
+			Connection c = DriverManager.getConnection(urlBaseDatos, usuario, contra);
+			Statement s = c.createStatement();
+			s.executeUpdate(sentencia);
+		}catch(ClassNotFoundException | SQLException e){
+			
+		}
+		
+		
 		tituloNomUsuari.setText("A que t'apeteix jugar hui, "+nom +"?");
 	}
 	
