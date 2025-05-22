@@ -3,11 +3,12 @@ package application;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -30,16 +31,30 @@ public class PixelArtController implements Initializable {
 	private int files;
 	private int columnes;
 	private int grandariaCelda;
+	private Mode mode = Mode.PINTAR;
 
+	
+	public void borrar(ActionEvent e) {
+		mode=Mode.BORRAR;
+		borrador.setStyle("-fx-background-color: #e85a71;");
+		pinzell.setStyle("-fx-background-color:  #2a7963;");
+	}
+	
+	public void pintar(ActionEvent e) {
+		mode=Mode.PINTAR;
+		pinzell.setStyle("-fx-background-color: #e85a71;");
+		borrador.setStyle("-fx-background-color:  #2a7963;");
+	}
+	
 	@Override
 
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		DadesPixelArt dades = DadesPixelArt.getInstancia();
 		taulell = dades.getTaulell();
-		if(taulell.getAmple()<64 && taulell.getAltura()<32) {
-			this.grandariaCelda=15;
-		}else if(taulell.getAmple()<128 && taulell.getAltura()<64) {
+		if(taulell.getAmple()<=64 && taulell.getAltura()<=32) {
+			this.grandariaCelda=17;
+		}else if(taulell.getAmple()<=128 && taulell.getAltura()<=64) {
 			this.grandariaCelda=12;
 		}else if(taulell.getAmple()<256 && taulell.getAltura()<128) {
 			this.grandariaCelda=9;
@@ -77,21 +92,44 @@ public class PixelArtController implements Initializable {
 		celda.setPrefSize(grandariaCelda, grandariaCelda);
 		celda.setStyle("-fx-background-color:" + colorBase + ";");
 
-		celda.setOnMouseClicked(e -> {// drag enter pane
-			celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li he
-																							// passat en el color picker
+		// drag enter pane
+		celda.setOnMouseClicked(e -> {
+			if(e.getButton() == MouseButton.PRIMARY && mode==Mode.PINTAR) {
+				celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li he
+				// passat en el color picker
+			}else if(e.getButton() == MouseButton.SECONDARY || mode==Mode.BORRAR) {
+				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			}else if(e.getButton() == MouseButton.SECONDARY && mode==Mode.BORRAR) {
+				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			}
+			
 		});
 
-		
+		//Habilitar el drag en totes les cel·les
 		celda.setOnDragDetected(e -> {
-			celda.startFullDrag(); //Habilitar el drag en totes les cel·les
-			celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");
+			celda.startFullDrag(); 
+			if(e.getButton() == MouseButton.PRIMARY && mode==Mode.PINTAR) {
+				celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li he
+				// passat en el color picker
+			}else if(e.getButton() == MouseButton.SECONDARY || mode==Mode.BORRAR) {
+				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			}else if(e.getButton() == MouseButton.SECONDARY && mode==Mode.BORRAR) {
+				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			}
 		});
 
-		// Cuando se pasa por encima de otra celda mientras se arrastra
+		//mentre arrastre sobre altres cel.les
 		celda.setOnMouseDragEntered(e -> {
-			celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");
+			if(e.getButton() == MouseButton.PRIMARY && mode==Mode.PINTAR) {
+				celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li he
+				// passat en el color picker
+			}else if(e.getButton() == MouseButton.SECONDARY || mode==Mode.BORRAR) {
+				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			}else if(e.getButton() == MouseButton.SECONDARY && mode==Mode.BORRAR) {
+				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			}
 		});
+		
 		return celda;
 	}
 

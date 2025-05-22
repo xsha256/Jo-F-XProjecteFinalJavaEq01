@@ -1,5 +1,5 @@
 package application;
- 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,11 +42,41 @@ public class PixelArtIniciController implements Initializable {
 	private Taulell taulell;
 
 	// funcions
+	public boolean comprovarEntrada(String s1, String s2) {
+
+		if (s1.matches("\\d+") && s2.matches("\\d+")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public void jugar(ActionEvent e) {
 		try {
 
-			taulell.setAmple(Integer.parseInt(amplada.getText()));
-			taulell.setAltura(Integer.parseInt(altura.getText()));
+			boolean valorsValids = comprovarEntrada(amplada.getText(), altura.getText());
+			int ample = 0;
+			int alt = 0;
+
+			if (valorsValids == true) {
+				ample = Integer.parseInt(amplada.getText());
+				alt = Integer.parseInt(altura.getText());
+			} else {
+				ample = 32;
+				alt = 32;
+			}
+
+			if (ample > 138) {
+				amplada.setText("138");
+				ample = 138;
+			}
+
+			if (alt > 64) {
+				altura.setText("64");
+				alt = 64;
+			}
+			taulell.setAmple(ample);
+			taulell.setAltura(alt);
 			DadesPixelArt.getInstancia().setTaulell(taulell);
 			// carreguem el fitxer fxml
 			Parent root = FXMLLoader.load(getClass().getResource("PixelArtFXML.fxml"));
@@ -70,7 +100,7 @@ public class PixelArtIniciController implements Initializable {
 	}
 
 	// CANVI DE PANTALLA A LA SELECCIO DE JOC LA TE YORDAN
-	
+
 	public void enrere() {
 
 		Stage stage = (Stage) botoEnrere.getScene().getWindow();
@@ -130,11 +160,20 @@ public class PixelArtIniciController implements Initializable {
 		canviMitja();
 		canviXicotet();
 
-		//pose una mida per defecte
+		// pose una mida per defecte
 		triarMitja();
 
 		int ample = Integer.parseInt(amplada.getText());
 		int alt = Integer.parseInt(altura.getText());
+		if (ample > 138) {
+			amplada.setText("138");
+			ample = 138;
+		}
+
+		if (alt > 64) {
+			altura.setText("64");
+			alt = 64;
+		}
 		taulell = new Taulell(ample, alt);
 
 		DadesPixelArt.getInstancia().setTaulell(taulell);
