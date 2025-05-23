@@ -1,6 +1,7 @@
 package application;
 
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,11 +10,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.ResourceBundle;
-
-import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +30,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -46,10 +46,14 @@ public class WordleController implements Initializable {
 	private HBox escena;
 
 	private TextField[][] caselles = new TextField[6][5];
-
 	private String paraula = paraulaAleatoria();
 	private int columnaActual=0;
 	private int filaActual=0;
+	
+	
+	
+	
+	
 	public void enrereInici(ActionEvent e) {
 		try {
 			Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
@@ -94,6 +98,7 @@ public class WordleController implements Initializable {
 					return e;
 				}));
 				
+				
 				/*AVANÇAR AUTOMATICAMENT*/
 				if (columna == 4) {//si estem en la ultima casella de la fila
 					final int finalFila = fila;
@@ -129,7 +134,7 @@ public class WordleController implements Initializable {
 					        } else if (columnaActual > 0) {
 					            TextField anterior = caselles[filaActual][columnaActual - 1];
 					            anterior.requestFocus();
-					            Platform.runLater(anterior::clear);
+					            anterior.clear();
 					        }
 					        event.consume();
 					    }
@@ -158,25 +163,54 @@ public class WordleController implements Initializable {
 		
 		/*FER TECLAT*/
 		
-		/*String lletres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		int cols = 10;  // nombre de columnes per fila
-		int fila = 0;
-		int col = 0;
+		EventHandler<MouseEvent> escriuTeclat=new EventHandler<MouseEvent>() {
 
-		for (char lletra : lletres.toCharArray()) {
-		    Button btn = new Button(String.valueOf(lletra));
-		    btn.setPrefSize(40, 40);
-		    btn.setOnAction(e -> escriureLletra(btn.getText()));
+			@Override
+			public void handle(MouseEvent arg0) {
+				Node node =(Node) arg0.getTarget();
+				while (node != null && !(node instanceof Button)) {
+					node = node.getParent();
+				}
+				if (node instanceof Button) {
+					
+					String letra =((Button) node).getText();
+					escriureLletra(letra);
+				
+					if (node.getId()=="delete") {
+						
+					}
+					
+					if (node.getId()=="check") {
+						String enter =((Button) node).getText();
+						
+						EventHandler<MouseEvent> ferEnter = new EventHandler<MouseEvent>() {
+							
+							@Override
+							public void handle(MouseEvent arg0) {
+								if (!enter.isEmpty()) {
+									if (columnaActual < 4) {
+										caselles[filaActual][columnaActual + 1].requestFocus(); // Avanza a siguiente casilla en la fila
+									}
+									// En la última casilla no hacemos nada (el foco se queda ahí)
+								}								
+							}
+						};
+						
+						node.addEventHandler(MouseEvent.MOUSE_CLICKED, ferEnter);
+							
+						
+					}
+				
+				}
+			
+				
+			}
+			
+			
+			
+		};
 
-		    grid2.add(btn, col, fila); // afegeix a la posició col, fila
-
-		    col++;
-		    if (col == cols) {
-		        col = 0;
-		        fila++;
-		    }
-		}*/
-
+		grid2.addEventFilter(MouseEvent.MOUSE_CLICKED, escriuTeclat);
 		
 		
 		
@@ -227,8 +261,7 @@ public class WordleController implements Initializable {
 					Alert alert = new Alert(AlertType.NONE);
 					alert.setTitle("Resultat"); // text en la bara de la finestra
 					alert.setHeaderText("INCORRECTE"); // text al costat de la icona
-					alert.setContentText(
-							"No has adivinant la paraula.\n La paraula correcta es: " + paraula.toUpperCase()); // missatge
+					alert.setContentText("No has adivinant la paraula.\n La paraula correcta es: " + paraula.toUpperCase()); // missatge
 					alert.setResizable(true); // es pot canviar la mida o no?
 					alert.getDialogPane().setPrefSize(300, 300); // mida del diàleg
 					alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
