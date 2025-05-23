@@ -230,7 +230,7 @@ public class RegistreController implements Initializable {
 		poblaciotxt.setPromptText("Poblaciò*");
 		contrasenyatxt.setPromptText("Contrasenya*");
 		confcontrasenyatxt.setPromptText("Confirmació de contrasenya*");
-		Image imageShow = new Image(getClass().getResourceAsStream("/imgdefault.jpg"));
+		Image imageShow = new Image("file:imagenes/imgdefault.jpg");
 		showPic.setImage(imageShow);
 		imginput.setText("Pujar imatge");
 
@@ -269,7 +269,7 @@ public class RegistreController implements Initializable {
 					Alert alert = new Alert(AlertType.NONE);
 					alert.setTitle("🎮 Per fi!");
 					alert.getDialogPane().setPrefSize(250, 500);
-					Image iconAlert = new Image(getClass().getResourceAsStream("/creatUsuari.png"));
+					Image iconAlert = new Image("file:imagenes/creatUsuari.png");
 					ImageView alertView = new ImageView(iconAlert);
 					alertView.setFitWidth(200);
 					alertView.setPreserveRatio(true);
@@ -304,7 +304,7 @@ public class RegistreController implements Initializable {
 					alert.setTitle("🚩 Error");
 					alert.getDialogPane().setPrefSize(250, 530);
 					
-					Image iconAlert = new Image(getClass().getResourceAsStream("/errorRegistre.png"));
+					Image iconAlert = new Image("file:imagenes/errorRegistre.png");
 					ImageView alertView = new ImageView(iconAlert);
 					alertView.setFitWidth(400);
 					alertView.setPreserveRatio(true);
@@ -509,10 +509,10 @@ public class RegistreController implements Initializable {
 			labelConfContrasenya.setVisible(!newVal.isEmpty() || confcontrasenyatxt.isFocused());
 		});
 
-		Image imageAdd = new Image(getClass().getResourceAsStream("/addIcon.png"));
+		Image imageAdd = new Image("file:imagenes/addIcon.png");
 		imgurl.setImage(imageAdd);
 
-		Image imageShow = new Image(getClass().getResourceAsStream("/imgdefault.jpg"));
+		Image imageShow = new Image("file:imagenes/imgdefault.jpg");
 		showPic.setImage(imageShow);
 		showPic.setFitWidth(60);
 		showPic.setFitHeight(60);
