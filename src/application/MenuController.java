@@ -114,7 +114,7 @@ public class MenuController implements Initializable {
 	                //imagenPerfil.setFitHeight(110);
 	                
 	                //------------------------------------------------
-	                imagenPerfil.setImage(imagen);
+	                imagenPerfil.setImage(imagen);                                                                                    
 	                imagenPerfil.setFitWidth(70);
 	                imagenPerfil.setFitHeight(70);
 	                imagenPerfil.setPreserveRatio(false);
