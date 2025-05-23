@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -79,12 +80,18 @@
 							<HBox.margin>
 								<Insets right="20.0" />
 							</HBox.margin>
+                     <image>
+                        <Image url="@../../imagenes/imgdefault.jpg" />
+                     </image>
 						</ImageView>
                   <TextField fx:id="imginput" editable="false" prefHeight="24.0" style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8;" text="Pujar imatge" />
 						<ImageView id="addpic" fx:id="imgurl" fitHeight="28" fitWidth="34" layoutX="115.0" layoutY="10.0" onMouseClicked="#addimg" pickOnBounds="true" preserveRatio="true" styleClass="boton-hover">
 							<HBox.margin>
 								<Insets left="8.0" top="5.0" />
 							</HBox.margin>
+                     <image>
+                        <Image url="@../../imagenes/addIcon.png" />
+                     </image>
 						</ImageView>
 					</children>
 					<VBox.margin>

@@ -26,7 +26,7 @@
 /* fondo para todo */
 .root {
   /*-fx-background-color: #021f21;*/
-  -fx-background-image: url("images/fons2.png");
+  -fx-background-image: url("../../imagenes/fons2.png");
   -fx-background-repeat: no-repeat;
   -fx-background-size: cover;
 }
@@ -88,17 +88,17 @@
 
 /* boton de perfil */
 .boto-perfil {
-  -fx-pref-width: 50px;
-  -fx-pref-height: 50px;
-  -fx-background-radius: 25px;
-  -fx-background-color: #e8e8e8;
+  -fx-pref-width: 40px;
+  -fx-pref-height: 40px;
+  -fx-background-radius: 20px;
+  -fx-background-color: transparent;
   -fx-background-size: cover;
   -fx-background-repeat: no-repeat;
   -fx-background-position: center;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.2, 2, 1);
 }
 .boto-perfil:hover {
-  -fx-background-color: #ffffff;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 2), 15, 0.2, 2, 1);
   -fx-cursor: hand;
 }
 

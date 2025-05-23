@@ -21,7 +21,7 @@
 				<Cursor fx:constant="DEFAULT" />
 			</cursor>
 			<image>
-				<Image url="@/login.png" />
+				<Image url="@../../imagenes/login.png" />
 			</image>
 			<HBox.margin>
 				<Insets />

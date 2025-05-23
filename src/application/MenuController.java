@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -109,6 +110,19 @@ public class MenuController implements Initializable {
 	            if (input != null) {
 	                Image imagen = new Image(input);
 	                imagenPerfil.setImage(imagen);//añade la imagen directamente
+	                //imagenPerfil.setFitWidth(110);
+	                //imagenPerfil.setFitHeight(110);
+	                
+	                //------------------------------------------------
+	                imagenPerfil.setImage(imagen);
+	                imagenPerfil.setFitWidth(60);
+	                imagenPerfil.setFitHeight(60);
+	                imagenPerfil.setPreserveRatio(false);
+	                imagenPerfil.setSmooth(true);
+	        		double radius = imagenPerfil.getFitWidth() / 2;
+	        		Circle clip = new Circle(radius, radius, radius);
+	        		imagenPerfil.setClip(clip);
+	        		//-----------------------------------------------------
 	            }else {
 	            	System.out.println("Imatge no trobada! ");
 	            }
