@@ -39,6 +39,12 @@ public class MenuController implements Initializable {
 	@FXML private Label tituloNomUsuari;
 	@FXML private ImageView imatgePerfilUsuari;
 	
+	//id de las imagenes de cada juego
+	@FXML private ImageView fotoPescamines;
+	@FXML private ImageView fotoWordle;
+	@FXML private ImageView fotoJocDeLaVida;
+	@FXML private ImageView fotoPixelArt;
+	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
 		String emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
@@ -122,7 +128,7 @@ public class MenuController implements Initializable {
 	        window.setScene(scene);
 	        window.setTitle(tituloVentana);
 	        window.setMaximized(true);
-
+	        
 	        window.initModality(Modality.WINDOW_MODAL);
 	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	        window.initOwner(menuStage);

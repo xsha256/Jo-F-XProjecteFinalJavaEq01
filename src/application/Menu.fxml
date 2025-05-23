@@ -74,7 +74,7 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" styleClass="vbox-fonsFinestra">
                                  <children>
-                                    <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
+                                    <ImageView fx:id="fotoPescamines" fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
                                           <Image url="@images/pescamines.png" />
                                        </image>
@@ -122,7 +122,7 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" styleClass="vbox-fonsFinestra">
                                  <children>
-                                    <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
+                                    <ImageView fx:id="fotoWordle" fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
                                           <Image url="@images/wordle.png" />
                                        </image>
@@ -170,7 +170,7 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" styleClass="vbox-fonsFinestra">
                                  <children>
-                                    <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
+                                    <ImageView fx:id="fotoJocDeLaVida" fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
                                           <Image url="@images/jocdelavida.png" />
                                        </image>
@@ -218,7 +218,7 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="250.0" styleClass="vbox-fonsFinestra">
                                  <children>
-                                    <ImageView fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
+                                    <ImageView fx:id="fotoPixelArt" fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
                                           <Image url="@images/pixelart.png" />
                                        </image>
