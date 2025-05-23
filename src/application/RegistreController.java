@@ -241,9 +241,9 @@ public class RegistreController implements Initializable {
 		try {
 
 			Class.forName("org.mariadb.jdbc.Driver");
-			String urlBaseDades = "jdbc:mariadb://localhost:3308/jofx";
+			String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
 			String user = "root";
-			String pwd = "root";
+			String pwd = "";
 			boolean valid = comprobarEmail(email, urlBaseDades, user, pwd);
 			if (valid) {
 				if (img.equals("Pujar imatge")) {
