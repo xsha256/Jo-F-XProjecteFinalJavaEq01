@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
+<HBox fx:id="enter" onKeyPressed="#enterKey" prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
 	<children>
 		<ImageView id="loginimg" fitHeight="447.0" fitWidth="386.0" pickOnBounds="true" preserveRatio="true">
 			<cursor>
