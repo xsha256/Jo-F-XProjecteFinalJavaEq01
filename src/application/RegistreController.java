@@ -88,77 +88,14 @@ public class RegistreController implements Initializable {
 
 	public void registrar(ActionEvent e) {
 
-		System.out.println(nomtxt.getText());
-		System.out.println(cognomstxt.getText());
-		System.out.println(correutxt.getText());
-		System.out.println(poblaciotxt.getText());
-		System.out.println(contrasenyatxt.getText());
-		System.out.println(confcontrasenyatxt.getText());
-		System.out.println(imginput.getText());
-		String nom = nomtxt.getText();
-		String cognoms = cognomstxt.getText();
-		String correu = correutxt.getText();
-		String poblacio = poblaciotxt.getText();
-		String contrasenya = contrasenyatxt.getText();
-		String confcontrasenya = confcontrasenyatxt.getText();
-		if (nom.trim()!="") {
-			labelNom.setText(promptNom);
-			labelNom.setVisible(false);
-			labelNom.setStyle("-fx-text-fill: #e8e8e8;");
-			nomtxt.setPromptText(promptNom);
-			nomtxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-			if (cognoms.trim()!="") {
-				labelCognoms.setText(promptCognoms);
-				labelCognoms.setVisible(false);
-				labelCognoms.setStyle("-fx-text-fill: #e8e8e8;");
-				cognomstxt.setPromptText(promptCognoms);
-				cognomstxt.setStyle(
-						"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-				if (correu.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-					labelCorreu.setText(promptCorreu);
-					labelCorreu.setVisible(false);
-					labelCorreu.setStyle("-fx-text-fill: #e8e8e8;");
-					correutxt.setPromptText(promptCorreu);
-					correutxt.setStyle(
-							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-					if (poblacio.trim()!="") {
-						labelPoblacio.setText(promptPoblacio);
-						labelPoblacio.setVisible(false);
-						labelPoblacio.setStyle("-fx-text-fill: #e8e8e8;");
-						poblaciotxt.setPromptText(promptPoblacio);
-						poblaciotxt.setStyle(
-								"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-						if (contrasenya.trim()!= "" && contrasenya.equals(confcontrasenya)) {
-							inserirBBDD(nom, cognoms, correu, poblacio, contrasenya, imginput.getText(), e);
-//							nomtxt.setText("");
-//							nomtxt.setText("");
-//							cognomstxt.setText("");
-//							correutxt.setText("");
-//							poblaciotxt.setText("");
-//							contrasenyatxt.setText("");
-//							confcontrasenyatxt.setText("");
-//							nomtxt.setPromptText("Nom*");
-//							cognomstxt.setPromptText("Cognoms*");
-//							correutxt.setPromptText("Correu electrònic*");
-//							poblaciotxt.setPromptText("Poblaciò*");
-//							contrasenyatxt.setPromptText("Contrasenya*");
-//							confcontrasenyatxt.setPromptText("Confirmació de contrasenya*");
-//							labelContrasenya.setText(promptContrasenya);
-//							labelContrasenya.setVisible(false);
-//							contrasenyatxt.setPromptText(promptContrasenya);
-//							contrasenyatxt.setStyle(
-//									"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-//							labelContrasenya.setStyle("-fx-text-fill: #e8e8e8;");
-//							labelConfContrasenya.setText(promptConfContrasenya);
-//							labelConfContrasenya.setStyle("-fx-text-fill: #e8e8e8;");
-//							labelConfContrasenya.setVisible(false);
-//							confcontrasenyatxt.setPromptText(promptConfContrasenya);
-//							confcontrasenyatxt.setStyle(
-//									"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-//							Image imageShow = new Image(getClass().getResourceAsStream("/imgdefault.jpg"));
-//							showPic.setImage(imageShow);
-//							imginput.setText("Pujar imatge");
-
+		if (verificarCampos(labelNom, nomtxt, promptNom, "El nom és obligatori", 0)) {
+			if (verificarCampos(labelCognoms, cognomstxt, promptCognoms, "Els cognoms són obligatoris", 0)) {
+				if (verificarCampos(labelCorreu, correutxt, promptCorreu, "Correu no vàlid ex: email@emailcom", 1)) {
+					if (verificarCampos(labelPoblacio, poblaciotxt, promptPoblacio, "El poble és obligatori", 0)) {
+						if (contrasenyatxt.getText().trim() != ""
+								&& contrasenyatxt.getText().equals(confcontrasenyatxt.getText())) {
+							inserirBBDD(nomtxt.getText(), cognomstxt.getText(), correutxt.getText(),
+									poblaciotxt.getText(), contrasenyatxt.getText(), imginput.getText(), e);
 						} else {
 							labelContrasenya.setText("La contrasenya no es la mateixa");
 							labelContrasenya.setStyle("-fx-text-fill: red;");
@@ -171,36 +108,48 @@ public class RegistreController implements Initializable {
 							confcontrasenyatxt.setStyle(
 									"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 						}
-					} else {
-						labelPoblacio.setText("El poble és obligatori");
-						labelPoblacio.setStyle("-fx-text-fill: red;");
-						poblaciotxt.setPromptText("El poble és obligatori");
-						poblaciotxt.setStyle(
-								"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 					}
-				} else {
-
-					labelCorreu.setText("Correu no vàlid ex: email@emailcom");
-					labelCorreu.setStyle("-fx-text-fill: red;");
-					correutxt.setPromptText("Correu no vàlid ex: email@emailcom");
-					correutxt.setStyle(
-							"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 				}
-			} else {
-				labelCognoms.setText("Els cognoms són obligatoris");
-				labelCognoms.setStyle("-fx-text-fill: red;");
-				cognomstxt.setPromptText("Els cognoms són obligatoris");
-				cognomstxt
-						.setStyle("-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 			}
 
-		} else {
-			labelNom.setText("El nom és obligatori");
-			labelNom.setStyle("-fx-text-fill: red;");
-			nomtxt.setPromptText("El nom és obligatori");
-			nomtxt.setStyle("-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 		}
 
+	}
+
+	public boolean verificarCampos(Label labelparam, TextField paramtxt, String promptParam, String msg, int op) {
+		boolean validar = false;
+		if (op == 0) {
+			if (paramtxt.getText().trim() != "") {
+				labelparam.setText(promptParam);
+				labelparam.setVisible(false);
+				labelparam.setStyle("-fx-text-fill: #e8e8e8;");
+				paramtxt.setPromptText(promptParam);
+				paramtxt.setStyle(
+						"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+				validar = true;
+			} else {
+				labelparam.setText(msg);
+				labelparam.setStyle("-fx-text-fill: red;");
+				paramtxt.setPromptText(msg);
+				paramtxt.setStyle("-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+			}
+		} else if (op == 1) {
+			if (paramtxt.getText().trim().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+				labelparam.setText(promptParam);
+				labelparam.setVisible(false);
+				labelparam.setStyle("-fx-text-fill: #e8e8e8;");
+				paramtxt.setPromptText(promptParam);
+				paramtxt.setStyle(
+						"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+				validar = true;
+			} else {
+				labelparam.setText(msg);
+				labelparam.setStyle("-fx-text-fill: red;");
+				paramtxt.setPromptText(msg);
+				paramtxt.setStyle("-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+			}
+		}
+		return validar;
 	}
 
 	public void addimg() {
@@ -236,21 +185,21 @@ public class RegistreController implements Initializable {
 
 	}
 
-	public void inserirBBDD(String nom, String cognoms, String email, String poblacio, String contrasenya, String img, ActionEvent e) {
-		
+	public void inserirBBDD(String nom, String cognoms, String email, String poblacio, String contrasenya, String img,
+			ActionEvent e) {
+
 		try {
 
 			Class.forName("org.mariadb.jdbc.Driver");
-			String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
+			String urlBaseDades = "jdbc:mariadb://localhost:3308/jofx";
 			String user = "root";
-			String pwd = "";
+			String pwd = "root";
 			boolean valid = comprobarEmail(email, urlBaseDades, user, pwd);
 			if (valid) {
 				if (img.equals("Pujar imatge")) {
 					img = "imagenes/imgdefault.jpg";
 				}
 				System.out.println(img);
-
 				File imagen = new File(img);
 				FileInputStream fis = new FileInputStream(imagen);
 				String contrasenyaCifString = hashPassword(contrasenya);
@@ -264,8 +213,8 @@ public class RegistreController implements Initializable {
 				s.setString(5, contrasenyaCifString);
 				s.setString(6, poblacio);
 				s.executeUpdate();
-	try {
-					
+				try {
+
 					Alert alert = new Alert(AlertType.NONE);
 					alert.setTitle("🎮 Per fi!");
 					alert.getDialogPane().setPrefSize(250, 500);
@@ -273,19 +222,20 @@ public class RegistreController implements Initializable {
 					ImageView alertView = new ImageView(iconAlert);
 					alertView.setFitWidth(200);
 					alertView.setPreserveRatio(true);
-				
+
 					Label msg = new Label("El compte s'ha creat perfectament! 🎮");
 					msg.setMaxWidth(500);
 					msg.setWrapText(true);
 					msg.getStyleClass().add("msgAlertError");
 
 					VBox content = new VBox(15, alertView, msg);
-					content.setAlignment(Pos.CENTER); 
+					content.setAlignment(Pos.CENTER);
 					content.setPadding(new Insets(20));
-					content.setPrefWidth(500); 
+					content.setPrefWidth(500);
 
 					alert.getDialogPane().setContent(content);
-					alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					alert.getDialogPane().getStylesheets()
+							.add(getClass().getResource("application.css").toExternalForm());
 					alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
 					Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
 					okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
@@ -293,17 +243,17 @@ public class RegistreController implements Initializable {
 					alert.getDialogPane().getStyleClass().add("alertError");
 					alert.showAndWait();
 					accedirLogin(e);
-				}catch (Exception er) {
-					System.out.println("Error: "+er);
+				} catch (Exception er) {
+					System.out.println("Error: " + er);
 				}
-			}else {
-				
+			} else {
+
 				try {
-					
+
 					Alert alert = new Alert(AlertType.NONE);
 					alert.setTitle("🚩 Error");
 					alert.getDialogPane().setPrefSize(250, 530);
-					
+
 					Image iconAlert = new Image("file:imagenes/errorRegistre.png");
 					ImageView alertView = new ImageView(iconAlert);
 					alertView.setFitWidth(400);
@@ -313,16 +263,17 @@ public class RegistreController implements Initializable {
 					msg.setWrapText(true);
 					msg.getStyleClass().add("msgAlertError");
 					VBox content = new VBox(15, alertView, msg);
-					content.setAlignment(Pos.CENTER); 
+					content.setAlignment(Pos.CENTER);
 					content.setPadding(new Insets(20));
-					content.setPrefWidth(500); 
+					content.setPrefWidth(500);
 					alert.getDialogPane().setContent(content);
-					alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-					
+					alert.getDialogPane().getStylesheets()
+							.add(getClass().getResource("application.css").toExternalForm());
+
 					ButtonType registrar = new ButtonType("Registrar", ButtonBar.ButtonData.CANCEL_CLOSE);
 					ButtonType login = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
 					alert.getDialogPane().getButtonTypes().addAll(registrar, login);
-					
+
 					Button registrarButton = (Button) alert.getDialogPane().lookupButton(registrar);
 					registrarButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
 					registrarButton.getStyleClass().add("boton-hover");
@@ -339,11 +290,9 @@ public class RegistreController implements Initializable {
 						accedirLogin(e);
 
 					}
-					
-					
-					
-				}catch (Exception er) {
-					System.out.println("Error: "+er);
+
+				} catch (Exception er) {
+					System.out.println("Error: " + er);
 				}
 			}
 
@@ -387,8 +336,6 @@ public class RegistreController implements Initializable {
 		return sb.toString();
 	}
 
-	
-	
 	public void accedirLogin(ActionEvent e) {
 		try {
 			Parent nuevaVista = FXMLLoader.load(getClass().getResource("Login.fxml"));
@@ -401,6 +348,7 @@ public class RegistreController implements Initializable {
 			ex.printStackTrace();
 		}
 	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 

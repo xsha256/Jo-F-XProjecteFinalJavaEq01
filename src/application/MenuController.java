@@ -55,9 +55,9 @@ public class MenuController implements Initializable {
 	        Class.forName("org.mariadb.jdbc.Driver");
 	        
 			//Conexion BBDD--------------------------------------------------------------
-			String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofx";
+			String urlBaseDatos = "jdbc:mariadb://localhost:3308/jofx";
 			String usuario = "root";
-			String contra = "";
+			String contra = "root";
 			Connection c = DriverManager.getConnection(urlBaseDatos, usuario, contra);
 			//----------------------------------------------------------------------------
 			

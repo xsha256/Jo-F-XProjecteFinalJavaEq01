@@ -33,6 +33,7 @@
 			<image>
 				<Image url="@../../imagenes/login.png" />
 			</image>
+
 		</ImageView>
 		<VBox prefHeight="450.0" prefWidth="403.0">
 			<children>

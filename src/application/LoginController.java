@@ -134,9 +134,9 @@ public class LoginController implements Initializable {
 
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
+			String urlBaseDades = "jdbc:mariadb://localhost:3308/jofx";
 			String user = "root";
-			String pwd = "";
+			String pwd = "root";
 			Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 			String sentencia = "SELECT email FROM usuari WHERE email = ?";
 			PreparedStatement s = c.prepareStatement(sentencia);
