@@ -115,14 +115,15 @@ public class MenuController implements Initializable {
 	                
 	                //------------------------------------------------
 	                imagenPerfil.setImage(imagen);
-	                imagenPerfil.setFitWidth(60);
-	                imagenPerfil.setFitHeight(60);
+	                imagenPerfil.setFitWidth(70);
+	                imagenPerfil.setFitHeight(70);
 	                imagenPerfil.setPreserveRatio(false);
 	                imagenPerfil.setSmooth(true);
 	        		double radius = imagenPerfil.getFitWidth() / 2;
 	        		Circle clip = new Circle(radius, radius, radius);
 	        		imagenPerfil.setClip(clip);
 	        		//-----------------------------------------------------
+	        		
 	            }else {
 	            	System.out.println("Imatge no trobada! ");
 	            }

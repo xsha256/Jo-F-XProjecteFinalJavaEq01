@@ -247,7 +247,7 @@ public class RegistreController implements Initializable {
 			boolean valid = comprobarEmail(email, urlBaseDades, user, pwd);
 			if (valid) {
 				if (img.equals("Pujar imatge")) {
-					img = "bin/imgdefault.jpg";
+					img = "imagenes/imgdefault.jpg";
 				}
 				System.out.println(img);
 

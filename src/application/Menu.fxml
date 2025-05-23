@@ -42,7 +42,7 @@
                         </ImageView>
                      </graphic>
                      <HBox.margin>
-                        <Insets />
+                        <Insets top="15.0" />
                      </HBox.margin>
                      <opaqueInsets>
                         <Insets />
