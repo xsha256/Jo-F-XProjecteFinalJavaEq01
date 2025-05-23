@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -115,7 +116,7 @@ public class MenuController implements Initializable {
 	//intento de "reciclar" codigo para los botones del menu-----------------------------
 	private void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
 	    try {
-	        HBox root = FXMLLoader.load(getClass().getResource(rutaFXML));
+	        Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
 	        Scene scene = new Scene(root);
 	        Stage window = new Stage();
 	        window.setScene(scene);
@@ -146,7 +147,7 @@ public class MenuController implements Initializable {
 	}
 
 	public void actionJocDeLaVida(ActionEvent e) {
-	    abrirVentanaJuego("jocDeLaVida.fxml", "Joc de la Vida", e);
+	    abrirVentanaJuego("Dificultad.fxml", "Joc de la Vida", e);
 	}
 
 	
