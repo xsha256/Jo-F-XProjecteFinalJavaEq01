@@ -1,16 +1,5 @@
 package application;
 
-import java.io.IOException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,8 +19,20 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 	// @FXML private ImageView loginimg;
@@ -49,10 +50,14 @@ public class LoginController implements Initializable {
 	private PasswordField contrasenyatxt;
 	@FXML
 	private Button accedirBoton;
+	@FXML
+	private HBox enter;
 
 	private final String promptCorreu = "Correu electrònic";
 	private final String promptContrasenya = "Contrasenya";
 
+	
+	public void enterKey(ActionEvent e) {}
 	public void accedir(ActionEvent e) {
 		boolean valid = false;
 		String correu = correutxt.getText();
