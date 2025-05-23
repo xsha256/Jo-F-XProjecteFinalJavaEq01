@@ -42,13 +42,9 @@
 
 ---
 
----
-
 ## 🗄️ 4. UML per a BBDD
 
 <img src="imgs/UML.jpg" alt="Diagrama UML" title="Este es un diagrama UML" style="width:800px;">
-
----
 
 ---
 
