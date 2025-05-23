@@ -1,17 +1,24 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class PixelArtController implements Initializable {
 
@@ -25,6 +32,10 @@ public class PixelArtController implements Initializable {
 	private GridPane graella;
 	@FXML
 	private ColorPicker color;
+	@FXML
+	private Button pantallaInici;
+	@FXML
+	private Button guardarImatge;
 
 	private Taulell taulell;
 
@@ -32,108 +43,139 @@ public class PixelArtController implements Initializable {
 	private int columnes;
 	private int grandariaCelda;
 	private Mode mode = Mode.PINTAR;
+	private Label [][] taulellCaselles;
 
+	public void guardarPNG(ActionEvent e) {
+		
+	}
 	
+	//TORNA A LA PANTALLA DE SELECCIÓ DE MIDA
+	public void tornarInici(ActionEvent e) {
+		// carreguem el fitxer fxml
+
+		try {
+			VBox root = (VBox) FXMLLoader.load(getClass().getResource("PixelArtIniciFXML.fxml"));
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			// establim el fitxer d'estils css (el mateix de l'actual)
+			// establim l'escena a la finestra
+			window.setScene(scene);
+			// establim el títol de l'escena
+			window.setTitle("Inici Pixel Art");
+			window.setMaximized(true);
+			// mostrem la finestra
+			window.show();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	//ACTIVA EL BOTÓ DE BORRAR
 	public void borrar(ActionEvent e) {
-		mode=Mode.BORRAR;
+		mode = Mode.BORRAR;
 		borrador.setStyle("-fx-background-color: #e85a71;");
 		pinzell.setStyle("-fx-background-color:  #2a7963;");
 	}
-	
+
+	//ACTIVA EL BOTÓ DE PINTAR
 	public void pintar(ActionEvent e) {
-		mode=Mode.PINTAR;
+		mode = Mode.PINTAR;
 		pinzell.setStyle("-fx-background-color: #e85a71;");
 		borrador.setStyle("-fx-background-color:  #2a7963;");
 	}
+
 	
 	@Override
-
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		DadesPixelArt dades = DadesPixelArt.getInstancia();
 		taulell = dades.getTaulell();
-		if(taulell.getAmple()<=64 && taulell.getAltura()<=32) {
-			this.grandariaCelda=17;
-		}else if(taulell.getAmple()<=128 && taulell.getAltura()<=64) {
-			this.grandariaCelda=12;
-		}else if(taulell.getAmple()<256 && taulell.getAltura()<128) {
-			this.grandariaCelda=9;
-		}else {
-			this.grandariaCelda=5;
+		if (taulell.getAmple() <= 64 && taulell.getAltura() <= 32) {
+			this.grandariaCelda = 17;
+		} else if (taulell.getAmple() <= 128 && taulell.getAltura() <= 64) {
+			this.grandariaCelda = 12;
+		} else if (taulell.getAmple() < 256 && taulell.getAltura() < 128) {
+			this.grandariaCelda = 9;
+		} else {
+			this.grandariaCelda = 5;
 		}
 		this.files = taulell.getAltura();
 		this.columnes = taulell.getAmple();
 
 		root.prefWidthProperty().bind(root.widthProperty());
 		root.prefHeightProperty().bind(root.heightProperty());
-		
+
 		int contador = 0;
 
 		for (int fila = 0; fila < files; fila++) {
 			for (int col = 0; col < columnes; col++) {
 				if (contador % 2 == 0) {
 					String colorBase = "white";
-					Pane celda = crearPanell(colorBase);
+					Label celda = crearPanell(colorBase);
 					graella.add(celda, col, fila);
 				} else {
 					String colorBase = "#cccccc";
-					Pane celda = crearPanell(colorBase);
+					Label celda = crearPanell(colorBase);
 					graella.add(celda, col, fila);
 				}
 				contador++;
 			}
 			contador++;
 		}
-
 	}
 
-	private Pane crearPanell(String colorBase) {
-		Pane celda = new Pane();
-		celda.setPrefSize(grandariaCelda, grandariaCelda);
-		celda.setStyle("-fx-background-color:" + colorBase + ";");
+	private Label crearPanell(String colorBase) {
+		Label casella = new Label();
+		casella.setPrefSize(grandariaCelda, grandariaCelda);
+		casella.setStyle("-fx-background-color:" + colorBase + ";");
 
 		// drag enter pane
-		celda.setOnMouseClicked(e -> {
-			if(e.getButton() == MouseButton.PRIMARY && mode==Mode.PINTAR) {
-				celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li he
+		casella.setOnMouseClicked(e -> {
+			if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
+				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li
+																								// he
 				// passat en el color picker
-			}else if(e.getButton() == MouseButton.SECONDARY || mode==Mode.BORRAR) {
-				celda.setStyle("-fx-background-color:" + colorBase + ";");
-			}else if(e.getButton() == MouseButton.SECONDARY && mode==Mode.BORRAR) {
-				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
+				casella.setStyle("-fx-background-color:" + colorBase + ";");
+			} else if (e.getButton() == MouseButton.SECONDARY && mode == Mode.BORRAR) {
+				casella.setStyle("-fx-background-color:" + colorBase + ";");
 			}
-			
+
 		});
 
-		//Habilitar el drag en totes les cel·les
-		celda.setOnDragDetected(e -> {
-			celda.startFullDrag(); 
-			if(e.getButton() == MouseButton.PRIMARY && mode==Mode.PINTAR) {
-				celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li he
+		// Habilitar el drag en totes les cel·les
+		casella.setOnDragDetected(e -> {
+			casella.startFullDrag();
+			if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
+				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li
+																								// he
 				// passat en el color picker
-			}else if(e.getButton() == MouseButton.SECONDARY || mode==Mode.BORRAR) {
-				celda.setStyle("-fx-background-color:" + colorBase + ";");
-			}else if(e.getButton() == MouseButton.SECONDARY && mode==Mode.BORRAR) {
-				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
+				casella.setStyle("-fx-background-color:" + colorBase + ";");
+			} else if (e.getButton() == MouseButton.SECONDARY && mode == Mode.BORRAR) {
+				casella.setStyle("-fx-background-color:" + colorBase + ";");
 			}
 		});
 
-		//mentre arrastre sobre altres cel.les
-		celda.setOnMouseDragEntered(e -> {
-			if(e.getButton() == MouseButton.PRIMARY && mode==Mode.PINTAR) {
-				celda.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li he
+		// mentre arrastre sobre altres cel.les
+		casella.setOnMouseDragEntered(e -> {
+			if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
+				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li
+																								// he
 				// passat en el color picker
-			}else if(e.getButton() == MouseButton.SECONDARY || mode==Mode.BORRAR) {
-				celda.setStyle("-fx-background-color:" + colorBase + ";");
-			}else if(e.getButton() == MouseButton.SECONDARY && mode==Mode.BORRAR) {
-				celda.setStyle("-fx-background-color:" + colorBase + ";");
+			} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
+				casella.setStyle("-fx-background-color:" + colorBase + ";");
+			} else if (e.getButton() == MouseButton.SECONDARY && mode == Mode.BORRAR) {
+				casella.setStyle("-fx-background-color:" + colorBase + ";");
 			}
 		});
-		
-		return celda;
+
+		return casella;
 	}
 
-	private String colorString(javafx.scene.paint.Color c) {// converteix el color en una string per poder
+	//ESTO NO ME FA FALTA
+	private String colorString(Color c) {// converteix el color en una string per poder
 															// interpretar-lo
 		return "rgb(" + (int) (c.getRed() * 255) + "," + (int) (c.getGreen() * 255) + "," + (int) (c.getBlue() * 255)
 				+ ")";

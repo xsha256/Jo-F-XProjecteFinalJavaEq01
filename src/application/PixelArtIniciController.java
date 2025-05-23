@@ -78,21 +78,12 @@ public class PixelArtIniciController implements Initializable {
 			taulell.setAmple(ample);
 			taulell.setAltura(alt);
 			DadesPixelArt.getInstancia().setTaulell(taulell);
-			// carreguem el fitxer fxml
 			Parent root = FXMLLoader.load(getClass().getResource("PixelArtFXML.fxml"));
-
-			// creem un nou controlador de l'escena següent
-			// establim el graf d'escena a l'escena
 			Scene escena2 = new Scene(root);
-			// obtenim la finestra a partir de l'esdeveniment
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
-			// establim el fitxer d'estils css (el mateix de l'actual)
-			// establim l'escena a la finestra
 			window.setScene(escena2);
-			// establim el títol de l'escena
 			window.setTitle("Pixel Art");
 			window.setMaximized(true);
-			// mostrem la finestra
 			window.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -156,6 +147,8 @@ public class PixelArtIniciController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
+		root.prefWidthProperty().bind(root.widthProperty());
+		root.prefHeightProperty().bind(root.heightProperty());
 		canviGran();
 		canviMitja();
 		canviXicotet();
