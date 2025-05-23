@@ -40,14 +40,14 @@ public class MenuController implements Initializable {
 	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
-		String emailUsuario="";//poner nombre archivo.nombreVariable del login de Moha;
+		String emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
 		
 		try {
 			// cargar el driver de MariaDB... con una vez sobra creo :) 
 	        Class.forName("org.mariadb.jdbc.Driver");
 	        
 			//Conexion BBDD--------------------------------------------------------------
-			String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofxs";
+			String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofx";
 			String usuario = "root";
 			String contra = "";
 			Connection c = DriverManager.getConnection(urlBaseDatos, usuario, contra);
@@ -69,6 +69,7 @@ public class MenuController implements Initializable {
 	
 	public String ponerNombreUsuarioBD(Connection c, String emailUsuari) {
 	    String sentencia = "SELECT nom FROM usuari WHERE email = ?;";
+	    
 	    try {
 	        
 	        PreparedStatement ps = c.prepareStatement(sentencia);
@@ -89,18 +90,20 @@ public class MenuController implements Initializable {
 
 	
 	public void asignarImagenPerfilUsuario(Connection c,String emailUsuari, ImageView imagenPerfil) {
-	    String sentencia = "SELECT imagen FROM usuari WHERE email = ?";
-	    
+	    String sentencia = "SELECT imatge FROM usuari WHERE email =?";
+	   
 	    try {
 	        PreparedStatement s = c.prepareStatement(sentencia);
 	        s.setString(1, emailUsuari);
 	        ResultSet r = s.executeQuery();
-
 	        if (r.next()) {
-	            InputStream input = r.getBinaryStream("imagen");
+	        	System.out.println(r);
+	            InputStream input = r.getBinaryStream("imatge");
 	            if (input != null) {
 	                Image imagen = new Image(input);
 	                imagenPerfil.setImage(imagen);//añade la imagen directamente
+	            }else {
+	            	System.out.println("Imatge no trobada! ");
 	            }
 	        }
 
