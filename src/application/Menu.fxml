@@ -76,7 +76,7 @@
                                  <children>
                                     <ImageView fx:id="fotoPescamines" fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
-                                          <Image url="@images/pescamines.png" />
+                                          <Image url="@../../imagenes/pescamines.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -124,7 +124,7 @@
                                  <children>
                                     <ImageView fx:id="fotoWordle" fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
-                                          <Image url="@images/wordle.png" />
+                                          <Image url="@../../imagenes/wordle.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -172,7 +172,7 @@
                                  <children>
                                     <ImageView fx:id="fotoJocDeLaVida" fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
-                                          <Image url="@images/jocdelavida.png" />
+                                          <Image url="@../../imagenes/jocdelavida.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -220,7 +220,7 @@
                                  <children>
                                     <ImageView fx:id="fotoPixelArt" fitHeight="170.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" styleClass="imageview-joc">
                                        <image>
-                                          <Image url="@images/pixelart.png" />
+                                          <Image url="@../../imagenes/pixelart.png" />
                                        </image>
                                     </ImageView>
                                  </children>
