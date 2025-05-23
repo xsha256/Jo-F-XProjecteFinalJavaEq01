@@ -54,6 +54,10 @@ public class JocVidaController implements Initializable {
 
 	private final Object lock = new Object();
 
+	private final int MAX_HISTORIAL = 10;
+	private String[][][] historial = new String[MAX_HISTORIAL][][];
+	private int numEstadosGuardados = 0;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -62,11 +66,11 @@ public class JocVidaController implements Initializable {
 			String opcion = (String) window.getUserData();
 
 			if (opcion.equals("Petita")) {
-				tabla = new Tabla(10, 200, 25, 50);
+				tabla = new Tabla(10, 30, 40);
 			} else if (opcion.equals("Mitjana")) {
-				tabla = new Tabla(20, 400, 175, 200);
+				tabla = new Tabla(20, 75, 100);
 			} else {
-				tabla = new Tabla(30, 600, 450, 500);
+				tabla = new Tabla(30, 200, 300);
 			}
 
 			FILAS = tabla.getLongMatriz();
@@ -92,7 +96,7 @@ public class JocVidaController implements Initializable {
 
 			Thread hilo = new Thread(() -> {
 				try {
-					while (tabla.getGeneraciones() < tabla.getMaxGen()) {
+					while (continuar) {
 						synchronized (lock) {
 							while (!continuar) {
 								lock.wait();
@@ -103,15 +107,10 @@ public class JocVidaController implements Initializable {
 						tabla.cambiarMatriz();
 
 						Platform.runLater(() -> actualizar());
-					}
-					if (tabla.getGeneraciones() == tabla.getMaxGen()) {
-						Platform.runLater(() -> {
-							Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-							alerta.setTitle("Aviso");
-							alerta.setHeaderText(null);
-							alerta.setContentText("Has llegado a la maxima generacion, Felicidades!!!");
-							alerta.showAndWait();
-						});
+
+						if (!detectarBucle()) {
+							continuar = false;
+						}
 					}
 
 				} catch (InterruptedException e) {
@@ -150,7 +149,7 @@ public class JocVidaController implements Initializable {
 					etiquetas[i][j].setStyle("-fx-background-color:white; -fx-border-color: black;");
 					continue;
 				}
-				switch (estados[i][j]) {
+				switch (estado) {
 				case "viva":
 					etiquetas[i][j].setStyle("-fx-background-color:green; -fx-border-color: black;");
 					break;
@@ -187,7 +186,21 @@ public class JocVidaController implements Initializable {
 			Scene escena2 = new Scene(root2, 600, 500);
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
-			window.setTitle("Eleccion de Dificultad");
+			window.setTitle("Elección de Dificultad");
+			window.show();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public void reiniciar(ActionEvent e) {
+		try {
+			tabla.reiniciar();
+			VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
+			Scene escena2 = new Scene(root2, 1000, 800);
+			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			window.setScene(escena2);
+			window.setTitle("Juego de la Vida");
 			window.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -195,10 +208,93 @@ public class JocVidaController implements Initializable {
 	}
 
 	public void x2() {
-		tiempoEspera = tiempoEspera / 2;
+		tiempoEspera = Math.max(1, tiempoEspera / 2);
 	}
 
 	public void E2() {
 		tiempoEspera = tiempoEspera * 2;
+	}
+
+	private boolean detectarBucle() {
+		String[][] actual = tabla.getMatriu_actual();
+
+		if (numEstadosGuardados < MAX_HISTORIAL) {
+			historial[numEstadosGuardados] = copiarMatriz(actual);
+			numEstadosGuardados++;
+			return true;
+		} else {
+			for (int i = 0; i < MAX_HISTORIAL - 1; i++) {
+				historial[i] = historial[i + 1];
+			}
+			historial[MAX_HISTORIAL - 1] = copiarMatriz(actual);
+		}
+
+		for (int i = 1; i <= MAX_HISTORIAL / 2; i++) {
+			boolean bucle = true;
+
+			for (int j = 0; j < MAX_HISTORIAL - i; j += i) {
+				for (int k = 0; k < i; k++) {
+					if (!matricesIguales(historial[j + k], historial[j + i + k])) {
+						bucle = false;
+						break;
+					}
+				}
+				if (bucle) {
+					if (tabla.contarCelulas() == 0) {
+						Platform.runLater(() -> {
+							Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+							alerta.setTitle("Muerte Total");
+							alerta.setHeaderText(null);
+							alerta.setContentText("Se han muerto todas las celulas. Has llegado hasta la generacion " + tabla.getGeneraciones());
+							alerta.showAndWait();
+						});
+					} else {
+						Platform.runLater(() -> {
+							Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+							alerta.setTitle("Bucle detectado");
+							alerta.setHeaderText(null);
+							alerta.setContentText("El juego ha entrado en un bucle. Has llegado hasta la generacion " + tabla.getGeneraciones());
+							alerta.showAndWait();
+						});
+					}
+					return false;
+				}
+				bucle = true;
+			}
+		}
+
+		return true;
+	}
+
+	private boolean matricesIguales(String[][] m1, String[][] m2) {
+		for (int i = 0; i < FILAS; i++) {
+			for (int j = 0; j < COLUMNAS; j++) {
+				String s1 = m1[i][j];
+				String s2 = m2[i][j];
+				if (s1 == null && s2 == null) {
+					continue;
+				}
+				if (s1 == null || s2 == null) {
+					return false;
+				}
+				if (!s1.equals(s2)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private String[][] copiarMatriz(String[][] actual) {
+		if (actual == null) {
+			return null;
+		}
+		String[][] copia = new String[FILAS][COLUMNAS];
+		for (int i = 0; i < FILAS; i++) {
+			for (int j = 0; j < COLUMNAS; j++) {
+				copia[i][j] = actual[i][j];
+			}
+		}
+		return copia;
 	}
 }

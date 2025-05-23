@@ -7,7 +7,6 @@ public class Tabla {
 	public int contadorCreadas;
 	public int contadorMuertes;
 
-	private int maxGen;
 	private int longMatriz;
 	private int minimoCelulas;
 	private int maximoCelulas;
@@ -18,9 +17,8 @@ public class Tabla {
 	private String[][] matriu_anterior;
 	private String[][] estados;
 
-	public Tabla(int longMatriz, int maxGen, int minimoCelulas, int maximoCelulas) {
+	public Tabla(int longMatriz, int minimoCelulas, int maximoCelulas) {
 		this.longMatriz = longMatriz;
-		this.maxGen = maxGen;
 		this.minimoCelulas = minimoCelulas;
 		this.maximoCelulas = maximoCelulas;
 
@@ -58,9 +56,6 @@ public class Tabla {
 		return longMatriz;
 	}
 
-	public int getMaxGen() {
-		return maxGen;
-	}
 
 	public int getMinimoCelulas() {
 		return minimoCelulas;
