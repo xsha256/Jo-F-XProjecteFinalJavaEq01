@@ -5,38 +5,35 @@ public class Casella {
 	//ATRIBUTS
 	private String color;
 	private boolean ocupat;
-	private int altura;
-	private int amplada;
+	private int grandaria;
+	
+	
 	public String getColor() {
 		return color;
 	}
 	public boolean isOcupat() {
 		return ocupat;
 	}
-	public int getAltura() {
-		return altura;
+	public int getGrandaria() {
+		return grandaria;
 	}
-	public int getAmplada() {
-		return amplada;
-	}
+
 	public void setColor(String color) {
 		this.color = color;
 	}
 	public void setOcupat(boolean ocupat) {
 		this.ocupat = ocupat;
 	}
-	public void setAltura(int altura) {
-		this.altura = altura;
+	public void setGrandaria(int grandaria) {
+		this.grandaria = grandaria;
 	}
-	public void setAmplada(int amplada) {
-		this.amplada = amplada;
-	}
-	public Casella(String color, boolean ocupat, int altura, int amplada) {
-		super();
+
+	public Casella(String color, boolean ocupat, int grandaria) {
+
 		this.color = color;
 		this.ocupat = ocupat;
-		this.altura = altura;
-		this.amplada = amplada;
+		this.grandaria = grandaria;
+		
 	}
 	
 	

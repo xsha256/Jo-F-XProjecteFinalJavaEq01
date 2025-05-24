@@ -1,7 +1,14 @@
 package application;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -43,10 +50,48 @@ public class PixelArtController implements Initializable {
 	private int columnes;
 	private int grandariaCelda;
 	private Mode mode = Mode.PINTAR;
-	private Label [][] taulellCaselles;
+	private Casella [][] taulellCaselles;
+	private String urlBaseDades=;
+	private String usuari=;
+	private contrasenya=;
 
-	public void guardarPNG(ActionEvent e) {
-		
+	public void guardarBB(ActionEvent e) {
+		try {
+
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(partida);
+            oos.close();
+            byte[] datosSerializados = baos.toByteArray();
+
+            Date hoy = new Date();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String fecha = formato.format(hoy);
+
+            Class.forName("org.mariadb.jdbc.Driver");
+            Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
+
+            String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesionJuego, temps, acabat) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement s = c.prepareStatement(sentencia);
+            s.setInt(1, 1);
+            s.setString(2, fecha);
+            s.setBytes(3, datosSerializados);
+            s.setDouble(4, (minutos + segundos / 60.0));
+            s.setString(5, "Si");
+            s.executeUpdate();
+
+            s.close();
+            c.close();
+
+            /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Aviso");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Partida guardada con éxito");
+            alerta.showAndWait();*/
+        } catch (IOException | ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	//TORNA A LA PANTALLA DE SELECCIÓ DE MIDA
@@ -57,14 +102,10 @@ public class PixelArtController implements Initializable {
 			VBox root = (VBox) FXMLLoader.load(getClass().getResource("PixelArtIniciFXML.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
-			// establim el fitxer d'estils css (el mateix de l'actual)
-			// establim l'escena a la finestra
+			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();		
 			window.setScene(scene);
-			// establim el títol de l'escena
 			window.setTitle("Inici Pixel Art");
 			window.setMaximized(true);
-			// mostrem la finestra
 			window.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -91,17 +132,21 @@ public class PixelArtController implements Initializable {
 
 		DadesPixelArt dades = DadesPixelArt.getInstancia();
 		taulell = dades.getTaulell();
+		
+		//REVISAR ESTO
 		if (taulell.getAmple() <= 64 && taulell.getAltura() <= 32) {
 			this.grandariaCelda = 17;
 		} else if (taulell.getAmple() <= 128 && taulell.getAltura() <= 64) {
 			this.grandariaCelda = 12;
-		} else if (taulell.getAmple() < 256 && taulell.getAltura() < 128) {
+		} else if (taulell.getAmple() < 256 && taulell.getAltura() <= 128) {
 			this.grandariaCelda = 9;
-		} else {
+		} else if (taulell.getAltura()>128){
 			this.grandariaCelda = 5;
 		}
 		this.files = taulell.getAltura();
 		this.columnes = taulell.getAmple();
+		
+		taulellCaselles = new Casella [this.files][this.columnes];
 
 		root.prefWidthProperty().bind(root.widthProperty());
 		root.prefHeightProperty().bind(root.heightProperty());
@@ -112,12 +157,14 @@ public class PixelArtController implements Initializable {
 			for (int col = 0; col < columnes; col++) {
 				if (contador % 2 == 0) {
 					String colorBase = "white";
-					Label celda = crearPanell(colorBase);
+					Label celda = crearPanell(colorBase, fila, col);
 					graella.add(celda, col, fila);
+					taulellCaselles[fila][col] = new Casella (colorBase, false, this.grandariaCelda);
 				} else {
 					String colorBase = "#cccccc";
-					Label celda = crearPanell(colorBase);
+					Label celda = crearPanell(colorBase, fila, col);
 					graella.add(celda, col, fila);
+					taulellCaselles[fila][col] = new Casella (colorBase, false, this.grandariaCelda);
 				}
 				contador++;
 			}
@@ -125,22 +172,24 @@ public class PixelArtController implements Initializable {
 		}
 	}
 
-	private Label crearPanell(String colorBase) {
+	private Label crearPanell(String colorBase, int fila, int col) {
 		Label casella = new Label();
 		casella.setPrefSize(grandariaCelda, grandariaCelda);
 		casella.setStyle("-fx-background-color:" + colorBase + ";");
 
 		// drag enter pane
 		casella.setOnMouseClicked(e -> {
+			
 			if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
-				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li
-																								// he
-				// passat en el color picker
+				// agafe el valor que li he passat en el color picker
+				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");
+				taulellCaselles[fila][col].setColor(colorString(color.getValue()));
+				taulellCaselles[fila][col].setOcupat(true);
 			} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
 				casella.setStyle("-fx-background-color:" + colorBase + ";");
-			} else if (e.getButton() == MouseButton.SECONDARY && mode == Mode.BORRAR) {
-				casella.setStyle("-fx-background-color:" + colorBase + ";");
-			}
+				taulellCaselles[fila][col].setColor(colorBase);
+				taulellCaselles[fila][col].setOcupat(false);
+			} 
 
 		});
 
@@ -148,27 +197,27 @@ public class PixelArtController implements Initializable {
 		casella.setOnDragDetected(e -> {
 			casella.startFullDrag();
 			if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
-				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li
-																								// he
-				// passat en el color picker
+				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");
+				taulellCaselles[fila][col].setColor(colorString(color.getValue()));
+				taulellCaselles[fila][col].setOcupat(true);
 			} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
 				casella.setStyle("-fx-background-color:" + colorBase + ";");
-			} else if (e.getButton() == MouseButton.SECONDARY && mode == Mode.BORRAR) {
-				casella.setStyle("-fx-background-color:" + colorBase + ";");
-			}
+				taulellCaselles[fila][col].setColor(colorBase);
+				taulellCaselles[fila][col].setOcupat(false);
+			} 
 		});
 
 		// mentre arrastre sobre altres cel.les
 		casella.setOnMouseDragEntered(e -> {
 			if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
-				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");// agafe el valor que li
-																								// he
-				// passat en el color picker
+				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");
+				taulellCaselles[fila][col].setColor(colorString(color.getValue()));
+				taulellCaselles[fila][col].setOcupat(true);
 			} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
 				casella.setStyle("-fx-background-color:" + colorBase + ";");
-			} else if (e.getButton() == MouseButton.SECONDARY && mode == Mode.BORRAR) {
-				casella.setStyle("-fx-background-color:" + colorBase + ";");
-			}
+				taulellCaselles[fila][col].setColor(colorBase);
+				taulellCaselles[fila][col].setOcupat(false);
+			} 
 		});
 
 		return casella;

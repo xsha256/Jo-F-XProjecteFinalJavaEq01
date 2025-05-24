@@ -158,9 +158,9 @@ public class PixelArtIniciController implements Initializable {
 
 		int ample = Integer.parseInt(amplada.getText());
 		int alt = Integer.parseInt(altura.getText());
-		if (ample > 138) {
-			amplada.setText("138");
-			ample = 138;
+		if (ample > 128) {
+			amplada.setText("128");
+			ample = 128;
 		}
 
 		if (alt > 64) {

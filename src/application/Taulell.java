@@ -18,7 +18,7 @@ public class Taulell {
 		this.altura = altura;
 	}
 	public Taulell(int ample, int altura) {
-		super();
+
 		this.ample = ample;
 		this.altura = altura;
 	}
