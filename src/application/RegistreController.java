@@ -4,22 +4,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -34,7 +29,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class RegistreController implements Initializable {
@@ -72,6 +66,8 @@ public class RegistreController implements Initializable {
 	private ImageView imgurl;
 	@FXML
 	private Hyperlink accedirURL;
+	@FXML
+	private Button registreBoton;
 
 	private Stage stage;
 
@@ -85,7 +81,16 @@ public class RegistreController implements Initializable {
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
+	public void enterKey(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER) {
+			System.out.println("Has presionado ENTER");
+			registrar(new ActionEvent(registreBoton, null));
+		} else {
+			System.out.println("Has presionat: " + e.getCode());
+		}
 
+	}
+	
 	public void registrar(ActionEvent e) {
 
 		if (verificarCampos(labelNom, nomtxt, promptNom, "El nom és obligatori", 0)) {
@@ -187,6 +192,7 @@ public class RegistreController implements Initializable {
 
 	public void inserirBBDD(String nom, String cognoms, String email, String poblacio, String contrasenya, String img,
 			ActionEvent e) {
+		LoginController loginAlerta = new LoginController();
 
 		try {
 
@@ -202,7 +208,7 @@ public class RegistreController implements Initializable {
 				System.out.println(img);
 				File imagen = new File(img);
 				FileInputStream fis = new FileInputStream(imagen);
-				String contrasenyaCifString = hashPassword(contrasenya);
+				String contrasenyaCifString = hashContrasenya(contrasenya);
 				Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 				String sentencia = "INSERT INTO usuari(nom, cognoms, email, imatge, contrasenya, poblacio) VALUES (?,?,?,?,?,?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
@@ -213,87 +219,11 @@ public class RegistreController implements Initializable {
 				s.setString(5, contrasenyaCifString);
 				s.setString(6, poblacio);
 				s.executeUpdate();
-				try {
-
-					Alert alert = new Alert(AlertType.NONE);
-					alert.setTitle("🎮 Per fi!");
-					alert.getDialogPane().setPrefSize(250, 500);
-					Image iconAlert = new Image("file:imagenes/creatUsuari.png");
-					ImageView alertView = new ImageView(iconAlert);
-					alertView.setFitWidth(200);
-					alertView.setPreserveRatio(true);
-
-					Label msg = new Label("El compte s'ha creat perfectament! 🎮");
-					msg.setMaxWidth(500);
-					msg.setWrapText(true);
-					msg.getStyleClass().add("msgAlertError");
-
-					VBox content = new VBox(15, alertView, msg);
-					content.setAlignment(Pos.CENTER);
-					content.setPadding(new Insets(20));
-					content.setPrefWidth(500);
-
-					alert.getDialogPane().setContent(content);
-					alert.getDialogPane().getStylesheets()
-							.add(getClass().getResource("application.css").toExternalForm());
-					alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-					Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
-					okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
-					okButton.getStyleClass().add("boton-hover");
-					alert.getDialogPane().getStyleClass().add("alertError");
-					alert.showAndWait();
-					accedirLogin(e);
-				} catch (Exception er) {
-					System.out.println("Error: " + er);
-				}
+				loginAlerta.alerta("El compte s'ha creat perfectament! 🎮", 0, e, "file:imagenes/creatUsuari.png", "registre");
+				accedirLogin(e);
 			} else {
+				loginAlerta.alerta("Ya tens un compte!🕹️", 0, e, "file:imagenes/errorRegistre.png", "registre");
 
-				try {
-
-					Alert alert = new Alert(AlertType.NONE);
-					alert.setTitle("🚩 Error");
-					alert.getDialogPane().setPrefSize(250, 530);
-
-					Image iconAlert = new Image("file:imagenes/errorRegistre.png");
-					ImageView alertView = new ImageView(iconAlert);
-					alertView.setFitWidth(400);
-					alertView.setPreserveRatio(true);
-					Label msg = new Label("Ya tens un compte!🕹️");
-					msg.setMaxWidth(500);
-					msg.setWrapText(true);
-					msg.getStyleClass().add("msgAlertError");
-					VBox content = new VBox(15, alertView, msg);
-					content.setAlignment(Pos.CENTER);
-					content.setPadding(new Insets(20));
-					content.setPrefWidth(500);
-					alert.getDialogPane().setContent(content);
-					alert.getDialogPane().getStylesheets()
-							.add(getClass().getResource("application.css").toExternalForm());
-
-					ButtonType registrar = new ButtonType("Registrar", ButtonBar.ButtonData.CANCEL_CLOSE);
-					ButtonType login = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
-					alert.getDialogPane().getButtonTypes().addAll(registrar, login);
-
-					Button registrarButton = (Button) alert.getDialogPane().lookupButton(registrar);
-					registrarButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
-					registrarButton.getStyleClass().add("boton-hover");
-					registrarButton.getStyleClass().add("boton-hover");
-					alert.getDialogPane().getStyleClass().add("alertError");
-					Button loginButton = (Button) alert.getDialogPane().lookupButton(login);
-					loginButton.getStyleClass().add("boton-hover");
-					loginButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
-					loginButton.getStyleClass().add("boton-hover");
-					alert.getDialogPane().getStyleClass().add("alertError");
-					Optional<ButtonType> resultado = alert.showAndWait();
-
-					if (resultado.isPresent() && resultado.get() == login) {
-						accedirLogin(e);
-
-					}
-
-				} catch (Exception er) {
-					System.out.println("Error: " + er);
-				}
 			}
 
 		} catch (Exception er) {
@@ -324,7 +254,7 @@ public class RegistreController implements Initializable {
 		return valid;
 	}
 
-	public static String hashPassword(String password) throws NoSuchAlgorithmException {
+	public static String hashContrasenya(String password) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		byte[] hashBytes = md.digest(password.getBytes());
 
@@ -471,5 +401,8 @@ public class RegistreController implements Initializable {
 		showPic.setClip(clip);
 
 	}
+	
+
+
 
 }

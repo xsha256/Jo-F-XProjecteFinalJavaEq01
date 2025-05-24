@@ -19,13 +19,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -35,8 +36,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-	// @FXML private ImageView loginimg;
-	// private Image imatge;
+
 
 	public static String EMAIL = "";
 	@FXML
@@ -56,9 +56,18 @@ public class LoginController implements Initializable {
 	private final String promptCorreu = "Correu electrònic";
 	private final String promptContrasenya = "Contrasenya";
 
-	
-	public void enterKey(ActionEvent e) {}
+	public void enterKey(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER) {
+			System.out.println("Has presionado ENTER");
+			accedir(new ActionEvent(accedirBoton, null));
+		} else {
+			System.out.println("Has presionat: " + e.getCode());
+		}
+
+	}
+
 	public void accedir(ActionEvent e) {
+		System.out.println(e);
 		boolean valid = false;
 		String correu = correutxt.getText();
 		String contrasenya = contrasenyatxt.getText();
@@ -148,8 +157,6 @@ public class LoginController implements Initializable {
 				}
 			}
 			if (valid) {
-				System.out.println("Dentro if");
-
 				c = DriverManager.getConnection(urlBaseDades, user, pwd);
 				sentencia = "SELECT contrasenya FROM usuari WHERE email = ?";
 				s = c.prepareStatement(sentencia);
@@ -159,63 +166,8 @@ public class LoginController implements Initializable {
 					valid = verificarContrasenya(r.getString("contrasenya"), contrasenya);
 				}
 			} else {
-				System.out.println("Dentro else ");
-				try {
-					Alert alert = new Alert(AlertType.NONE);
-					alert.setTitle("🚩 Error");
-					alert.getDialogPane().setPrefSize(200, 400);
+				alerta("No tens compte!🕹️", 1, e,"file:imagenes/errorRegistre.png", "login");
 
-					Image iconAlert = new Image(getClass().getResourceAsStream("/errorRegistre.png"));
-					ImageView alertView = new ImageView(iconAlert);
-					alertView.setFitWidth(400);
-					alertView.setPreserveRatio(true);
-					Label msg = new Label("No tens compte!🕹️");
-					msg.setMaxWidth(500);
-					msg.setWrapText(true);
-					msg.getStyleClass().add("msgAlertError");
-					VBox content = new VBox(15, alertView, msg);
-					content.setAlignment(Pos.CENTER);
-					content.setPadding(new Insets(20));
-					content.setPrefWidth(500);
-					alert.getDialogPane().setContent(content);
-					alert.getDialogPane().getStylesheets()
-							.add(getClass().getResource("application.css").toExternalForm());
-
-					ButtonType login = new ButtonType("Login", ButtonBar.ButtonData.CANCEL_CLOSE);
-					ButtonType registrar = new ButtonType("Registrar", ButtonBar.ButtonData.OK_DONE);
-					alert.getDialogPane().getButtonTypes().addAll(registrar, login);
-
-					Button registrarButton = (Button) alert.getDialogPane().lookupButton(registrar);
-					registrarButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
-					registrarButton.getStyleClass().add("boton-hover");
-					registrarButton.getStyleClass().add("boton-hover");
-					alert.getDialogPane().getStyleClass().add("alertError");
-					Button loginButton = (Button) alert.getDialogPane().lookupButton(login);
-					loginButton.getStyleClass().add("boton-hover");
-					loginButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
-					loginButton.getStyleClass().add("boton-hover");
-					alert.getDialogPane().getStyleClass().add("alertError");
-					Optional<ButtonType> resultado = alert.showAndWait();
-
-					if (resultado.isPresent() && resultado.get() == registrar) {
-						accedirRegistre(e);
-					}
-					labelCorreu.setText(promptCorreu);
-					labelCorreu.setStyle("-fx-text-fill: #e8e8e8;");
-					correutxt.setText("");
-					correutxt.setPromptText(promptCorreu);
-					correutxt.setStyle(
-							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-					labelContrasenya.setText(promptContrasenya);
-					labelContrasenya.setStyle("-fx-text-fill: #e8e8e8;");
-					contrasenyatxt.setText("");
-					contrasenyatxt.setPromptText(promptContrasenya);
-					contrasenyatxt.setStyle(
-							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-					System.out.println("Aqio bajo");
-				} catch (Exception er) {
-					System.out.println("Error fsdf: " + er);
-				}
 			}
 		}
 
@@ -234,48 +186,14 @@ public class LoginController implements Initializable {
 		System.out.println(hashBBDD);
 		System.out.println(contrasenya);
 		try {
-			hashContrasenya = hashContrasenya(contrasenya);
+			hashContrasenya = RegistreController.hashContrasenya(contrasenya);
 
 			if (hashContrasenya.equals(hashBBDD)) {
 				System.out.println("✅ Login correcto");
 				contrasenyaCorrecta = true;
 			} else {
-				try {
+				alerta("La contrasenya no es correcta️", 0, null,"file:imagenes/errorRegistre.png", "login");
 
-					Alert alert = new Alert(AlertType.NONE);
-					alert.setTitle("🚩 Error");
-					alert.getDialogPane().setPrefSize(250, 530);
-
-					Image iconAlert = new Image(getClass().getResourceAsStream("/errorRegistre.png"));
-					ImageView alertView = new ImageView(iconAlert);
-					alertView.setFitWidth(400);
-					alertView.setPreserveRatio(true);
-
-					Label msg = new Label("La contrasenya no es correcta️");
-					msg.setMaxWidth(500);
-					msg.setWrapText(true);
-					msg.getStyleClass().add("msgAlertError");
-
-					VBox content = new VBox(15, alertView, msg);
-					content.setAlignment(Pos.CENTER);
-					content.setPadding(new Insets(20));
-					content.setPrefWidth(500);
-
-					alert.getDialogPane().setContent(content);
-					alert.getDialogPane().getStylesheets()
-							.add(getClass().getResource("application.css").toExternalForm());
-					alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-					Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
-
-					okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
-
-					okButton.getStyleClass().add("boton-hover");
-					alert.getDialogPane().getStyleClass().add("alertError");
-
-					alert.showAndWait();
-				} catch (Exception error) {
-					System.out.println("Error: " + error);
-				}
 			}
 		} catch (NoSuchAlgorithmException e1) {
 			e1.printStackTrace();
@@ -284,17 +202,84 @@ public class LoginController implements Initializable {
 		return contrasenyaCorrecta;
 	}
 
-	public static String hashContrasenya(String password) throws NoSuchAlgorithmException {
-		MessageDigest md = MessageDigest.getInstance("SHA-256");
-		byte[] hashBytes = md.digest(password.getBytes());
+	public void alerta(String msgParam, int op, ActionEvent e, String fotoPath, String controller ) {
+		try {
+			Alert alert = new Alert(AlertType.NONE);
+			alert.setTitle("🚩 Error");
+			alert.getDialogPane().setPrefSize(250, 530);
+			Image iconAlert = new Image(fotoPath);
+			ImageView alertView = new ImageView(iconAlert);
+			alertView.setFitWidth(400);
+			alertView.setPreserveRatio(true);
+			Label msg = new Label(msgParam);
+			msg.setMaxWidth(500);
+			msg.setWrapText(true);
+			msg.getStyleClass().add("msgAlertError");
+			VBox content = new VBox(15, alertView, msg);
+			content.setAlignment(Pos.CENTER);
+			content.setPadding(new Insets(20));
+			content.setPrefWidth(500);
+			alert.getDialogPane().setContent(content);
+			alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			if (op == 0) {
+				alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+				Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+				okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
+				okButton.getStyleClass().add("boton-hover");
+				alert.getDialogPane().getStyleClass().add("alertError");
+				alert.showAndWait();
+			} else {
+				
+				ButtonType login = new ButtonType("Login", ButtonBar.ButtonData.CANCEL_CLOSE);
+				ButtonType registrar = new ButtonType("Registrar", ButtonBar.ButtonData.OK_DONE);
+				if (controller == "registre") {	
+					 registrar = new ButtonType("Registrar", ButtonBar.ButtonData.CANCEL_CLOSE);
+					 login = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
+				}
+				
+				alert.getDialogPane().getButtonTypes().addAll(registrar, login);
 
-		StringBuilder sb = new StringBuilder();
-		for (byte b : hashBytes) {
-			sb.append(String.format("%02x", b));
+				Button registrarButton = (Button) alert.getDialogPane().lookupButton(registrar);
+				registrarButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
+				registrarButton.getStyleClass().add("boton-hover");
+				alert.getDialogPane().getStyleClass().add("alertError");
+				Button loginButton = (Button) alert.getDialogPane().lookupButton(login);
+				loginButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
+				loginButton.getStyleClass().add("boton-hover");
+				alert.getDialogPane().getStyleClass().add("alertError");
+				Optional<ButtonType> resultado = alert.showAndWait();
+
+				if (controller == "login") {
+					if (resultado.isPresent() && resultado.get() == registrar) {
+						accedirRegistre(e);
+					}
+					labelCorreu.setText(promptCorreu);
+					labelCorreu.setStyle("-fx-text-fill: #e8e8e8;");
+					correutxt.setText("");
+					correutxt.setPromptText(promptCorreu);
+					correutxt.setStyle(
+							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+					labelContrasenya.setText(promptContrasenya);
+					labelContrasenya.setStyle("-fx-text-fill: #e8e8e8;");
+					contrasenyatxt.setText("");
+					contrasenyatxt.setPromptText(promptContrasenya);
+					contrasenyatxt.setStyle(
+							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+					System.out.println("Aqio bajo");
+				}else {
+					if (resultado.isPresent() && resultado.get() == login) {
+						RegistreController rcAccedirLogin = new RegistreController();
+						rcAccedirLogin.accedirLogin(e);
+
+					}
+				}
+			}
+
+		} catch (Exception error) {
+			System.out.println("Error: " + error);
 		}
-
-		return sb.toString();
 	}
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
