@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `pixelArt` (
     `id` INT AUTO_INCREMENT,
     `idUsuari` INT NOT NULL,
     `data` DATETIME NOT NULL,
-    `dibuix` LONGTEXT NOT NULL,
+    `dibuix` LONGBLOB NOT NULL,
     PRIMARY KEY (`id`),
     fOREIGN KEY (`idUsuari`) REFERENCES `usuari`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `pescaMines` (
     `id` INT AUTO_INCREMENT,
     `idUsuari` INT NOT NULL,
     `data` DATETIME NOT NULL,
-    `sesionJuego` LONGTEXT NOT NULL,
+    `sesionJuego` LONGBLOB NOT NULL,
     `temps` DOUBLE NOT NULL,
     `acabat` VARCHAR(10) NOT NULL,
     PRIMARY KEY (`id`),
