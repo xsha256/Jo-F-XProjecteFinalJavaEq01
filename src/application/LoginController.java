@@ -1,5 +1,15 @@
 package application;
 
+import java.io.IOException;
+import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,15 +34,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
@@ -142,13 +143,13 @@ public class LoginController implements Initializable {
 
 		try {
 
-//			Class.forName("org.mariadb.jdbc.Driver");
-//			String urlBaseDades = "jdbc:mariadb://localhost:3308/jofx";
-//			String user = "root";
-//			String pwd = "root";
-			//Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
+			Class.forName("org.mariadb.jdbc.Driver");
+			String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
+			String user = "root";
+			String pwd = "";
+			Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 			
-			Connection c = ConexionBBDD.conectar();
+//			Connection c = ConexionBBDD.conectar();
 			String sentencia = "SELECT email FROM usuari WHERE email = ?";
 			PreparedStatement s = c.prepareStatement(sentencia);
 			s.setString(1, email);
@@ -159,7 +160,7 @@ public class LoginController implements Initializable {
 				}
 			}
 			if (valid) {
-				c = ConexionBBDD.conectar();
+//				c = ConexionBBDD.conectar();
 				sentencia = "SELECT contrasenya FROM usuari WHERE email = ?";
 				s = c.prepareStatement(sentencia);
 				s.setString(1, email);

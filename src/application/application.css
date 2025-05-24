@@ -138,3 +138,18 @@
   -fx-border-width: 1px;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 6, 0, 0, 5);
 }
+
+alertInfo {
+    -fx-background-color: #ddffdd;
+}
+
+#alertDarseDeBaja .header-panel .label {
+    -fx-text-fill: #e8e8e8;
+}
+
+#alertDarseDeBaja .header-panel{
+    -fx-background-image: url("../../imagenes/fons2.png");
+}
+
+
+

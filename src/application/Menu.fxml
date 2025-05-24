@@ -31,8 +31,8 @@
                   <Region HBox.hgrow="ALWAYS" />
                   <MenuButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="boto-perfil" textAlignment="CENTER">
                     <items>
-                      <MenuItem mnemonicParsing="false" styleClass="menuitem-perfil" text="Donar-se de baixa" />
-                      <MenuItem mnemonicParsing="false" styleClass="menuitem-perfil" text="Tancar sessió" />
+                      <MenuItem fx:id="itemBaixa" mnemonicParsing="false" onAction="#actionBaja" styleClass="menuitem-perfil" text="Donar-se de baixa" />
+                      <MenuItem fx:id="itemLogout" mnemonicParsing="false" onAction="#actionLogout" styleClass="menuitem-perfil" text="Tancar sessió" />
                     </items>
                      <graphic>
                         <ImageView fx:id="imatgePerfilUsuari" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
