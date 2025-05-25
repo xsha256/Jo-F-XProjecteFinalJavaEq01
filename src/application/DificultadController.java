@@ -26,10 +26,51 @@ public class DificultadController implements Initializable {
 	private VBox root;
 	@FXML
 	private ToggleGroup opcionesGrupo;
-
+	@FXML
+	private Button botoEnrere;
+	@FXML Button jugar;
+	
+	//Variables para guardar estilos originales
+    private String jugarStyleOriginal;
+    private String botoEnrereStyleOriginal;
+	
+	
+	public void anarEnrere(ActionEvent e) {
+		//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
+		Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        ventanaActual.close();
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+		//Guardamos estilos originales para poder restaurarlos luego
+        jugarStyleOriginal = jugar.getStyle();
+        botoEnrereStyleOriginal = botoEnrere.getStyle();
+        
+
+			//boton jugar
+		 	jugar.setOnMouseEntered(e -> {
+		        jugar.setStyle(jugarStyleOriginal +"; -fx-background-color: #159a91; -fx-cursor: hand;");
+		        jugar.setScaleX(1.1); 
+		        jugar.setScaleY(1.1);
+		    });
+		    jugar.setOnMouseExited(e -> {
+		        jugar.setStyle(jugarStyleOriginal+ "; -fx-cursor: default;"); // vuelve al estilo original
+		        jugar.setScaleX(1);
+		        jugar.setScaleY(1);
+		    });
+
+		    //boton botoEnrere
+		    botoEnrere.setOnMouseEntered(e -> {
+		        botoEnrere.setStyle(jugarStyleOriginal +"; -fx-background-color: #53808c; -fx-cursor: hand;");
+		        botoEnrere.setScaleX(1.1);
+		        botoEnrere.setScaleY(1.1);
+		    });
+		    botoEnrere.setOnMouseExited(e -> {
+		        botoEnrere.setStyle(botoEnrereStyleOriginal+ "; -fx-cursor: default;");
+		        botoEnrere.setScaleX(1);
+		        botoEnrere.setScaleY(1);
+		    });
 	}
 
 	public void canviaEscena(ActionEvent e) {
@@ -41,6 +82,8 @@ public class DificultadController implements Initializable {
 				VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 				
 				Scene escena2 = new Scene(root2); //1000,800
+				escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);

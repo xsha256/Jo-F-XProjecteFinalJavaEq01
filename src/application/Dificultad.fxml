@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DificultadController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DificultadController">
 	<children>
 		<HBox alignment="CENTER" prefHeight="132.0" prefWidth="600.0">
 			<children>
@@ -56,7 +56,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="100.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" text="Enrere" textFill="#141414">
+            <Button fx:id="botoEnrere" mnemonicParsing="false" onAction="#anarEnrere" prefHeight="20.0" prefWidth="100.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" text="Enrere" textFill="#141414">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
