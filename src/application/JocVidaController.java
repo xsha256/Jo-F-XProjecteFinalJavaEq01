@@ -71,7 +71,7 @@ public class JocVidaController implements Initializable {
 			} else if (opcion.equals("Mitjana")) {
 				tabla = new Tabla(20, 75, 100);
 			} else {
-				tabla = new Tabla(30, 200, 300);
+				tabla = new Tabla(28, 200, 300);//30,200,300
 			}
 
 			FILAS = tabla.getLongMatriz();
@@ -187,14 +187,12 @@ public class JocVidaController implements Initializable {
 			Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	        ventanaActual.close();
 	        
-	        
 			VBox root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
 			Scene escena2 = new Scene(root2);
 			Stage window = new Stage();
 			window.setScene(escena2);
-			window.setTitle("Elección de Dificultad");
+			window.setTitle("Elecció de Dificultat");
 			window.show();
-			
 			
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -206,12 +204,17 @@ public class JocVidaController implements Initializable {
 		try {
 			continuar=false;
 			tabla.reiniciar();
+			//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
+			Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	        ventanaActual.close();
+			
 			VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 			Scene escena2 = new Scene(root2);
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
-			window.setTitle("Juego de la Vida");
+			window.setTitle("Joc De La Vida");
 			window.show();
+			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

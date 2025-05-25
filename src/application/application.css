@@ -22,9 +22,9 @@
 }
 
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
-
+/*VENTANA MENU------------------------------------------------------------------------------------------ */
 /* fondo para todo */
-.root {
+.root{
   /*-fx-background-color: #021f21;*/
   -fx-background-image: url("../../imagenes/fons2.png");
   -fx-background-repeat: no-repeat;
@@ -144,13 +144,18 @@ alertInfo {
     -fx-background-color: #ddffdd;
 }
 
-#alertDarseDeBaja .header-panel .label {
-    -fx-text-fill: #e8e8e8;
+
+/*JOC DE LA VIDA---------------------------------------------------------------------------------------------------------------- */
+/*Los botones de dentro del juego de la vida */
+.botonesJocVida:hover{
+  -fx-cursor: hand;
+  -fx-scale-x: 1.1;
+  -fx-scale-y: 1.1;
+	
 }
 
-#alertDarseDeBaja .header-panel{
-    -fx-background-image: url("../../imagenes/fons2.png");
+.fondoJocVida{
+  -fx-background-image: url("../../imagenes/fons2.png");
 }
-
 
 

@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -87,9 +88,8 @@ public class MenuController implements Initializable {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+				
 	}
-	
 	
 	
 	//al pulsar esto, se borra la cuenta del usuario
@@ -108,16 +108,18 @@ public class MenuController implements Initializable {
 	    alert.getButtonTypes().setAll(botAceptar,botCancelar);//añadir los botones
 	    
 	    DialogPane dialogPane = alert.getDialogPane();
-	    //fondo
-//	    dialogPane.setStyle("-fx-background-color: red;");
 
 	    //color texto
 		 Node header = dialogPane.lookup(".header-panel");
-		 header.setStyle("-fx-text-fill: white;");
-		 
+		 header.setStyle("-fx-background-color: #e8e8e8;");
+
 		 Node content = dialogPane.lookup(".content");
-		 content.setStyle("-fx-text-fill: white;");
-		
+		 content.setStyle("-fx-text-fill: white;"+"-fx-background-color: #0d262e;");
+		 
+		 Node buttonBar = dialogPane.lookup(".button-bar");
+		 buttonBar.setStyle("-fx-background-color: #0d262e;");
+
+		 
 		 alert.getDialogPane().getStylesheets().add(
 				    getClass().getResource("application.css").toExternalForm()
 		);
@@ -128,14 +130,16 @@ public class MenuController implements Initializable {
 	        "-fx-text-fill: #e8e8e8;" +           
 	        "-fx-font-weight: bold;"
 	    );
-	    
+	    botonAceptar.setCursor(Cursor.HAND);
+
 	    Button botonCancelar = (Button) alert.getDialogPane().lookupButton(botCancelar);
 	    botonCancelar.setStyle(
 	        "-fx-background-color: #f44336;" +     
 	        "-fx-text-fill: #e8e8e8;" +
 	        "-fx-font-weight: bold;"
 	    );
-	    
+	    botonCancelar.setCursor(Cursor.HAND);
+
 	    Optional<ButtonType> resultado = alert.showAndWait();
 
 	    if(resultado.isPresent() && resultado.get() == botAceptar) {//si pulsa ok -> adiós cuenta. Si pulsa no, pues nada
