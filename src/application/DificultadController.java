@@ -40,11 +40,13 @@ public class DificultadController implements Initializable {
 			try {
 				VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 				
-				Scene escena2 = new Scene(root2, 1000, 800);
+				Scene escena2 = new Scene(root2); //1000,800
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);
 				window.setTitle("Juego de la Vida");
+		        window.setMaximized(true);//lo abrimos en maximizado
+
 				window.show();
 			} catch (IOException e1) {
 				e1.printStackTrace();

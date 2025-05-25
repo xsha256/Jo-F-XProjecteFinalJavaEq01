@@ -114,6 +114,8 @@ public class LoginController implements Initializable {
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
 				window.setScene(nuevaEscena);
+		        window.setMaximized(true);//abrimos maximizado
+
 				window.show();
 
 			} catch (IOException ex) {
@@ -143,13 +145,13 @@ public class LoginController implements Initializable {
 
 		try {
 
-			Class.forName("org.mariadb.jdbc.Driver");
-			String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
-			String user = "root";
-			String pwd = "";
-			Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
+//			Class.forName("org.mariadb.jdbc.Driver");
+//			String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
+//			String user = "root";
+//			String pwd = "";
+//			Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 			
-//			Connection c = ConexionBBDD.conectar();
+			Connection c = ConexionBBDD.conectar();
 			String sentencia = "SELECT email FROM usuari WHERE email = ?";
 			PreparedStatement s = c.prepareStatement(sentencia);
 			s.setString(1, email);
@@ -160,7 +162,7 @@ public class LoginController implements Initializable {
 				}
 			}
 			if (valid) {
-//				c = ConexionBBDD.conectar();
+				c = ConexionBBDD.conectar();
 				sentencia = "SELECT contrasenya FROM usuari WHERE email = ?";
 				s = c.prepareStatement(sentencia);
 				s.setString(1, email);

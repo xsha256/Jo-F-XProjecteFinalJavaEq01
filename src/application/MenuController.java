@@ -246,11 +246,11 @@ public class MenuController implements Initializable {
 	private void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
 	    try {
 	        Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
-	        Scene scene = new Scene(root);
+	        Scene scene = new Scene(root,600,500);//ponemos la medida ya que es una ventana con poca información anchoXalto
 	        Stage window = new Stage();
 	        window.setScene(scene);
 	        window.setTitle(tituloVentana);
-	        window.setMaximized(true);
+//	        window.setMaximized(true);
 	        
 	        window.initModality(Modality.WINDOW_MODAL);
 	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();

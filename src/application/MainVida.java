@@ -11,9 +11,10 @@ public class MainVida extends Application {
     public void start(Stage primaryStage) {
         try {
             VBox root = (VBox) FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-            Scene scene = new Scene(root, 600, 500);
+            Scene scene = new Scene(root,600,500);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
+            
             primaryStage.show();
 
         } catch (Exception e) {
