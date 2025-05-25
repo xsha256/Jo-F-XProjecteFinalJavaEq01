@@ -96,7 +96,7 @@ public class JocVidaController implements Initializable {
 
 			Thread hilo = new Thread(() -> {
 				try {
-					while (continuar) {
+					while (true) {
 						synchronized (lock) {
 							while (!continuar) {
 								lock.wait();
@@ -112,7 +112,6 @@ public class JocVidaController implements Initializable {
 							continuar = false;
 						}
 					}
-
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -195,6 +194,7 @@ public class JocVidaController implements Initializable {
 
 	public void reiniciar(ActionEvent e) {
 		try {
+			continuar=false;
 			tabla.reiniciar();
 			VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 			Scene escena2 = new Scene(root2, 1000, 800);
