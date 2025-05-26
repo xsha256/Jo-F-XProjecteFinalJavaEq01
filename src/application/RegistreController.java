@@ -26,7 +26,6 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
@@ -196,11 +195,6 @@ public class RegistreController implements Initializable {
 
 		try {
 
-//			Class.forName("org.mariadb.jdbc.Driver");
-//			String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
-//			String user = "root";
-//			String pwd = "";
-//			Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 
 			Connection c = ConexionBBDD.conectar();
 			boolean valid = comprobarEmail(email, c);
@@ -212,7 +206,6 @@ public class RegistreController implements Initializable {
 				File imagen = new File(img);
 				FileInputStream fis = new FileInputStream(imagen);
 				String contrasenyaCifString = hashContrasenya(contrasenya);
-//				Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 				String sentencia = "INSERT INTO usuari(nom, cognoms, email, imatge, contrasenya, poblacio) VALUES (?,?,?,?,?,?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
 				s.setString(1, nom);
@@ -238,7 +231,6 @@ public class RegistreController implements Initializable {
 		boolean valid = true;
 		try {
 
-			//Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 			String sentencia = "SELECT email FROM usuari WHERE email = ?";
 			PreparedStatement s = c.prepareStatement(sentencia);
 			s.setString(1, email);
