@@ -39,6 +39,7 @@ public class WordleLoginController implements Initializable {
 			 window.setScene(escena2);
 			 window.setTitle("Wordle");
 			 window.setMaximized(true);
+
 			 window.show();
 		} catch (IOException error) {
 			error.printStackTrace();
