@@ -144,6 +144,7 @@ public class LoginController implements Initializable {
 
 		try {
 
+
 			
 			Connection c = ConexionBBDD.conectar();
 			String sentencia = "SELECT email FROM usuari WHERE email = ?";

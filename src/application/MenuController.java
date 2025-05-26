@@ -72,6 +72,7 @@ public class MenuController implements Initializable {
 			 this.c = ConexionBBDD.conectar();
 
 
+
 			//----------------------------------------------------------------------------
 			
 			//llamamos a la funcion que comprueba el nombre de usuario
@@ -138,6 +139,7 @@ public class MenuController implements Initializable {
 	        "-fx-font-weight: bold;"
 	    );
 	    botonCancelar.setCursor(Cursor.HAND);
+
 
 
 	    Optional<ButtonType> resultado = alert.showAndWait();

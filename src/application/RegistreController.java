@@ -197,7 +197,6 @@ public class RegistreController implements Initializable {
 
 
 
-
 			Connection c = ConexionBBDD.conectar();
 
 			boolean valid = comprobarEmail(email, c);
