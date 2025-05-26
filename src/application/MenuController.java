@@ -69,11 +69,11 @@ public class MenuController implements Initializable {
 			// cargar el driver de MariaDB... con una vez sobra creo :) 
 	        Class.forName("org.mariadb.jdbc.Driver");
 	        
-			//Conexion BBDD--------------------------------------------------------------
-			String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofx";
-			String usuario = "root";
-			String contra = "";
-			this.c = DriverManager.getConnection(urlBaseDatos, usuario, contra);
+//			//Conexion BBDD--------------------------------------------------------------
+//			String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofx";
+//			String usuario = "root";
+//			String contra = "";
+			this.c = ConexionBBDD.conectar();
 			//----------------------------------------------------------------------------
 			
 			//llamamos a la funcion que comprueba el nombre de usuario
