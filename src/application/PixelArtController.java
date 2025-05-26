@@ -51,12 +51,12 @@ public class PixelArtController implements Initializable {
 	private int grandariaCelda;
 	private Mode mode = Mode.PINTAR;
 	private Casella [][] taulellCaselles;
-	private String urlBaseDades=;
-	private String usuari=;
-	private contrasenya=;
+	//private String urlBaseDades=;
+	//private String usuari=;
+	//private contrasenya=;
 
-	public void guardarBB(ActionEvent e) {
-		try {
+	public void guardarPNG(ActionEvent e) {
+		/*try {
 
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -84,14 +84,14 @@ public class PixelArtController implements Initializable {
             s.close();
             c.close();
 
-            /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Aviso");
             alerta.setHeaderText(null);
             alerta.setContentText("Partida guardada con éxito");
-            alerta.showAndWait();*/
+            alerta.showAndWait();
         } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        }
+        }*/
 	}
 	
 	//TORNA A LA PANTALLA DE SELECCIÓ DE MIDA
