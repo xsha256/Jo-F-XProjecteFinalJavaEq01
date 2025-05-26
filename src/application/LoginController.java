@@ -143,6 +143,7 @@ public class LoginController implements Initializable {
 		boolean valid = false;
 
 		try {
+
 			
 			Connection c = ConexionBBDD.conectar();
 			String sentencia = "SELECT email FROM usuari WHERE email = ?";
@@ -155,7 +156,9 @@ public class LoginController implements Initializable {
 				}
 			}
 			if (valid) {
-				c = ConexionBBDD.conectar();
+
+  				c = ConexionBBDD.conectar();
+
 				sentencia = "SELECT contrasenya FROM usuari WHERE email = ?";
 				s = c.prepareStatement(sentencia);
 				s.setString(1, email);
@@ -187,7 +190,7 @@ public class LoginController implements Initializable {
 			hashContrasenya = RegistreController.hashContrasenya(contrasenya);
 
 			if (hashContrasenya.equals(hashBBDD)) {
-				System.out.println("✅ Login correcto");
+				System.out.println("Login correcto");
 				contrasenyaCorrecta = true;
 			} else {
 				alerta("La contrasenya no es correcta️", 0, null,"file:imagenes/errorRegistre.png", "login");

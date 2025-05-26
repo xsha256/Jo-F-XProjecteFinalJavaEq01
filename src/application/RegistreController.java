@@ -196,7 +196,10 @@ public class RegistreController implements Initializable {
 		try {
 
 
+
+
 			Connection c = ConexionBBDD.conectar();
+
 			boolean valid = comprobarEmail(email, c);
 			if (valid) {
 				if (img.equals("Pujar imatge")) {
@@ -206,6 +209,7 @@ public class RegistreController implements Initializable {
 				File imagen = new File(img);
 				FileInputStream fis = new FileInputStream(imagen);
 				String contrasenyaCifString = hashContrasenya(contrasenya);
+
 				String sentencia = "INSERT INTO usuari(nom, cognoms, email, imatge, contrasenya, poblacio) VALUES (?,?,?,?,?,?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
 				s.setString(1, nom);

@@ -1,16 +1,5 @@
 package application;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +21,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 	//atributos
@@ -67,13 +66,12 @@ public class MenuController implements Initializable {
 		
 		try {
 			// cargar el driver de MariaDB... con una vez sobra creo :) 
-	        Class.forName("org.mariadb.jdbc.Driver");
+//	        Class.forName("org.mariadb.jdbc.Driver");
 	        
-//			//Conexion BBDD--------------------------------------------------------------
-//			String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofx";
-//			String usuario = "root";
-//			String contra = "";
-			this.c = ConexionBBDD.conectar();
+
+			 this.c = ConexionBBDD.conectar();
+
+
 			//----------------------------------------------------------------------------
 			
 			//llamamos a la funcion que comprueba el nombre de usuario
@@ -132,6 +130,7 @@ public class MenuController implements Initializable {
 	    );
 	    botonAceptar.setCursor(Cursor.HAND);
 
+
 	    Button botonCancelar = (Button) alert.getDialogPane().lookupButton(botCancelar);
 	    botonCancelar.setStyle(
 	        "-fx-background-color: #f44336;" +     
@@ -139,6 +138,7 @@ public class MenuController implements Initializable {
 	        "-fx-font-weight: bold;"
 	    );
 	    botonCancelar.setCursor(Cursor.HAND);
+
 
 	    Optional<ButtonType> resultado = alert.showAndWait();
 
