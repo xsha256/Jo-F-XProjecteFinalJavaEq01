@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -51,34 +52,31 @@ public class PixelArtController implements Initializable {
 	private int grandariaCelda;
 	private Mode mode = Mode.PINTAR;
 	private Casella [][] taulellCaselles;
-	//private String urlBaseDades=;
-	//private String usuari=;
-	//private contrasenya=;
 
+	//ESTA FUNCIO ES GUARDARBDD
 	public void guardarPNG(ActionEvent e) {
-		/*try {
+		try {
 
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(partida);
+            oos.writeObject(taulellCaselles);
             oos.close();
-            byte[] datosSerializados = baos.toByteArray();
+            byte[] imatgeSerialitzada = baos.toByteArray();
 
-            Date hoy = new Date();
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String fecha = formato.format(hoy);
+            Date diaDeJoc = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String data = format.format(diaDeJoc);
 
-            Class.forName("org.mariadb.jdbc.Driver");
-            Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
+           
+            //ESTO PA CONNECTAR DESPRES JA TREBALLAR NORMAL 
+            Connection c= ConexionBBDD.conectar();
 
-            String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesionJuego, temps, acabat) VALUES (?, ?, ?, ?, ?)";
+            String sentencia = "INSERT INTO pixelArt (idUsuari, data, dibuix) VALUES (?, ?, ?)";
             PreparedStatement s = c.prepareStatement(sentencia);
             s.setInt(1, 1);
-            s.setString(2, fecha);
-            s.setBytes(3, datosSerializados);
-            s.setDouble(4, (minutos + segundos / 60.0));
-            s.setString(5, "Si");
+            s.setString(2, data);
+            s.setBytes(3, imatgeSerialitzada);
             s.executeUpdate();
 
             s.close();
@@ -89,9 +87,9 @@ public class PixelArtController implements Initializable {
             alerta.setHeaderText(null);
             alerta.setContentText("Partida guardada con éxito");
             alerta.showAndWait();
-        } catch (IOException | ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }*/
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
 	}
 	
 	//TORNA A LA PANTALLA DE SELECCIÓ DE MIDA
@@ -134,15 +132,14 @@ public class PixelArtController implements Initializable {
 		taulell = dades.getTaulell();
 		
 		//REVISAR ESTO
-		if (taulell.getAmple() <= 64 && taulell.getAltura() <= 32) {
-			this.grandariaCelda = 17;
-		} else if (taulell.getAmple() <= 128 && taulell.getAltura() <= 64) {
-			this.grandariaCelda = 12;
-		} else if (taulell.getAmple() < 256 && taulell.getAltura() <= 128) {
-			this.grandariaCelda = 9;
-		} else if (taulell.getAltura()>128){
-			this.grandariaCelda = 5;
+		if (taulell.getAmple() <= 12 && taulell.getAltura() <= 12) {
+			this.grandariaCelda = 20;
+		} else if (taulell.getAmple() <= 32 && taulell.getAltura() <= 32) {
+			this.grandariaCelda = 15;
+		} else {
+			this.grandariaCelda = 10;
 		}
+		
 		this.files = taulell.getAltura();
 		this.columnes = taulell.getAmple();
 		

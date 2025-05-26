@@ -6,10 +6,10 @@ public class Taulell {
 	private int altura;
 
 	public int getAmple() {
-		return ample;
+		return this.ample;
 	}
 	public int getAltura() {
-		return altura;
+		return this.altura;
 	}
 	public void setAmple(int ample) {
 		this.ample = ample;

@@ -66,17 +66,9 @@ public class PixelArtIniciController implements Initializable {
 				alt = 32;
 			}
 
-			if (ample > 138) {
-				amplada.setText("138");
-				ample = 138;
-			}
-
-			if (alt > 64) {
-				altura.setText("64");
-				alt = 64;
-			}
 			taulell.setAmple(ample);
 			taulell.setAltura(alt);
+			
 			DadesPixelArt.getInstancia().setTaulell(taulell);
 			Parent root = FXMLLoader.load(getClass().getResource("PixelArtFXML.fxml"));
 			Scene escena2 = new Scene(root);
@@ -159,12 +151,10 @@ public class PixelArtIniciController implements Initializable {
 		int ample = Integer.parseInt(amplada.getText());
 		int alt = Integer.parseInt(altura.getText());
 		if (ample > 128) {
-			amplada.setText("128");
 			ample = 128;
 		}
 
 		if (alt > 64) {
-			altura.setText("64");
 			alt = 64;
 		}
 		taulell = new Taulell(ample, alt);
