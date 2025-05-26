@@ -8,9 +8,9 @@ public class  ConexionBBDD {
 		
 		try {
 		Class.forName("org.mariadb.jdbc.Driver");
-		String urlBaseDades = "jdbc:mariadb://localhost:3308/jofx";
+		String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
 		String user = "root";
-		String pwd = "root";
+		String pwd = "";
 		Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 		return c;
 		} catch (Exception e) {

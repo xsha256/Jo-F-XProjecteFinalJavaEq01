@@ -1,11 +1,16 @@
 package application;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -15,10 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class JocVidaController implements Initializable {
 
@@ -183,18 +184,41 @@ public class JocVidaController implements Initializable {
 		try {
 			tabla.reiniciar();
 			continuar=false;
+			
+		    try {
+//		    	//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
+//				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+//		        ventanaActual.close();
+		    	
+		        Parent root = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
+		        Scene scene = new Scene(root,600,500);//ponemos la medida ya que es una ventana con poca información anchoXalto
+		        Stage window = new Stage();
+		        window.setScene(scene);
+		        window.setTitle("Elecció Dificultad");
+//		        window.setMaximized(true);
+		        
+		        window.initModality(Modality.WINDOW_MODAL);
+		        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		        window.initOwner(menuStage);
+		        window.showAndWait();
+		    } catch (IOException ex) {
+		        ex.printStackTrace();
+		    }
+			
+			/*
 			//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
 			Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	        ventanaActual.close();
 	        
-			VBox root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-			Scene escena2 = new Scene(root2);
+			Parent root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
+			Scene escena2 = new Scene(root2,600,500);
 			Stage window = new Stage();
 			window.setScene(escena2);
 			window.setTitle("Elecció de Dificultat");
 			window.show();
+			*/
 			
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		
@@ -208,16 +232,13 @@ public class JocVidaController implements Initializable {
 			Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	        ventanaActual.close();
 			
-			VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
+	        Parent root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 			Scene escena2 = new Scene(root2);
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Joc De La Vida");
+			window.show();
 			
-			window.initModality(Modality.WINDOW_MODAL);
-	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-	        window.initOwner(menuStage);
-	        window.showAndWait();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

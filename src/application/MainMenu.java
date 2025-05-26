@@ -10,7 +10,7 @@ public class MainMenu extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-
+			
 			HBox root = (HBox) FXMLLoader.load(getClass().getResource("Menu.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
