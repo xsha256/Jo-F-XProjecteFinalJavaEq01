@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -41,31 +42,56 @@ public class PixelArtIniciController implements Initializable {
 
 	private Taulell taulell;
 
-	// funcions
+	//COMPROVA QUE LA ENTRADA SIGUEN NUMEROS I MULTIPLES DE 16
 	public boolean comprovarEntrada(String s1, String s2) {
 
+	
 		if (s1.matches("\\d+") && s2.matches("\\d+")) {
-			return true;
+			int ample = Integer.parseInt(s1);
+	        int alt = Integer.parseInt(s2);
+	        //MULTIPLES DE 16, QUE SI NO LA QUADRICULA ES PETA
+			return ample % 16 == 0 && alt % 16 == 0 && ample <= 128 && alt <= 64;
 		} else {
 			return false;
 		}
 	}
 
+	//FA UN RECULL DE LES DADES PASSADES PER SETTEXT, LES COMPROVA I CREA EL NOU PANELL
 	public void jugar(ActionEvent e) {
+		
 		try {
+			
+			 boolean valorsValids = comprovarEntrada(amplada.getText(), altura.getText());
+		        int ample = 0;
+		        int alt = 0;
+		        boolean ajustat = false;
 
-			boolean valorsValids = comprovarEntrada(amplada.getText(), altura.getText());
-			int ample = 0;
-			int alt = 0;
+		        if (valorsValids) {
+		            ample = Integer.parseInt(amplada.getText());
+		            alt = Integer.parseInt(altura.getText());
 
-			if (valorsValids == true) {
-				ample = Integer.parseInt(amplada.getText());
-				alt = Integer.parseInt(altura.getText());
-			} else {
-				ample = 32;
-				alt = 32;
-			}
+		            if (ample > 128 || ample==0) {
+		                ample = 128;
+		                ajustat = true;
+		            }
 
+		            if (alt > 64 || alt==0) {
+		                alt = 64;
+		                ajustat = true;
+		            }
+
+		            if (ajustat) {
+		                Alert alerta = new Alert(Alert.AlertType.WARNING);
+		                alerta.setTitle("Límit excedit");
+		                alerta.setHeaderText(null);
+		                alerta.setContentText("Els valors màxims són 128 d'amplada i 64 d'altura. S'han ajustat automàticament.");
+		                alerta.showAndWait();
+		            }
+
+		        } else {
+		            ample = 32;
+		            alt = 32;
+		        }
 			taulell.setAmple(ample);
 			taulell.setAltura(alt);
 			
@@ -150,13 +176,11 @@ public class PixelArtIniciController implements Initializable {
 
 		int ample = Integer.parseInt(amplada.getText());
 		int alt = Integer.parseInt(altura.getText());
-		if (ample > 128) {
-			ample = 128;
-		}
+		
+		if (ample > 128) ample = 128;
 
-		if (alt > 64) {
-			alt = 64;
-		}
+		if (alt > 64) alt = 64;
+		
 		taulell = new Taulell(ample, alt);
 
 		DadesPixelArt.getInstancia().setTaulell(taulell);

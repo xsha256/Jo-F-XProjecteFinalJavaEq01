@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,9 +82,9 @@ public class PixelArtController implements Initializable {
             c.close();
 
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Aviso");
+            alerta.setTitle("Avis");
             alerta.setHeaderText(null);
-            alerta.setContentText("Partida guardada con éxito");
+            alerta.setContentText("Dibuix guardat satisfactoriament");
             alerta.showAndWait();
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -132,7 +131,7 @@ public class PixelArtController implements Initializable {
 		taulell = dades.getTaulell();
 		
 		//REVISAR ESTO
-		if (taulell.getAmple() <= 12 && taulell.getAltura() <= 12) {
+		if (taulell.getAmple() <= 16 && taulell.getAltura() <= 16) {
 			this.grandariaCelda = 20;
 		} else if (taulell.getAmple() <= 32 && taulell.getAltura() <= 32) {
 			this.grandariaCelda = 15;
@@ -172,7 +171,9 @@ public class PixelArtController implements Initializable {
 	private Label crearPanell(String colorBase, int fila, int col) {
 		Label casella = new Label();
 		casella.setPrefSize(grandariaCelda, grandariaCelda);
-		casella.setStyle("-fx-background-color:" + colorBase + ";");
+		casella.setMinSize(grandariaCelda, grandariaCelda);
+		casella.setMaxSize(grandariaCelda, grandariaCelda);
+		casella.setStyle("-fx-background-color:" + colorBase + "; -fx-alignment: center;");
 
 		// drag enter pane
 		casella.setOnMouseClicked(e -> {
