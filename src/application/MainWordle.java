@@ -19,8 +19,11 @@ public class MainWordle extends Application {
 			VBox escena = (VBox)FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
 			Scene scene = new Scene(escena);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			escena.prefWidthProperty().bind(escena.widthProperty());
+			escena.prefHeightProperty().bind(escena.heightProperty());
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
+			
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
