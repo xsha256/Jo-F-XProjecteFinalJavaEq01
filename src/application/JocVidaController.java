@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -212,8 +213,11 @@ public class JocVidaController implements Initializable {
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Joc De La Vida");
-			window.show();
 			
+			window.initModality(Modality.WINDOW_MODAL);
+	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	        window.initOwner(menuStage);
+	        window.showAndWait();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
