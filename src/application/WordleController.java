@@ -70,7 +70,9 @@ public class WordleController implements Initializable {
 				// final per a utilitzar-la en la lambda
 				// final int filaActual = fila;// guardem la fila en una variable final per a
 				// utilitzar-la en la lambda
-
+				 celda.setEditable(true); // No deixar escriure per defecte
+				 celda.setFocusTraversable(false);// Opcional (per evitar focus si fan clic a mà):
+				 celda.requestFocus();
 				/* LIMITEM A UNA SOLA LLETRA I QUE ESTIGA EN MAYUSCULES */
 				celda.setTextFormatter(new TextFormatter<>(e -> {
 					String text = e.getControlNewText();
@@ -223,7 +225,7 @@ public class WordleController implements Initializable {
 		if (fila < 5) {
 			caselles[fila + 1][0].requestFocus();
 		} else {
-			// Última fila: el foco se queda en la última casilla o donde quieras
+			// Última fila: el foco se queda en la última casilla
 			caselles[fila][4].requestFocus();
 		}
 		
@@ -329,7 +331,6 @@ public class WordleController implements Initializable {
 		}
 		
 		//resetejar a 0 si la linea es completa i es pasa a la següent
-		filaActual++;
 		columnaActual = 0;
 
 	}
