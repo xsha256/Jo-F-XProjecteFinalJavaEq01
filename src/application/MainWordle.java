@@ -21,9 +21,10 @@ public class MainWordle extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			escena.prefWidthProperty().bind(escena.widthProperty());
 			escena.prefHeightProperty().bind(escena.heightProperty());
-			primaryStage.setMaximized(true);
+
 			primaryStage.setScene(scene);
-			
+			primaryStage.setMaximized(true);
+			primaryStage.setScene(scene);			
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

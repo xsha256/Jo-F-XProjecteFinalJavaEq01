@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.Window;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,20 +46,78 @@ public class WordleController implements Initializable {
 	private GridPane grid1; // tabla de paraules
 	@FXML
 	private GridPane grid2;// teclat /*cambiar el nom de id del teclat*/
-	
-	@FXML
-	private VBox escena;//log
 
-	private TextField[][] caselles = new TextField[6][5];
+	@FXML
+	private VBox escena;// log
+	@FXML
+	private HBox root;
+
+	private Label[][] caselles = new Label[6][5];
 	private String paraula = paraulaAleatoria();
 	private int columnaActual = 0;
 	private int filaActual = 0;
+	private Stage finestra;
+
+	private EventHandler<KeyEvent> tecla = new EventHandler<KeyEvent>() {
+
+		@Override
+		public void handle(KeyEvent e) {
+			String lletra = e.getText().toUpperCase();
+			KeyCode tecla = e.getCode();
+
+			//[comprovació extra] per assegurar que no s'accedeiz a una fila o columna inexistent
+			if (filaActual >= caselles.length || columnaActual >= caselles[0].length) {
+			    return;
+			}
+
+			
+			
+			if(lletra.matches("[A-Z]") && columnaActual <5) {// Per a que sols es puga escriurer lletres en majuscula
+				caselles[filaActual][columnaActual].setText(lletra);
+				if (columnaActual<4) {
+					columnaActual++; 
+				}
+
+			}else if (tecla == KeyCode.BACK_SPACE && columnaActual >=0) {//esborrar
+				borrarLletres();
+				
+			}else if (tecla == KeyCode.ENTER && columnaActual==4) {
+				boolean filaCompleta = true;
+				for (int i = 0; i < 5; i++) {
+					String casellesText = caselles[filaActual][i].getText();// agafa el text de la casella
+					if (casellesText == null || lletra.isEmpty()) {// si esta buit es false i no podra pasar de
+																	// linea
+						filaCompleta = false;
+						break;
+					}
+				}
+
+				if (filaCompleta) {
+					comprovarFila(filaActual);// enter
+					filaActual++;// pasem a la fila de baix
+					columnaActual = 0;
+				}
+				if (filaActual==4 && columnaActual==4) {
+					filaActual=0;
+					columnaActual=0;
+				}
+				return;
+
+			}
+
+			
+		}
+	};
 
 	public void initialize(URL arg0, ResourceBundle arg1) {// creacio de caselles
+		Platform.runLater(() -> {
+			finestra = (Stage) root.getScene().getWindow();
+			finestra.addEventFilter(KeyEvent.KEY_PRESSED, tecla);
+		});
 
 		for (int fila = 0; fila < 6; fila++) {
 			for (int columna = 0; columna < 5; columna++) {
-				TextField celda = new TextField();
+				Label celda = new Label();
 				// donar mida i forma a les caselles
 				celda.setPrefWidth(65);
 				celda.setPrefHeight(65);
@@ -66,55 +126,9 @@ public class WordleController implements Initializable {
 				celda.setAlignment(Pos.CENTER);
 				celda.setId("escriu");
 
-				// final int columnaActual = columna; // guardem la columna en una variable
-				// final per a utilitzar-la en la lambda
-				// final int filaActual = fila;// guardem la fila en una variable final per a
-				// utilitzar-la en la lambda
-				 celda.setEditable(true); // No deixar escriure per defecte
-				 celda.setFocusTraversable(false);// Opcional (per evitar focus si fan clic a mà):
-				 celda.requestFocus();
-				/* LIMITEM A UNA SOLA LLETRA I QUE ESTIGA EN MAYUSCULES */
-				celda.setTextFormatter(new TextFormatter<>(e -> {
-					String text = e.getControlNewText();
-					if (text.length() > 1 || !text.matches("[a-zA-Z]")) {
-
-						return null;
-					}
-					e.setText(e.getText().toUpperCase());
-					return e;
-				}));
-
-				/* AVANÇAR AUTOMATICAMENT */
-				if (columna == 4) {// si estem en la ultima casella de la fila
-					final int finalFila = fila;
-					celda.setOnAction(e -> {
-
-						boolean filaCompleta = true;
-						for (int i = 0; i < 5; i++) {
-							if (caselles[finalFila][i].getText().isEmpty()) {
-								filaCompleta = false;
-								break;
-							}
-
-						}
-
-						if (filaCompleta) {// si les caselles estan totes plenes
-							comprovarFila(finalFila); // Es crida al pulsar ENTER ENTER en la última casella
-						} else {// si la ultima casilla no esta llena
-							celda.requestFocus();
-						}
-					});
-				}
+				
 				caselles[fila][columna] = celda;// guardar en la matriu
 				grid1.add(celda, columna, fila);
-
-				/* ESBORRAR AMB BACKSPACE */
-				
-				  celda.setOnKeyPressed(new EventHandler<KeyEvent>() {
-				  
-				  @Override public void handle(KeyEvent event) { if (event.getCode() ==
-				  KeyCode.BACK_SPACE) { borrarLletres(); } } });
-				 
 
 				/* ENTER NOMES A LA ULTIMA CASELLA */
 				celda.setOnKeyTyped(e -> {
@@ -138,7 +152,7 @@ public class WordleController implements Initializable {
 
 		/* FER TECLAT */
 
-		EventHandler<MouseEvent> escriuTeclat = new EventHandler<MouseEvent>() {
+		EventHandler<MouseEvent> escriuTeclatPantalla = new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent arg0) {
@@ -150,28 +164,34 @@ public class WordleController implements Initializable {
 
 					String text = ((Button) node).getText();
 					String id = node.getId();
-					
+
 					if ("delete".equals(id)) {
 						borrarLletres();
 						return;
 					}
 
 					if ("check".equals(id)) {
-						boolean filaCompleta =true;
+						boolean filaCompleta = true;
 						for (int i = 0; i < 5; i++) {
-					        String casellesText = caselles[filaActual][i].getText();//agafa el text de la casella
-					        if (casellesText == null || text.isEmpty()) {//si esta buit es false i no podra pasar de linea
-					            filaCompleta = false;
-					            break;
-					        }
-					    }
+							String casellesText = caselles[filaActual][i].getText();// agafa el text de la casella
+							if (casellesText == null || text.isEmpty()) {// si esta buit es false i no podra pasar de
+																			// linea
+								filaCompleta = false;
+								break;
+							}
+						}
 
-					    if (filaCompleta) {
-					        comprovarFila(filaActual);//enter
-					        filaActual++;//pasem a la fila de baix
-					        columnaActual = 0;
-					    }
-					    return;
+						if (filaCompleta) {
+							comprovarFila(filaActual);// enter
+							filaActual++;// pasem a la fila de baix
+							columnaActual = 0;
+						}
+						
+						if (filaActual==4 && columnaActual==4) {
+							filaActual=0;
+							columnaActual=0;
+						}
+						return;
 
 					}
 					escriureLletra(text);
@@ -183,56 +203,57 @@ public class WordleController implements Initializable {
 
 		};
 
-		grid2.addEventFilter(MouseEvent.MOUSE_CLICKED, escriuTeclat);
+		grid2.addEventFilter(MouseEvent.MOUSE_CLICKED, escriuTeclatPantalla);
 
 	}
-	
-	
-	
-	////*MÈTODES*/////
+
+	//// *MÈTODES*/////
 
 	public void comprovarFila(int fila) {
 		boolean encertada = true;
 		for (int columna = 0; columna < 5; columna++) {
-			TextField celda = caselles[fila][columna];
+			Label celda = caselles[fila][columna];
 			String text = celda.getText();// agafem la lletra del usuari
 			char lletraUsuari = text.charAt(0);// la convertim a char
 			char lletraCorrecta = paraula.charAt(columna);// lletra a comprovar
 
 			if (lletraUsuari == lletraCorrecta) {
-			    // Verd: lletra correcta i posició correcta
-			    celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+				// Verd: lletra correcta i posició correcta
+				celda.setStyle(
+						"-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
 			} else if (lletraUsuari != lletraCorrecta && paraula.contains(String.valueOf(lletraUsuari))) {
-			    int totalLletraParaula = comptarLletra(paraula, lletraUsuari);
-			    int totalLletraUsuari = comptarLletraUsuari(fila, lletraUsuari, columna);
+				int totalLletraParaula = comptarLletra(paraula, lletraUsuari);
+				int totalLletraUsuari = comptarLletraUsuari(fila, lletraUsuari, columna);
 
-			    if (totalLletraUsuari >= totalLletraParaula) {
-			        // Ja has posat aquesta lletra més vegades de les que hi ha a la paraula
-			        celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
-			    } else {
-			        // Groc: lletra està a la paraula però no en aquesta posició i encara no s'ha exhaurit el seu compte
-			        celda.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
-			    }
-			    encertada = false;
+				if (totalLletraUsuari >= totalLletraParaula) {
+					// Ja has posat aquesta lletra més vegades de les que hi ha a la paraula
+					celda.setStyle(
+							"-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+				} else {
+					// Groc: lletra està a la paraula però no en aquesta posició i encara no s'ha
+					// exhaurit el seu compte
+					celda.setStyle(
+							"-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+				}
+				encertada = false;
 			} else {
-			    // Gris: lletra no està en la paraula
-			    celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
-			    encertada = false;
+				// Gris: lletra no està en la paraula
+				celda.setStyle(
+						"-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+				encertada = false;
 			}
 
-		
-		
-		if (fila < 5) {
-			caselles[fila + 1][0].requestFocus();
-		} else {
-			// Última fila: el foco se queda en la última casilla
-			caselles[fila][4].requestFocus();
+			if (fila < 5) {
+				caselles[fila + 1][0].requestFocus();
+			} else {
+				// Última fila: el foco se queda en la última casilla
+				caselles[fila][4].requestFocus();
+			}
+
+			columnaActual = columna;
 		}
-		
-			columnaActual=columna;
-		}
-		
-		/*ALERT INCORRECTE*/
+
+		/* ALERT INCORRECTE */
 		if ((fila == 5 && columnaActual == 4) && !encertada) {// si estem en la fila 5 i no la ha acertat
 
 			try {
@@ -241,10 +262,11 @@ public class WordleController implements Initializable {
 				alert.setTitle("Incorrecte");
 				alert.setHeaderText("INCORRECTE"); // text al costat de la icona
 				alert.getDialogPane().setPrefSize(250, 500);
-				//Image iconAlert = new Image(getClass().getResourceAsStream("/Jo-F-XProjecteFinalJavaEq01/src/images/icona.png"));
-				//ImageView alertView = new ImageView(iconAlert);
-				//alertView.setFitWidth(200);
-				//alertView.setPreserveRatio(true);
+				// Image iconAlert = new
+				// Image(getClass().getResourceAsStream("/Jo-F-XProjecteFinalJavaEq01/src/images/icona.png"));
+				// ImageView alertView = new ImageView(iconAlert);
+				// alertView.setFitWidth(200);
+				// alertView.setPreserveRatio(true);
 
 				Label msg = new Label(
 						"No has adivinant la paraula. \n La paraula correcta es: " + paraula.toUpperCase());
@@ -264,7 +286,26 @@ public class WordleController implements Initializable {
 				okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
 				okButton.getStyleClass().add("boton-hover");
 				alert.getDialogPane().getStyleClass().add("alertError");
-				alert.showAndWait();
+				// tornar a la pantalla de inici
+				Optional<ButtonType> result = alert.showAndWait();
+
+				if (result.isPresent() && result.get() == ButtonType.OK) {
+					try {
+						VBox root = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+
+						// En comptes de usar 'escena', que és null, agafem l'stage des d'un node
+						// existent
+						Stage stage = (Stage) grid1.getScene().getWindow();
+
+						Scene scene = new Scene(root);
+						stage.setScene(scene);
+						stage.setMaximized(true);
+						stage.show();
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
@@ -272,8 +313,8 @@ public class WordleController implements Initializable {
 			}
 
 		}
-		
-		/*ALERT CORRECTE*/
+
+		/* ALERT CORRECTE */
 		if (encertada) {
 			try {
 
@@ -281,10 +322,11 @@ public class WordleController implements Initializable {
 				alert.setTitle("Correcte");
 				alert.setHeaderText("Correcte"); // text al costat de la icona
 				alert.getDialogPane().setPrefSize(250, 500);
-				//Image iconAlert = new Image(getClass().getResourceAsStream("/Jo-F-XProjecteFinalJavaEq01/src/images/icona.png"));
-				//ImageView alertView = new ImageView(iconAlert);
-				//alertView.setFitWidth(200);
-				//alertView.setPreserveRatio(true);
+				// Image iconAlert = new
+				// Image(getClass().getResourceAsStream("/Jo-F-XProjecteFinalJavaEq01/src/images/icona.png"));
+				// ImageView alertView = new ImageView(iconAlert);
+				// alertView.setFitWidth(200);
+				// alertView.setPreserveRatio(true);
 
 				Label msg = new Label("ENHORABONA HAS ADIVINAT LA PARAULA !!!!!!");
 				msg.setMaxWidth(500);
@@ -303,39 +345,37 @@ public class WordleController implements Initializable {
 				okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
 				okButton.getStyleClass().add("boton-hover");
 				alert.getDialogPane().getStyleClass().add("alertError");
-				
-				
-				//tornar a la pantalla de inici
+
+				// tornar a la pantalla de inici
 				Optional<ButtonType> result = alert.showAndWait();
 
 				if (result.isPresent() && result.get() == ButtonType.OK) {
-				    try {
-				        VBox root = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+					try {
+						VBox root = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
 
-				        // En comptes de usar 'escena', que és null, agafem l'stage des d'un node existent
-				        Stage stage = (Stage) grid1.getScene().getWindow();
+						// En comptes de usar 'escena', que és null, agafem l'stage des d'un node
+						// existent
+						Stage stage = (Stage) grid1.getScene().getWindow();
 
-				        Scene scene = new Scene(root);
-				        stage.setScene(scene);
-				        stage.setMaximized(true);
-				        stage.show();
+						Scene scene = new Scene(root);
+						stage.setScene(scene);
+						stage.setMaximized(true);
+						stage.show();
 
-				    } catch (IOException e) {
-				        e.printStackTrace();
-				    }
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
 				System.out.println(er.getLocalizedMessage());
 			}
 		}
-		
-		//resetejar a 0 si la linea es completa i es pasa a la següent
+
+		// resetejar a 0 si la linea es completa i es pasa a la següent
 		columnaActual = 0;
 
 	}
-
-	
 
 	public String paraulaAleatoria() {
 		Random aleatori = new Random();
@@ -364,17 +404,17 @@ public class WordleController implements Initializable {
 
 	public void escriureLletra(String lletra) {
 		if (filaActual < 6 && columnaActual < 5) {
-	        TextField celda = caselles[filaActual][columnaActual];
-	        if (celda.getText().isEmpty()) {
-	            celda.setText(lletra);
-	            if (columnaActual < 4) {
-	                columnaActual++;
-	            }
-	            if (columnaActual < 5) {
-	                caselles[filaActual][columnaActual].requestFocus();
-	            }
-	        }
-	    }
+			Label celda = caselles[filaActual][columnaActual];
+			if (celda.getText().isEmpty()) {
+				celda.setText(lletra);
+				if (columnaActual < 4) {
+					columnaActual++;
+				}
+				if (columnaActual < 5) {
+					caselles[filaActual][columnaActual].requestFocus();
+				}
+			}
+		}
 	}
 
 	public void enrereInici(ActionEvent e) {
@@ -394,50 +434,61 @@ public class WordleController implements Initializable {
 	}
 
 	public int comptarLletra(String paraula, char lletra) {
-	    int comptador = 0;
-	    for (int i = 0; i < paraula.length(); i++) {
-	        if (paraula.charAt(i) == lletra) {
-	            comptador++;
-	        }
-	    }
-	    return comptador;
+		int comptador = 0;
+		for (int i = 0; i < paraula.length(); i++) {
+			if (paraula.charAt(i) == lletra) {
+				comptador++;
+			}
+		}
+		return comptador;
 	}
+
 	public int comptarLletraUsuari(int fila, char lletra, int columnaActual) {
-	    int comptador = 0;
-	    for (int col = 0; col < columnaActual; col++) {
-	        String text = caselles[fila][col].getText();
-	        if (text.length() > 0 && text.charAt(0) == lletra) {
-	            comptador++;
-	        }
-	    }
-	    return comptador;
+		int comptador = 0;
+		for (int col = 0; col < columnaActual; col++) {
+			String text = caselles[fila][col].getText();
+			if (text.length() > 0 && text.charAt(0) == lletra) {
+				comptador++;
+			}
+		}
+		return comptador;
 	}
-
-
 
 	public void borrarLletres() {
-	    if (filaActual < 6) {
-	        if (columnaActual == 0) {
-	            // Estem a la primera columna de la fila
-	            TextField celda = caselles[filaActual][columnaActual];
-	            if (!celda.getText().isEmpty()) {
-	                // Si la casella té text, l'esborrem
-	                celda.clear();
-	                celda.requestFocus();
-	            }
-	            // Si està buida i som a la primera columna, no fem res més
-	        } else {
-	            // Estem més enllà de la primera columna (columnaActual > 0)
-	            // Retrocedim la columna, esborrem la casella anterior i posem focus allà
-	            columnaActual--;  
-	            TextField celda = caselles[filaActual][columnaActual];
-	            celda.clear();
-	            celda.requestFocus();
-	        }
-	    }
+		if (filaActual < 6) {
+			if (columnaActual == 0) {
+				// Estem a la primera columna de la fila
+				Label celda = caselles[filaActual][columnaActual];
+				if (!celda.getText().isEmpty()) {
+					// Si la casella té text, l'esborrem
+					celda.setText("");
+					celda.requestFocus();
+				}
+				// Si està buida i som a la primera columna, no fem res més
+			} else {
+				// Estem més enllà de la primera columna (columnaActual > 0)
+				// Retrocedim la columna, esborrem la casella anterior i posem focus allà
+				if (columnaActual == 4) {
+					if (caselles[filaActual][columnaActual].getText() == "") {
+						columnaActual--;
+						Label celda = caselles[filaActual][columnaActual];
+						celda.setText("");
+						celda.requestFocus();
+					} else {
+						Label celda = caselles[filaActual][columnaActual];
+						celda.setText("");
+						celda.requestFocus();
+					}
+
+				} else {
+					columnaActual--;
+					Label celda = caselles[filaActual][columnaActual];
+					celda.setText("");
+					celda.requestFocus();
+				}
+
+			}
+		}
 	}
-
-
-
 
 }
