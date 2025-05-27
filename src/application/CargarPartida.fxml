@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="root" spacing="10" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CargarPartidaController">
+
+    <TableView fx:id="tableViewPartidas" prefHeight="300" prefWidth="600">
+        <columns>
+            <TableColumn fx:id="colTamaño" prefWidth="150" text="Tamaño" />
+            <TableColumn fx:id="colTiempo" prefWidth="150" text="Tiempo" />
+            <TableColumn fx:id="colCasillasDescubiertas" prefWidth="150" text="Casillas Descubiertas" />
+            <TableColumn fx:id="colBanderasRestantes" prefWidth="150" text="Banderas Restantes" />
+        </columns>
+    </TableView>
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+      <children>
+      
+          <Button onAction="#cargarPartida" text="Cargar partida seleccionada" />
+          <Button onAction="#volver" text="Volver a elegir Tamaño" />
+      </children>
+   </HBox>
+</VBox>
