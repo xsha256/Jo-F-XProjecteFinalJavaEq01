@@ -248,6 +248,8 @@ public class MenuController implements Initializable {
 	//intento de "reciclar" codigo para los botones del menu-----------------------------
 	private void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
 	    try {
+	    	boolean juegoAbierto=false;
+	    	
 	        Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
 	        Scene scene = new Scene(root,600,500);//ponemos la medida ya que es una ventana con poca información anchoXalto
 	        Stage window = new Stage();
