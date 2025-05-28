@@ -236,26 +236,26 @@ public class WordleController implements Initializable {
 			if (lletraUsuari == lletraCorrecta) {
 				// Verd: lletra correcta i posició correcta
 				celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
-				
+				q.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
 			} else if (lletraUsuari != lletraCorrecta && paraula.contains(String.valueOf(lletraUsuari))) {
 				int totalLletraParaula = comptarLletra(paraula, lletraUsuari);
 				int totalLletraUsuari = comptarLletraUsuari(fila, lletraUsuari, columna);
 
 				if (totalLletraUsuari >= totalLletraParaula) {
 					// Ja has posat aquesta lletra més vegades de les que hi ha a la paraula
-					celda.setStyle(
-							"-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+					celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+					q.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
 				} else {
 					// Groc: lletra està a la paraula però no en aquesta posició i encara no s'ha
 					// exhaurit el seu compte
-					celda.setStyle(
-							"-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+					celda.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+					q.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+
 				}
 				encertada = false;
 			} else {
 				// Gris: lletra no està en la paraula
-				celda.setStyle(
-						"-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+				celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
 				encertada = false;
 			}
 
