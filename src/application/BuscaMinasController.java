@@ -29,6 +29,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -119,6 +120,7 @@ public class BuscaMinasController implements Initializable {
 								alerta.setContentText("Has explotado una mina");
 								alerta.showAndWait();
 								if (partidaCargada) {
+									System.out.println("Perder");
 									try {
 										Class.forName("org.mariadb.jdbc.Driver");
 										Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
@@ -378,6 +380,7 @@ public class BuscaMinasController implements Initializable {
 			} else if (!matriz_abajo[x][y].equals("x")) {
 				etiquetas[x][y].setStyle("-fx-background-color: white;-fx-border-color: black;");
 				etiquetas[x][y].setText(matriz_abajo[x][y]);
+				etiquetas[x][y].setAlignment(Pos.CENTER);
 				etiquetas[x][y].setId("noMinaVista");
 			}
 		}
@@ -392,6 +395,7 @@ public class BuscaMinasController implements Initializable {
 			alerta.setContentText("Has ganado, Felicidades!!!");
 			alerta.showAndWait();
 			if (partidaCargada) {
+				System.out.println("Ganar");
 				try {
 					Class.forName("org.mariadb.jdbc.Driver");
 					Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
@@ -429,6 +433,7 @@ public class BuscaMinasController implements Initializable {
 						}else {
 							etiquetas[ni][nj].setStyle("-fx-background-color: white;-fx-border-color: black;");
 							etiquetas[ni][nj].setText(matriz_abajo[ni][nj]);
+							etiquetas[ni][nj].setAlignment(Pos.CENTER);
 							etiquetas[ni][nj].setId("noMinaVista");
 						}
 						
@@ -452,6 +457,21 @@ public class BuscaMinasController implements Initializable {
 	}
 
 	public void guardarPartida() {
+		if(partidaCargada) {
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
+
+				String sentencia = "DELETE FROM pescaMines where id = ?";
+				PreparedStatement s = c.prepareStatement(sentencia);
+				s.setInt(1, id);
+				s.executeUpdate();
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+			partidaCargada = false;
+			
+		}
 		if (tablero.getMatriz_abajo() == null) {
 			Alert alerta = new Alert(Alert.AlertType.WARNING);
 			alerta.setTitle("Aviso");
@@ -503,7 +523,6 @@ public class BuscaMinasController implements Initializable {
 	}
 
 	public void guardarPartida2() {
-
 		try {
 			Partida partida = new Partida(contarCuadrados(), banderasRestantes, opcion, tablero.getMatriz_abajo());
 			partida.setEtiquetas(etiquetas);
