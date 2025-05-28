@@ -8,10 +8,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
+
+import javax.security.auth.login.LoginContext;
+
 import javafx.event.EventHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -45,19 +52,28 @@ public class WordleController implements Initializable {
 	@FXML
 	private GridPane grid1; // tabla de paraules
 	@FXML
-	private GridPane grid2;// teclat /*cambiar el nom de id del teclat*/
-
+	private GridPane grid2;// teclat
 	@FXML
 	private VBox escena;// log
 	@FXML
 	private HBox root;
-
+	@FXML
+	private Button q;
+		
+	
+	
 	private Label[][] caselles = new Label[6][5];
 	private String paraula = paraulaAleatoria();
 	private int columnaActual = 0;
 	private int filaActual = 0;
 	private Stage finestra;
 
+	private int intents=0;
+	private int fallades=0;
+	private int encertatLletra=0;
+	private int encertatParaula=0;
+	//private String emailUsauri=LoginController.EMAIL;
+	
 	private EventHandler<KeyEvent> tecla = new EventHandler<KeyEvent>() {
 
 		@Override
@@ -78,10 +94,10 @@ public class WordleController implements Initializable {
 					columnaActual++; 
 				}
 
-			}else if (tecla == KeyCode.BACK_SPACE && columnaActual >=0) {//esborrar
+			}else if (tecla == KeyCode.BACK_SPACE && columnaActual >=0) {//ESBORRAR
 				borrarLletres();
 				
-			}else if (tecla == KeyCode.ENTER && columnaActual==4) {
+			}else if (tecla == KeyCode.ENTER && columnaActual==4) {//ENTER
 				boolean filaCompleta = true;
 				for (int i = 0; i < 5; i++) {
 					String casellesText = caselles[filaActual][i].getText();// agafa el text de la casella
@@ -121,7 +137,7 @@ public class WordleController implements Initializable {
 				// donar mida i forma a les caselles
 				celda.setPrefWidth(65);
 				celda.setPrefHeight(65);
-				celda.setStyle("-fx-background-color: white;" + "-fx-border-radius: 5;" + "-fx-font-size: 20px;"
+				celda.setStyle("-fx-background-color: white;" + "-fx-border-radius: 5;" + "-fx-font-size: 20;"
 						+ "-fx-font-weight: bold;");
 				celda.setAlignment(Pos.CENTER);
 				celda.setId("escriu");
@@ -219,8 +235,8 @@ public class WordleController implements Initializable {
 
 			if (lletraUsuari == lletraCorrecta) {
 				// Verd: lletra correcta i posició correcta
-				celda.setStyle(
-						"-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+				celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+				
 			} else if (lletraUsuari != lletraCorrecta && paraula.contains(String.valueOf(lletraUsuari))) {
 				int totalLletraParaula = comptarLletra(paraula, lletraUsuari);
 				int totalLletraUsuari = comptarLletraUsuari(fila, lletraUsuari, columna);
@@ -306,6 +322,7 @@ public class WordleController implements Initializable {
 						e.printStackTrace();
 					}
 				}
+				
 
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
@@ -317,6 +334,8 @@ public class WordleController implements Initializable {
 		/* ALERT CORRECTE */
 		if (encertada) {
 			try {
+				
+				encertatParaula++;
 
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Correcte");
@@ -489,6 +508,38 @@ public class WordleController implements Initializable {
 
 			}
 		}
+	}
+	
+	
+	/*public void consultarId() {
+		try {
+			int idUsuari=0;
+			 Connection c= ConexionBBDD.conectar();
+			 String consultaInsert="SELECT id FROM usuari WHERE email = "+emailUsuario;		 
+			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);			 
+			 ResultSet rs = psInsert.executeQuery(consultaInsert);
+			 while (rs.next()) {
+				idUsuari=rs.getInt("id");
+			}		 
+			 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}*/	
+	
+	
+	public void InsertarBBDD() {
+
+		 try {
+			 Connection c= ConexionBBDD.conectar();
+			 String consultaInsert="INSERT INTO wordle (idUsuari,intents,fallades,encertats) VALUES (?,?,?,?)";		 
+			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);
+					 
+			 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		 
 	}
 
 }
