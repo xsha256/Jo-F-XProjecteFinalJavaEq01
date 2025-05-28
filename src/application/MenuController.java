@@ -7,9 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,10 +65,29 @@ public class MenuController implements Initializable {
 	@FXML private MenuItem itemBaixa;
 	@FXML private MenuItem itemLogout;
 	
+	//array de ventanas abiertas
+	private ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
 	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
 		this.emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
+		
+		//funcion para cerrar todas las ventas abiertas a traves de Menu
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			
+			ventanaActual.setOnCloseRequest(evt ->{
+				System.out.println("Hola Mundo!");
+				if(juegosAbiertos!=null) {
+					for(Stage s: juegosAbiertos) {
+						s.close();
+					}
+				}
+				
+			});
+		});
+		
+		
 		
 		try {
 			// cargar el driver de MariaDB... con una vez sobra creo :) 
@@ -256,11 +277,13 @@ public class MenuController implements Initializable {
 	        window.setScene(scene);
 	        window.setTitle(tituloVentana);
 //	        window.setMaximized(true);
-	        
-	        window.initModality(Modality.WINDOW_MODAL);
-	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-	        window.initOwner(menuStage);
+	        juegosAbiertos.add(window);//añadimos al arrayList de ventanas
 	        window.showAndWait();
+	        
+//	        window.initModality(Modality.WINDOW_MODAL);
+//	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+//	        window.initOwner(menuStage);
+//	        window.showAndWait();
 	    } catch (IOException ex) {
 	        ex.printStackTrace();
 	    }
