@@ -1,7 +1,5 @@
 package application;
 
-import java.util.Optional;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -15,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+
+import java.util.Optional;
 
 public class ventanaAlert {
 	

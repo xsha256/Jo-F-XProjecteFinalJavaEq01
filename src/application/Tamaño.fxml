@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TamañoController">
+	<children>
+		<HBox alignment="CENTER" prefHeight="132.0" prefWidth="600.0">
+			<children>
+				<VBox alignment="CENTER" prefHeight="109.0" prefWidth="133.0">
+					<children>
+						<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Mida del Tauler">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font></Text>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="i Dificultat">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+					</children>
+				</VBox>
+			</children>
+		</HBox>
+		<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+			<children>
+				<VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+					<children>
+						<RadioButton fx:id="petita" mnemonicParsing="false" text="Petita&#10;(Fàcil)" textFill="WHITE">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="opcionesGrupo" />
+                     </toggleGroup></RadioButton>
+					</children>
+				</VBox>
+				<Line endX="100.0" startX="100.0" startY="-100.0" />
+				<VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <RadioButton fx:id="media" mnemonicParsing="false" text="Mitjana&#10;(Mitjà)" textFill="WHITE" toggleGroup="$opcionesGrupo" />
+               </children></VBox>
+				<Line endX="100.0" startX="100.0" startY="-100.0" />
+				<VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <RadioButton fx:id="gran" mnemonicParsing="false" text="Gran&#10;(Difícil)" textFill="WHITE" toggleGroup="$opcionesGrupo" />
+               </children></VBox>
+			</children>
+		</HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="jugar" mnemonicParsing="false" onAction="#canviaEscena" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #2a7963; -fx-background-radius: 10;" text="A jugar!" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="100.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" text="Enrere" textFill="#141414">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#ranking" prefHeight="20.0" prefWidth="100.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" text="Ranking" textFill="#141414">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+	</children>
+</VBox>
