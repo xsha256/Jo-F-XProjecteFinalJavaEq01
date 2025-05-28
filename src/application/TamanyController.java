@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,13 +22,11 @@ import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class TamañoController {
+public class TamanyController {
 
 	@FXML
 	ToggleGroup opcionesGrupo;
-	private String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
-	private String usuari = "root";
-	private String contrasenya = "root";
+
 
 	public void canviaEscena(ActionEvent e) {
 		Toggle selectedToggle = opcionesGrupo.getSelectedToggle();
@@ -60,7 +57,7 @@ public class TamañoController {
 	public void ranking(ActionEvent event) {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
+			Connection c = ConexionBBDD.conectar(); 
 
 			String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
 			PreparedStatement s = c.prepareStatement(sentencia);

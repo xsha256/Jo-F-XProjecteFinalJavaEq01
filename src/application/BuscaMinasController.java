@@ -1,26 +1,5 @@
 package application;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -44,6 +23,26 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 public class BuscaMinasController implements Initializable {
 
@@ -74,9 +73,7 @@ public class BuscaMinasController implements Initializable {
 
 	private int clicks = 0;
 	private boolean cargar = false;
-	private String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
-	private String usuari = "root";
-	private String contrasenya = "root";
+	private Connection c = ConexionBBDD.conectar();
 
 	EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
 
@@ -123,7 +120,7 @@ public class BuscaMinasController implements Initializable {
 									System.out.println("Perder");
 									try {
 										Class.forName("org.mariadb.jdbc.Driver");
-										Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
+										
 										String sentencia = "DELETE FROM pescaMines where id = ?";
 										PreparedStatement s = c.prepareStatement(sentencia);
 										s.setInt(1, id);
@@ -398,7 +395,6 @@ public class BuscaMinasController implements Initializable {
 				System.out.println("Ganar");
 				try {
 					Class.forName("org.mariadb.jdbc.Driver");
-					Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
 					String sentencia = "DELETE FROM pescaMines where id = ?";
 					PreparedStatement s = c.prepareStatement(sentencia);
 					s.setInt(1, id);
@@ -460,7 +456,6 @@ public class BuscaMinasController implements Initializable {
 		if(partidaCargada) {
 			try {
 				Class.forName("org.mariadb.jdbc.Driver");
-				Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
 
 				String sentencia = "DELETE FROM pescaMines where id = ?";
 				PreparedStatement s = c.prepareStatement(sentencia);
@@ -495,7 +490,6 @@ public class BuscaMinasController implements Initializable {
 				String fecha = formato.format(hoy);
 
 				Class.forName("org.mariadb.jdbc.Driver");
-				Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
 
 				String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
@@ -538,7 +532,6 @@ public class BuscaMinasController implements Initializable {
 			String fecha = formato.format(hoy);
 
 			Class.forName("org.mariadb.jdbc.Driver");
-			Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
 
 			String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement s = c.prepareStatement(sentencia);
@@ -562,7 +555,6 @@ public class BuscaMinasController implements Initializable {
 	public void ranking(ActionEvent event) {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
 
 			String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
 			PreparedStatement s = c.prepareStatement(sentencia);
@@ -626,7 +618,6 @@ public class BuscaMinasController implements Initializable {
 	public void cargar(ActionEvent event) {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			Connection c = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);
 			String sentencia = "SELECT id, data, sesioJoc, temps FROM pescaMines WHERE acabat = 'No'";
 			Statement s = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			ResultSet r = s.executeQuery(sentencia);
