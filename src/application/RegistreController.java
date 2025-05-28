@@ -80,6 +80,7 @@ public class RegistreController implements Initializable {
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
+
 	public void enterKey(KeyEvent e) {
 		if (e.getCode() == KeyCode.ENTER) {
 			System.out.println("Has presionado ENTER");
@@ -89,7 +90,7 @@ public class RegistreController implements Initializable {
 		}
 
 	}
-	
+
 	public void registrar(ActionEvent e) {
 
 		if (verificarCampos(labelNom, nomtxt, promptNom, "El nom és obligatori", 0)) {
@@ -159,6 +160,8 @@ public class RegistreController implements Initializable {
 	public void addimg() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Selecciona una imatge");
+		fileChooser.getExtensionFilters()
+				.addAll(new FileChooser.ExtensionFilter("Imatges (.png .jpg .jpeg)", "*.png", "*.jpg", "*.jpeg"));
 		File archivo = fileChooser.showOpenDialog(stage);
 		if (archivo != null) {
 			System.out.println("Archivo seleccionado: " + archivo.getAbsolutePath());
@@ -195,8 +198,6 @@ public class RegistreController implements Initializable {
 
 		try {
 
-
-
 			Connection c = ConexionBBDD.conectar();
 
 			boolean valid = comprobarEmail(email, c);
@@ -218,7 +219,8 @@ public class RegistreController implements Initializable {
 				s.setString(5, contrasenyaCifString);
 				s.setString(6, poblacio);
 				s.executeUpdate();
-				loginAlerta.alerta("El compte s'ha creat perfectament! 🎮", 0, e, "file:imagenes/creatUsuari.png", "registre");
+				loginAlerta.alerta("El compte s'ha creat perfectament! 🎮", 0, e, "file:imagenes/creatUsuari.png",
+						"registre");
 				accedirLogin(e);
 			} else {
 				loginAlerta.alerta("Ya tens un compte!🕹️", 0, e, "file:imagenes/errorRegistre.png", "registre");
@@ -399,8 +401,5 @@ public class RegistreController implements Initializable {
 		showPic.setClip(clip);
 
 	}
-	
-
-
 
 }
