@@ -218,6 +218,7 @@ public class RegistreController implements Initializable {
 				s.setBinaryStream(4, fis, (int) imagen.length());
 				s.setString(5, contrasenyaCifString);
 				s.setString(6, poblacio);
+				System.out.println(s);
 				s.executeUpdate();
 				loginAlerta.alerta("El compte s'ha creat perfectament! 🎮", 0, e, "file:imagenes/creatUsuari.png",
 						"registre");
