@@ -1,5 +1,9 @@
 package application;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,12 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class JocVidaController implements Initializable {
 
@@ -71,7 +70,7 @@ public class JocVidaController implements Initializable {
 			} else if (opcion.equals("Mitjana")) {
 				tabla = new Tabla(20, 75, 100);
 			} else {
-				tabla = new Tabla(28, 200, 300);//30,200,300
+				tabla = new Tabla(28, 200, 300);// 30,200,300
 			}
 
 			FILAS = tabla.getLongMatriz();
@@ -150,18 +149,18 @@ public class JocVidaController implements Initializable {
 					continue;
 				}
 				switch (estado) {
-				case "viva":
-					etiquetas[i][j].setStyle("-fx-background-color:green; -fx-border-color: black;");
-					break;
-				case "recienNacida":
-					etiquetas[i][j].setStyle("-fx-background-color:lightgreen; -fx-border-color: black;");
-					break;
-				case "muerta":
-					etiquetas[i][j].setStyle("-fx-background-color:white; -fx-border-color: black;");
-					break;
-				case "recienMuerta":
-					etiquetas[i][j].setStyle("-fx-background-color:gray; -fx-border-color: black;");
-					break;
+					case "viva":
+						etiquetas[i][j].setStyle("-fx-background-color:green; -fx-border-color: black;");
+						break;
+					case "recienNacida":
+						etiquetas[i][j].setStyle("-fx-background-color:lightgreen; -fx-border-color: black;");
+						break;
+					case "muerta":
+						etiquetas[i][j].setStyle("-fx-background-color:white; -fx-border-color: black;");
+						break;
+					case "recienMuerta":
+						etiquetas[i][j].setStyle("-fx-background-color:gray; -fx-border-color: black;");
+						break;
 				}
 
 			}
@@ -179,67 +178,106 @@ public class JocVidaController implements Initializable {
 		}
 	}
 	
+	
+	
+
 	public void acabar(ActionEvent e) {
 		try {
 			tabla.reiniciar();
-			continuar=false;
-			
-		    try {
-		    	//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
+			continuar = false;
+
+			try {
+				// cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
 				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
-		        ventanaActual.close();
-		        
-		        Parent root = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-		        Scene scene = new Scene(root,600,400);//ponemos la medida ya que es una ventana con poca información anchoXalto
-		        Stage window = new Stage();
-		        window.setScene(scene);
-		        window.setTitle("Elecció Dificultad");
-		        window.show();
-		        
-//		        window.setMaximized(true);
-//		        
-//		        window.initModality(Modality.WINDOW_MODAL);
-//		        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-//		        window.initOwner(menuStage);
-//		        window.showAndWait();
-		    } catch (IOException ex) {
-		        ex.printStackTrace();
-		    }
-			
+				ventanaActual.close();
+
+				Parent root = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
+				Scene scene = new Scene(root, 600, 400);// ponemos la medida ya que es una ventana con poca información
+														// anchoXalto
+				Stage window = new Stage();
+				window.setScene(scene);
+				window.setTitle("Elecció Dificultad");
+				window.show();
+
+				// window.setMaximized(true);
+
+				// try {
+				////		    	//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
+////				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+////		        ventanaActual.close();	    
+				//
+				//
+				// Parent root = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
+				// Scene scene = new Scene(root,600,500);//ponemos la medida ya que es una
+				// ventana con poca información anchoXalto
+				// Stage window = new Stage();
+				// window.setScene(scene);
+				// window.setTitle("Elecció Dificultad");
+				////		        window.setMaximized(true);
+
+				//
+				// window.initModality(Modality.WINDOW_MODAL);
+				// Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+				// window.initOwner(menuStage);
+				// window.showAndWait();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+			//
+			// window.showAndWait();
+			// } catch (IOException ex) {
+			// ex.printStackTrace();
+			// }
+
+			// try {
+			// VBox root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
+			// Scene escena2 = new Scene(root2, 600, 500);
+			// Stage window = (Stage) root.getScene().getWindow();
+			// window.setScene(escena2);
+			// window.setTitle("Elecció Dificultad");
+			// window.initModality(Modality.WINDOW_MODAL);
+			// Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			// window.initOwner(menuStage);
+			// window.show();
+			// } catch (IOException e1) {
+			// e1.printStackTrace();
+			// }
+
 			/*
-			//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
-			Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
-	        ventanaActual.close();
-	        
-			Parent root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-			Scene escena2 = new Scene(root2,600,500);
-			Stage window = new Stage();
-			window.setScene(escena2);
-			window.setTitle("Elecció de Dificultat");
-			window.show();
-			*/
-			
+			 * //cerrar la ventana actual primero y luego abrir la de abajo como ventana
+			 * NUEVA
+			 * Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			 * ventanaActual.close();
+			 * 
+			 * Parent root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
+			 * Scene escena2 = new Scene(root2,600,500);
+			 * Stage window = new Stage();
+			 * window.setScene(escena2);
+			 * window.setTitle("Elecció de Dificultat");
+			 * window.show();
+			 */
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 	public void reiniciar(ActionEvent e) {
 		try {
-			continuar=false;
+			continuar = false;
 			tabla.reiniciar();
-			//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
+			// cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
 			Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
-	        ventanaActual.close();
-			
-	        Parent root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
+			ventanaActual.close();
+
+			Parent root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 			Scene escena2 = new Scene(root2);
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Joc De La Vida");
 			window.show();
-			
+
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -280,29 +318,35 @@ public class JocVidaController implements Initializable {
 				if (bucle) {
 					if (tabla.contarCelulas() == 0) {
 						Platform.runLater(() -> {
-//							Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-//							alerta.setTitle("Muerte Total");
-//							alerta.setHeaderText(null);
-//							alerta.setContentText("Se han muerto todas las celulas. Has llegado hasta la generacion " + tabla.getGeneraciones());
-//							alerta.showAndWait();
-							
-							//llamada a la alerta
-							int aux=tabla.getGeneraciones();
+							// Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+							// alerta.setTitle("Muerte Total");
+							// alerta.setHeaderText(null);
+							// alerta.setContentText("Se han muerto todas las celulas. Has llegado hasta la
+							// generacion " + tabla.getGeneraciones());
+							// alerta.showAndWait();
+
+							// llamada a la alerta
+							int aux = tabla.getGeneraciones();
 							ventanaAlert alerta = new ventanaAlert();
-							alerta.alert("Bucle trobat","El juego ha entrado en un bucle. Has llegado hasta la generacion "+aux, "file:imagenes/alerta.png",100);
+							alerta.alert("Bucle trobat",
+									"El juego ha entrado en un bucle. Has llegado hasta la generacion " + aux,
+									"file:imagenes/alerta.png", 100);
 						});
 					} else {
 						Platform.runLater(() -> {
-//							Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-//							alerta.setTitle("Bucle detectado");
-//							alerta.setHeaderText(null);
-//							alerta.setContentText("El juego ha entrado en un bucle. Has llegado hasta la generacion " + tabla.getGeneraciones());
-//							alerta.showAndWait();
-							
-							//llamada a la alerta
-							int aux=tabla.getGeneraciones();
+							// Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+							// alerta.setTitle("Bucle detectado");
+							// alerta.setHeaderText(null);
+							// alerta.setContentText("El juego ha entrado en un bucle. Has llegado hasta la
+							// generacion " + tabla.getGeneraciones());
+							// alerta.showAndWait();
+
+							// llamada a la alerta
+							int aux = tabla.getGeneraciones();
 							ventanaAlert alerta = new ventanaAlert();
-							alerta.alert("Bucle trobat ","El juego ha entrado en un bucle. Has llegado hasta la generacion "+aux, "file:imagenes/alerta.png",100);
+							alerta.alert("Bucle trobat ",
+									"El juego ha entrado en un bucle. Has llegado hasta la generacion " + aux,
+									"file:imagenes/alerta.png", 100);
 						});
 					}
 					return false;

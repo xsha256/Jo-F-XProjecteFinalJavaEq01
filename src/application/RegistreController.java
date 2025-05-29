@@ -215,7 +215,7 @@ public class RegistreController implements Initializable {
 				s.setString(1, nom);
 				s.setString(2, cognoms);
 				s.setString(3, email);
-				s.setBinaryStream(4, fis, (int) imagen.length());
+				s.setBinaryStream(4, fis);
 				s.setString(5, contrasenyaCifString);
 				s.setString(6, poblacio);
 				System.out.println(s);

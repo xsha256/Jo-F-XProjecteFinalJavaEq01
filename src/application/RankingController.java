@@ -100,7 +100,7 @@ public class RankingController implements Initializable {
 
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setScene(new Scene(root));
-			stage.setTitle("Seleccionar Tamaño");
+			stage.setTitle("Seleccionar Tamany");
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

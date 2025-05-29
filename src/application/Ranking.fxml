@@ -9,26 +9,33 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400" prefWidth="600" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RankingController">
+<AnchorPane prefHeight="400" prefWidth="600" style="-fx-background-color: #0d262e;"
+	stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RankingController">
 
 	<children>
-		<VBox alignment="TOP_CENTER" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
-			<Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Mi Ranking de Partidas" textFill="WHITE">
-            <font>
-               <Font name="System Bold" size="20.0" />
-            </font></Label>
+		<VBox alignment="TOP_CENTER" spacing="15" AnchorPane.leftAnchor="20"
+			AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+			<Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Mi Ranking de Partides"
+				textFill="WHITE">
+				<font>
+					<Font name="System Bold" size="20.0" />
+				</font>
+			</Label>
 
 			<TableView fx:id="tablaRanking" prefHeight="300" prefWidth="560">
 				<columns>
-					<TableColumn fx:id="columnaTiempo" prefWidth="180" text="Tiempo" />
-					<TableColumn fx:id="columnaFecha" prefWidth="192.0" text="Fecha" />
-					<TableColumn fx:id="columnaTamanyo" prefWidth="187.0" text="Tamaño" />
+					<TableColumn fx:id="columnaTiempo" prefWidth="180" text="Temps" />
+					<TableColumn fx:id="columnaFecha" prefWidth="192.0" text="Data" />
+					<TableColumn fx:id="columnaTamanyo" prefWidth="187.0" text="Tamany" />
 				</columns>
 			</TableView>
 
 			<HBox alignment="CENTER" prefHeight="100.0" prefWidth="560.0">
 				<children>
-					<Button onAction="#volverATamany" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Volver a Tamaño" textFill="WHITE">
+					<Button onAction="#volverATamany"
+						style="-fx-background-color: #365057; -fx-background-radius: 10;"
+						styleClass="botonEnrere" text="Tornar a tamany" textFill="WHITE">
 						<font>
 							<Font name="System Bold" size="18.0" />
 						</font>

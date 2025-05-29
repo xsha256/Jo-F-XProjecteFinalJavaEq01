@@ -87,7 +87,7 @@ public class DificultadController implements Initializable {
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);
-				window.setTitle("Juego de la Vida");
+				window.setTitle("Joc de la Vida");
 		        window.setMaximized(true);//lo abrimos en maximizado
 		        
 				window.show();

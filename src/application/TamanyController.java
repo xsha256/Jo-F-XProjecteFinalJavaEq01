@@ -1,7 +1,6 @@
 package application;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -49,14 +46,32 @@ public class TamanyController {
 			}
 		} else {
 			ventanaAlert alerta = new ventanaAlert();
-			alerta.alert("Atenció ","Por favor, selecciona una opción.", "file:imagenes/alerta.png", 100);
+			alerta.alert("Atenció ", "Por favor, selecciona una opción.", "file:imagenes/alerta.png", 100);
+		}
+	}
+
+	public void enrere(ActionEvent event) {
+		try {
+
+			Parent nuevaVista = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+
+			Scene nuevaEscena = new Scene(nuevaVista);
+			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+			window.setScene(nuevaEscena);
+			window.setMaximized(true);// abrimos maximizado
+
+			window.show();
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
 	}
 
 	public void ranking(ActionEvent event) {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			Connection c = ConexionBBDD.conectar(); 
+			Connection c = ConexionBBDD.conectar();
 
 			String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
 			PreparedStatement s = c.prepareStatement(sentencia);

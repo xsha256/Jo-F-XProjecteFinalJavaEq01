@@ -116,7 +116,7 @@ public class CargarPartidaController implements Initializable {
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			Scene escena2 = new Scene(root, 600, 500);
 			stage.setScene(escena2);
-			stage.setTitle("Seleccionar Tamaño");
+			stage.setTitle("Seleccionar Tamany");
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -135,7 +135,7 @@ public class CargarPartidaController implements Initializable {
 	            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 	            window.setUserData(partidaSeleccionada);
 	            window.setScene(escena2);
-	            window.setTitle("Juego");
+	            window.setTitle("Joc");
 	            window.show();
 
 	        } catch (IOException e) {
@@ -145,7 +145,7 @@ public class CargarPartidaController implements Initializable {
 	    	Alert alerta = new Alert(Alert.AlertType.WARNING);
 			alerta.setTitle("Aviso");
 			alerta.setHeaderText(null);
-			alerta.setContentText("No has seleccionado ninguna patida");
+			alerta.setContentText("No has seleccionat ninguna partida");
 			alerta.showAndWait();
 	    }
 	}
