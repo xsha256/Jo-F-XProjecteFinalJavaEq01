@@ -309,7 +309,7 @@ public class BuscaMinasController implements Initializable {
 
 		try {
 			VBox root2 = FXMLLoader.load(getClass().getResource("Tamany.fxml"));
-			Scene escena2 = new Scene(root2, 600, 500);
+			Scene escena2 = new Scene(root2);
 			Stage window = (Stage) root.getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Juego de la Vida");
@@ -489,15 +489,9 @@ public class BuscaMinasController implements Initializable {
 
 //				s.close();
 //				c.close();
-
-				Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-				alerta.setTitle("Aviso");
-				alerta.setHeaderText(null);
-				alerta.setContentText("Partida guardada con éxito");
-				alerta.showAndWait();
 				
-//				ventanaAlert alerta = new ventanaAlert();
-//				alerta.alert("Desar Partida ","Partida desada amb èxit.", "file:imagenes/alerta.png", 100);
+				ventanaAlert alerta = new ventanaAlert();
+				alerta.alert("Desar Partida ","Partida desada amb èxit.", "file:imagenes/saved.png", 100);
 			} catch (IOException  | SQLException e) {
 				e.printStackTrace();
 			}

@@ -116,7 +116,7 @@ public class CargarPartidaController implements Initializable {
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			Scene escena2 = new Scene(root, 600, 500);
 			stage.setScene(escena2);
-			stage.setTitle("Seleccionar Tamany");
+			stage.setTitle("Seleccionar Mida");
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -131,22 +131,20 @@ public class CargarPartidaController implements Initializable {
 	        try {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("BuscaMinas.fxml"));
 	            Parent root = loader.load();
-				Scene escena2 = new Scene(root, 1000, 800);
+				Scene escena2 = new Scene(root);
 	            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 	            window.setUserData(partidaSeleccionada);
 	            window.setScene(escena2);
-	            window.setTitle("Joc");
+	            window.setTitle("Pescamines");
+	            window.setMaximized(true);
 	            window.show();
 
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
 	    } else {
-	    	Alert alerta = new Alert(Alert.AlertType.WARNING);
-			alerta.setTitle("Aviso");
-			alerta.setHeaderText(null);
-			alerta.setContentText("No has seleccionat ninguna partida");
-			alerta.showAndWait();
+			ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Notificació","No has seleccionat cap partida.", "file:imagenes/alerta.png", 150);
 	    }
 	}
 

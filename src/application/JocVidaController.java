@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class JocVidaController implements Initializable {
 
@@ -63,6 +64,16 @@ public class JocVidaController implements Initializable {
 
 		Platform.runLater(() -> {
 			Stage window = (Stage) root.getScene().getWindow();
+			
+			//SOLUCIÓN A QUE EL JUEGO CONTINUE EN SEGUNDO PLANO UNA VEZ CERRADA LA PANTALLA
+		    window.setOnCloseRequest(event -> {
+		        continuar = false;
+		        synchronized (lock) {
+		            lock.notify(); //por si sse queda esperando
+		        }
+		    });
+		    
+		    //----------------------------------------------------------------------------
 			String opcion = (String) window.getUserData();
 
 			if (opcion.equals("Petita")) {
@@ -70,7 +81,7 @@ public class JocVidaController implements Initializable {
 			} else if (opcion.equals("Mitjana")) {
 				tabla = new Tabla(20, 75, 100);
 			} else {
-				tabla = new Tabla(28, 200, 300);// 30,200,300
+				tabla = new Tabla(28, 200, 300);// 30,200,300 <-- Tamaño original, pero no se ven los botones con ese tamaño
 			}
 
 			FILAS = tabla.getLongMatriz();
@@ -183,8 +194,8 @@ public class JocVidaController implements Initializable {
 
 	public void acabar(ActionEvent e) {
 		try {
+			continuar=false;
 			tabla.reiniciar();
-			continuar = false;
 
 			try {
 				// cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
@@ -199,49 +210,9 @@ public class JocVidaController implements Initializable {
 				window.setTitle("Elecció Dificultad");
 				window.show();
 
-				// window.setMaximized(true);
-
-				// try {
-				////		    	//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
-////				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
-////		        ventanaActual.close();	    
-				//
-				//
-				// Parent root = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-				// Scene scene = new Scene(root,600,500);//ponemos la medida ya que es una
-				// ventana con poca información anchoXalto
-				// Stage window = new Stage();
-				// window.setScene(scene);
-				// window.setTitle("Elecció Dificultad");
-				////		        window.setMaximized(true);
-
-				//
-				// window.initModality(Modality.WINDOW_MODAL);
-				// Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-				// window.initOwner(menuStage);
-				// window.showAndWait();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
-			//
-			// window.showAndWait();
-			// } catch (IOException ex) {
-			// ex.printStackTrace();
-			// }
-
-			// try {
-			// VBox root2 = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-			// Scene escena2 = new Scene(root2, 600, 500);
-			// Stage window = (Stage) root.getScene().getWindow();
-			// window.setScene(escena2);
-			// window.setTitle("Elecció Dificultad");
-			// window.initModality(Modality.WINDOW_MODAL);
-			// Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-			// window.initOwner(menuStage);
-			// window.show();
-			// } catch (IOException e1) {
-			// e1.printStackTrace();
-			// }
 
 			/*
 			 * //cerrar la ventana actual primero y luego abrir la de abajo como ventana
@@ -316,31 +287,18 @@ public class JocVidaController implements Initializable {
 					}
 				}
 				if (bucle) {
+					continuar=false;
 					if (tabla.contarCelulas() == 0) {
 						Platform.runLater(() -> {
-							// Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-							// alerta.setTitle("Muerte Total");
-							// alerta.setHeaderText(null);
-							// alerta.setContentText("Se han muerto todas las celulas. Has llegado hasta la
-							// generacion " + tabla.getGeneraciones());
-							// alerta.showAndWait();
-
 							// llamada a la alerta
 							int aux = tabla.getGeneraciones();
 							ventanaAlert alerta = new ventanaAlert();
 							alerta.alert("Bucle trobat",
-									"El juego ha entrado en un bucle. Has llegado hasta la generacion " + aux,
+									"Se han muerto todas las celulas. Has llegado hasta la generacion " + aux,
 									"file:imagenes/alerta.png", 100);
 						});
 					} else {
 						Platform.runLater(() -> {
-							// Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-							// alerta.setTitle("Bucle detectado");
-							// alerta.setHeaderText(null);
-							// alerta.setContentText("El juego ha entrado en un bucle. Has llegado hasta la
-							// generacion " + tabla.getGeneraciones());
-							// alerta.showAndWait();
-
 							// llamada a la alerta
 							int aux = tabla.getGeneraciones();
 							ventanaAlert alerta = new ventanaAlert();

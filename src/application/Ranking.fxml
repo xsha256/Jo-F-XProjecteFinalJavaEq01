@@ -9,15 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400" prefWidth="600" style="-fx-background-color: #0d262e;"
-	stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RankingController">
+<AnchorPane prefHeight="400" prefWidth="600" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RankingController">
 
 	<children>
-		<VBox alignment="TOP_CENTER" spacing="15" AnchorPane.leftAnchor="20"
-			AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
-			<Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Mi Ranking de Partides"
-				textFill="WHITE">
+		<VBox alignment="TOP_CENTER" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+			<Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Mi Ranking de Partides" textFill="WHITE">
 				<font>
 					<Font name="System Bold" size="20.0" />
 				</font>
@@ -33,9 +29,7 @@
 
 			<HBox alignment="CENTER" prefHeight="100.0" prefWidth="560.0">
 				<children>
-					<Button onAction="#volverATamany"
-						style="-fx-background-color: #365057; -fx-background-radius: 10;"
-						styleClass="botonEnrere" text="Tornar a tamany" textFill="WHITE">
+					<Button onAction="#volverATamany" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Tornar a Mida" textFill="WHITE">
 						<font>
 							<Font name="System Bold" size="18.0" />
 						</font>

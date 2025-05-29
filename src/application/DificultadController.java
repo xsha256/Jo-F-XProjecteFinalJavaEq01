@@ -79,11 +79,13 @@ public class DificultadController implements Initializable {
 			RadioButton seleccionado = (RadioButton) selectedToggle;
 			String opcion = seleccionado.getText();
 			try {
-				VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
+//				//cerramos primero la actual y luego abrimos la otra
+//				Stage ventaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+//				ventaActual.close();
 				
+				VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 				Scene escena2 = new Scene(root2);
 				escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);

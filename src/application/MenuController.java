@@ -1,5 +1,18 @@
 package application;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,17 +37,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 	//atributos
@@ -65,6 +67,8 @@ public class MenuController implements Initializable {
 	
 	//array de ventanas abiertas
 	public ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
+	//hashmap para no poder abrir el mismo juego a la vez
+	private Map<String, Stage> juegosPorNombre = new HashMap<>();
 	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
@@ -267,22 +271,36 @@ public class MenuController implements Initializable {
 	//intento de "reciclar" codigo para los botones del menu-----------------------------
 	private void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
 	    try {
-	    	boolean juegoAbierto=false;
-	    	
+	        if (juegosPorNombre.containsKey(rutaFXML)) {
+	            Stage juego = juegosPorNombre.get(rutaFXML);
+	            if (juego.isShowing()) {
+	                juego.toFront();//trae el juego al frente
+	                juego.requestFocus();
+	                return;//no abre otro
+	            } else {
+	            	//si está cerrado lo quitamos de las listas
+	                juegosPorNombre.remove(rutaFXML);
+	                juegosAbiertos.remove(juego);
+	            }
+	        }
+
 	        Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
-	        Scene scene = new Scene(root,600,400);//ponemos la medida ya que es una ventana con poca información anchoXalto
-	        Stage window = new Stage();
-	        window.setScene(scene);
-	        window.setTitle(tituloVentana);
-//	        window.setMaximized(true);
-	        juegosAbiertos.add(window);//añadimos al arrayList de ventanas
-	        window.setResizable(false);//no deja agrandars
-	        window.show();
-	        
-//	        window.initModality(Modality.WINDOW_MODAL);
-//	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-//	        window.initOwner(menuStage);
-//	        window.showAndWait();
+	        Scene scene = new Scene(root, 600, 400);
+	        Stage ventana = new Stage();
+	        ventana.setScene(scene);
+	        ventana.setTitle(tituloVentana);
+	        ventana.setResizable(false);
+	        ventana.show();
+
+	        juegosAbiertos.add(ventana);
+	        juegosPorNombre.put(rutaFXML, ventana);
+
+	        //Si cerramos manualmente tambien quitamos de las listats
+	        ventana.setOnCloseRequest(event -> {
+	            juegosAbiertos.remove(ventana);
+	            juegosPorNombre.remove(rutaFXML);
+	        });
+
 	    } catch (IOException ex) {
 	        ex.printStackTrace();
 	    }
