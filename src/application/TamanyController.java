@@ -1,19 +1,7 @@
 package application;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,12 +9,25 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class TamanyController {
 
 	@FXML
 	ToggleGroup opcionesGrupo;
-
 
 	public void canviaEscena(ActionEvent e) {
 		Toggle selectedToggle = opcionesGrupo.getSelectedToggle();
@@ -36,21 +37,19 @@ public class TamanyController {
 			try {
 				VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
 
-				Scene escena2 = new Scene(root2, 1000, 800);
+				Scene escena2 = new Scene(root2);
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);
 				window.setTitle("PescaMines");
+				window.setMaximized(true);
 				window.show();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		} else {
-			Alert alerta = new Alert(Alert.AlertType.WARNING);
-			alerta.setTitle("Aviso");
-			alerta.setHeaderText(null);
-			alerta.setContentText("Por favor, selecciona una opción.");
-			alerta.showAndWait();
+			ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Atenció ","Por favor, selecciona una opción.", "file:imagenes/alerta.png", 100);
 		}
 	}
 

@@ -176,3 +176,20 @@ alertInfo {
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
 	
 }
+
+
+/*Botones de las pantallas de dificultad, tamaño tabler etc... */
+
+.botonAjugar:hover{
+	-fx-cursor: hand;
+	-fx-scale-x:1.1;
+	-fx-scale-y:1.1;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
+}
+
+.botonEnrere:hover{
+	-fx-cursor: hand;
+	-fx-scale-x:1.1;
+	-fx-scale-y:1.1;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
+}

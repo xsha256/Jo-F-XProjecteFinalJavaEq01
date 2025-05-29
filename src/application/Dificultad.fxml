@@ -18,7 +18,7 @@
 					<children>
 						<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Mida del Tauler" textAlignment="CENTER">
                      <font>
-                        <Font size="50.0" />
+                        <Font name="System Bold" size="50.0" />
                      </font></Text>
 					</children>
 				</VBox>
@@ -63,7 +63,7 @@
 		</HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="jugar" mnemonicParsing="false" onAction="#canviaEscena" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #2a7963; -fx-background-radius: 10;" text="A jugar!" textFill="WHITE">
+            <Button fx:id="jugar" mnemonicParsing="false" onAction="#canviaEscena" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #2a7963; -fx-background-radius: 10;" styleClass="botonAjugar" text="A jugar!" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -72,7 +72,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
          <children>
-            <Button fx:id="botoEnrere" mnemonicParsing="false" onAction="#anarEnrere" prefHeight="20.0" prefWidth="100.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" text="Enrere" textFill="#141414">
+            <Button fx:id="botoEnrere" mnemonicParsing="false" onAction="#anarEnrere" prefHeight="20.0" prefWidth="100.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Enrere" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

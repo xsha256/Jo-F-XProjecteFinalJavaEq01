@@ -44,33 +44,33 @@ public class DificultadController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//Guardamos estilos originales para poder restaurarlos luego
-        jugarStyleOriginal = jugar.getStyle();
-        botoEnrereStyleOriginal = botoEnrere.getStyle();
-        
-
-			//boton jugar
-		 	jugar.setOnMouseEntered(e -> {
-		        jugar.setStyle(jugarStyleOriginal +"; -fx-background-color: #159a91; -fx-cursor: hand;");
-		        jugar.setScaleX(1.1); 
-		        jugar.setScaleY(1.1);
-		    });
-		    jugar.setOnMouseExited(e -> {
-		        jugar.setStyle(jugarStyleOriginal+ "; -fx-cursor: default;"); // vuelve al estilo original
-		        jugar.setScaleX(1);
-		        jugar.setScaleY(1);
-		    });
-
-		    //boton botoEnrere
-		    botoEnrere.setOnMouseEntered(e -> {
-		        botoEnrere.setStyle(jugarStyleOriginal +"; -fx-background-color: #53808c; -fx-cursor: hand;");
-		        botoEnrere.setScaleX(1.1);
-		        botoEnrere.setScaleY(1.1);
-		    });
-		    botoEnrere.setOnMouseExited(e -> {
-		        botoEnrere.setStyle(botoEnrereStyleOriginal+ "; -fx-cursor: default;");
-		        botoEnrere.setScaleX(1);
-		        botoEnrere.setScaleY(1);
-		    });
+//        jugarStyleOriginal = jugar.getStyle();
+//        botoEnrereStyleOriginal = botoEnrere.getStyle();
+//        
+//
+//			//boton jugar
+//		 	jugar.setOnMouseEntered(e -> {
+//		        jugar.setStyle(jugarStyleOriginal +"; -fx-background-color: #159a91; -fx-cursor: hand;");
+//		        jugar.setScaleX(1.1); 
+//		        jugar.setScaleY(1.1);
+//		    });
+//		    jugar.setOnMouseExited(e -> {
+//		        jugar.setStyle(jugarStyleOriginal+ "; -fx-cursor: default;"); // vuelve al estilo original
+//		        jugar.setScaleX(1);
+//		        jugar.setScaleY(1);
+//		    });
+//
+//		    //boton botoEnrere
+//		    botoEnrere.setOnMouseEntered(e -> {
+//		        botoEnrere.setStyle(jugarStyleOriginal +"; -fx-background-color: #53808c; -fx-cursor: hand;");
+//		        botoEnrere.setScaleX(1.1);
+//		        botoEnrere.setScaleY(1.1);
+//		    });
+//		    botoEnrere.setOnMouseExited(e -> {
+//		        botoEnrere.setStyle(botoEnrereStyleOriginal+ "; -fx-cursor: default;");
+//		        botoEnrere.setScaleX(1);
+//		        botoEnrere.setScaleY(1);
+//		    });
 	}
 
 	public void canviaEscena(ActionEvent e) {
@@ -81,7 +81,7 @@ public class DificultadController implements Initializable {
 			try {
 				VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 				
-				Scene escena2 = new Scene(root2); //1000,800
+				Scene escena2 = new Scene(root2);
 				escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
