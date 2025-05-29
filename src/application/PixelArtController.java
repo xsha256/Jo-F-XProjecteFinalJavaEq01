@@ -6,9 +6,11 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +31,8 @@ import javafx.stage.Stage;
 
 public class PixelArtController implements Initializable {
 
+	//public static String correu=Menu.controller();
+	
 	@FXML
 	private Button pinzell;
 	@FXML
@@ -53,9 +57,8 @@ public class PixelArtController implements Initializable {
 	private Casella [][] taulellCaselles;
 
 	//ESTA FUNCIO ES GUARDARBDD
-	public void guardarPNG(ActionEvent e) {
+	public void guardarBDD(ActionEvent e) {
 		try {
-
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -71,9 +74,18 @@ public class PixelArtController implements Initializable {
             //ESTO PA CONNECTAR DESPRES JA TREBALLAR NORMAL 
             Connection c= ConexionBBDD.conectar();
 
+            String sentenciaObtenirID="SELECT id FROM usuari WHERE email LIKE ?";
+            PreparedStatement psID=c.prepareStatement(sentenciaObtenirID);
+            psID.setString(1, "a@a.es"/*LoginController.EMAIL*/ );
+			ResultSet r = psID.executeQuery();
+			int id=0;
+			while (r.next()) {
+				id=r.getInt("id");
+			}
+            
             String sentencia = "INSERT INTO pixelArt (idUsuari, data, dibuix) VALUES (?, ?, ?)";
             PreparedStatement s = c.prepareStatement(sentencia);
-            s.setInt(1, 1);
+            s.setInt(1, id);
             s.setString(2, data);
             s.setBytes(3, imatgeSerialitzada);
             s.executeUpdate();
@@ -221,7 +233,6 @@ public class PixelArtController implements Initializable {
 		return casella;
 	}
 
-	//ESTO NO ME FA FALTA
 	private String colorString(Color c) {// converteix el color en una string per poder
 															// interpretar-lo
 		return "rgb(" + (int) (c.getRed() * 255) + "," + (int) (c.getGreen() * 255) + "," + (int) (c.getBlue() * 255)

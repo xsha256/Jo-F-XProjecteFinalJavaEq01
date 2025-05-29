@@ -1,7 +1,12 @@
 package application;
 
-public class Casella {
+import java.io.Serializable;
 
+
+public class Casella implements Serializable{
+
+
+	private static final long serialVersionUID = 1L;
 	//ATRIBUTS
 	private String color;
 	private boolean ocupat;
