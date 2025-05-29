@@ -41,7 +41,9 @@ CREATE TABLE IF NOT EXISTS `wordle` (
 CREATE TABLE IF NOT EXISTS `paraulesFetes` (
     `id` INT AUTO_INCREMENT,
     `idWordle` INT NOT NULL,
-    `paraula` INT NOT NULL,
+    `paraula` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`),
     fOREIGN KEY (`idWordle`) REFERENCES `wordle`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+DROP TABLE paraulesFetes; 
