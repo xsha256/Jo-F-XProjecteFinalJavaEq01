@@ -1,5 +1,6 @@
 package application;
 
+
 import java.awt.Window;
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,6 +37,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
@@ -57,8 +60,6 @@ public class WordleController implements Initializable {
 	private VBox escena;// log
 	@FXML
 	private HBox root;
-	@FXML
-	private Button q;
 		
 	
 	
@@ -68,9 +69,11 @@ public class WordleController implements Initializable {
 	private int filaActual = 0;
 	private Stage finestra;
 
-	private int intents=0;
+	private int[] comptadorIntents = new int[7];//del 1 al 6
+	private int intents=1;
 	private int fallades=0;
-	private int encertatLletra=0;
+	private int falladesParaules=0;
+	private int encertats=0;
 	private int encertatParaula=0;
 	//private String emailUsauri=LoginController.EMAIL;
 	
@@ -110,8 +113,10 @@ public class WordleController implements Initializable {
 
 				if (filaCompleta) {
 					comprovarFila(filaActual);// enter
+					intents++;//aumentem els intents
 					filaActual++;// pasem a la fila de baix
 					columnaActual = 0;
+					
 				}
 				if (filaActual==4 && columnaActual==4) {
 					filaActual=0;
@@ -199,8 +204,10 @@ public class WordleController implements Initializable {
 
 						if (filaCompleta) {
 							comprovarFila(filaActual);// enter
+							intents++;//aumentem els intents
 							filaActual++;// pasem a la fila de baix
 							columnaActual = 0;
+							
 						}
 						
 						if (filaActual==4 && columnaActual==4) {
@@ -236,7 +243,9 @@ public class WordleController implements Initializable {
 			if (lletraUsuari == lletraCorrecta) {
 				// Verd: lletra correcta i posició correcta
 				celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
-				q.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+				actualitzarColorTeclat(lletraUsuari, "#43a047");//metodo per pintar el teclat
+				comptadorIntents[intents]++;
+				encertats++;
 			} else if (lletraUsuari != lletraCorrecta && paraula.contains(String.valueOf(lletraUsuari))) {
 				int totalLletraParaula = comptarLletra(paraula, lletraUsuari);
 				int totalLletraUsuari = comptarLletraUsuari(fila, lletraUsuari, columna);
@@ -244,18 +253,20 @@ public class WordleController implements Initializable {
 				if (totalLletraUsuari >= totalLletraParaula) {
 					// Ja has posat aquesta lletra més vegades de les que hi ha a la paraula
 					celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
-					q.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+					actualitzarColorTeclat(lletraUsuari, "lightgrey");
+					
 				} else {
 					// Groc: lletra està a la paraula però no en aquesta posició i encara no s'ha
 					// exhaurit el seu compte
 					celda.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
-					q.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
-
+					actualitzarColorTeclat(lletraUsuari, "#e4a81d");
 				}
 				encertada = false;
 			} else {
 				// Gris: lletra no està en la paraula
 				celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+				actualitzarColorTeclat(lletraUsuari, "lightgrey");
+				fallades++;
 				encertada = false;
 			}
 
@@ -274,6 +285,7 @@ public class WordleController implements Initializable {
 
 			try {
 
+				falladesParaules++;
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Incorrecte");
 				alert.setHeaderText("INCORRECTE"); // text al costat de la icona
@@ -284,13 +296,18 @@ public class WordleController implements Initializable {
 				// alertView.setFitWidth(200);
 				// alertView.setPreserveRatio(true);
 
-				Label msg = new Label(
-						"No has adivinant la paraula. \n La paraula correcta es: " + paraula.toUpperCase());
+				Label msg = new Label("No has adivinant la paraula. \n La paraula correcta es: " + paraula.toUpperCase());
 				msg.setMaxWidth(500);
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
+				
+				Label est = new Label();
+				est.setText(estadistica());
+				est.setWrapText(true);
+				est.setMaxWidth(460);
+				est.setMaxHeight(300);
 
-				VBox content = new VBox(15, msg);
+				VBox content = new VBox(15, msg,est);
 				content.setAlignment(Pos.CENTER);
 				content.setPadding(new Insets(20));
 				content.setPrefWidth(500);
@@ -321,7 +338,8 @@ public class WordleController implements Initializable {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				}
+				} 
+				InsertarBBDD();
 				
 
 			} catch (Exception er) {
@@ -351,8 +369,16 @@ public class WordleController implements Initializable {
 				msg.setMaxWidth(500);
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
+				
 
-				VBox content = new VBox(15, msg);
+				Label est = new Label();
+				est.setText(estadistica());
+				est.setWrapText(true);
+				est.setMaxWidth(460);
+				est.setMaxHeight(300);
+				
+				
+				VBox content = new VBox(15, msg,est);
 				content.setAlignment(Pos.CENTER);
 				content.setPadding(new Insets(20));
 				content.setPrefWidth(500);
@@ -365,6 +391,7 @@ public class WordleController implements Initializable {
 				okButton.getStyleClass().add("boton-hover");
 				alert.getDialogPane().getStyleClass().add("alertError");
 
+				alert.setContentText(estadistica());
 				// tornar a la pantalla de inici
 				Optional<ButtonType> result = alert.showAndWait();
 
@@ -385,6 +412,9 @@ public class WordleController implements Initializable {
 						e.printStackTrace();
 					}
 				}
+				estadistica();
+				InsertarBBDD();
+				
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
 				System.out.println(er.getLocalizedMessage());
@@ -400,20 +430,37 @@ public class WordleController implements Initializable {
 		Random aleatori = new Random();
 		String paraulaAleatoria = "";
 		ArrayList<String> paraules = new ArrayList<String>();
+		ArrayList<String> paraulesUtilitzades=new ArrayList<String>();
+		
+		
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("paraules.txt"));
+			BufferedReader reader = new BufferedReader(new FileReader("paraules.txt"));//llig el fitxer
 			String linea = "";
+			Connection c= ConexionBBDD.conectar();
+			String sql = "SELECT paraula FROM paraulesFetes";//select per mostrar totes les paraules
+			PreparedStatement pst = c.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
 
-			while ((linea = reader.readLine()) != null) {
-				paraules.add(linea);
+			while (rs.next()) {
+				paraulesUtilitzades.add(rs.getString("paraula").toUpperCase());//guardar en un array totes les paraules utilitzades
 			}
+			
+			while ((linea = reader.readLine()) != null) {
+				if (!paraulesUtilitzades.contains(linea)) {//si encara no se ha jugat la paraula
+					paraules.add(linea);
+				}
+				
+			}
+			c.close();
 			reader.close();
-			int index = aleatori.nextInt(0, 200);
+			
+			int index = aleatori.nextInt(0,300);
 			paraulaAleatoria = paraules.get(index);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -510,8 +557,24 @@ public class WordleController implements Initializable {
 		}
 	}
 	
-	
-	/*public void consultarId() {
+	private void actualitzarColorTeclat(char lletra, String color) {
+	    for (Node node : grid2.getChildren()) {
+	        if (node instanceof Button) {
+	            Button boto = (Button) node;
+	            if (boto.getText().equalsIgnoreCase(String.valueOf(lletra))) {
+	                // Només actualitza si el color actual és "menys prioritari"
+	                String estilActual = boto.getStyle();
+	                if (estilActual.contains("#43a047")) return; //si ja es verd no el torna a pintar
+	                if (estilActual.contains("#e4a81d") && color.equals("lightgrey")) return; // No rebaixem groc a gris
+
+	                boto.setStyle("-fx-background-color: " + color + "; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");//pintem la tecla del color q pasem per parametre
+	                
+	                return;
+	            }
+	        }
+	    }
+	}
+	/*public int consultarId() {
 		try {
 			int idUsuari=0;
 			 Connection c= ConexionBBDD.conectar();
@@ -521,25 +584,62 @@ public class WordleController implements Initializable {
 			 while (rs.next()) {
 				idUsuari=rs.getInt("id");
 			}		 
-			 
+			 return idUsuari;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}*/	
+	}*/
 	
 	
 	public void InsertarBBDD() {
 
 		 try {
 			 Connection c= ConexionBBDD.conectar();
-			 String consultaInsert="INSERT INTO wordle (idUsuari,intents,fallades,encertats) VALUES (?,?,?,?)";		 
+			 String consultaInsert="INSERT INTO wordle (idUsuari,intents,fallades,encertats) VALUES (?,?,?,?)";		
+			 String insertParaula ="INSERT INTO paraulesFetes (idWordle, paraula) VALUES (?,?)";
 			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);
-					 
+				
+			 psInsert.setInt(1, 1);
+			 psInsert.setInt(2, intents);
+			 psInsert.setInt(3, fallades);
+			 psInsert.setInt(4, encertats);
+			 psInsert.executeUpdate();
+			
+			 //guardar la paraula que se ha ejecutat
+			 PreparedStatement psParaula = c.prepareStatement(insertParaula);
+			 psParaula.setInt(1, 1);
+			 psParaula.setString(2, paraula);
+			 psParaula.executeUpdate();
+			 
+			
+			 psInsert.close();
+			 psParaula.close();
+			 c.close();
 			 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Error: "+e);
 		}
 		 
+	}
+	
+	public String estadistica() {
+		
+		int totalpartides = falladesParaules+encertatParaula;
+		String simbol ="⬛";
+		StringBuilder resultat = new StringBuilder();
+		resultat.append("\n ===== ESTADÍSTICA ====="+"\n");
+		resultat.append("Partides: "+totalpartides+"\n");
+		resultat.append("Partides guanyades: "+encertatParaula+"\n");
+		resultat.append("Partides perdudes: "+falladesParaules+"\n");
+		resultat.append("----------------------------------\n");
+		
+		for (int i = 1; i <= intents; i++) {
+			resultat.append(i+": "+simbol.repeat(comptadorIntents[i])+"("+((comptadorIntents[i]*10)/encertatParaula)+"%)\n");
+			
+		}
+	
+		return resultat.toString();
+	
 	}
 
 }
