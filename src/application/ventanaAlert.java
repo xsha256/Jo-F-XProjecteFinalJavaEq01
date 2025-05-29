@@ -18,14 +18,16 @@ import java.util.Optional;
 
 public class ventanaAlert {
 	
-	public void alert(String texto, String rutaFoto) {
+	//Hay que pasar parametros!! --> EL TITULO, EL TEXTO A MOSTRAR, RUTA DE LA IMAGEN Y TAMAÑO DE LA IMAGEN! LA RUTA ASÍ: file:imagenes/nombre.png
+	
+	public void alert(String titulo,String texto, String rutaFoto,int tamImagen) {
 		//Estilo de las alertas por defecto
 		Alert alert = new Alert(AlertType.NONE);
-		alert.setTitle("Bucle Detectado");
+		alert.setTitle(titulo);
 		alert.getDialogPane().setPrefSize(500, 300);
-		Image iconAlert = new Image(rutaFoto);//file:imagenes/danger.png
+		Image iconAlert = new Image(rutaFoto);
 		ImageView alertView = new ImageView(iconAlert);
-		alertView.setFitWidth(200);
+		alertView.setFitWidth(tamImagen);
 		alertView.setPreserveRatio(true);
 		Label msg = new Label(texto);
 		msg.setTextAlignment(TextAlignment.CENTER);

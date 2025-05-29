@@ -89,17 +89,15 @@ public class DificultadController implements Initializable {
 				window.setScene(escena2);
 				window.setTitle("Juego de la Vida");
 		        window.setMaximized(true);//lo abrimos en maximizado
-
+		        
 				window.show();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		} else {
-			Alert alerta = new Alert(Alert.AlertType.WARNING);
-			alerta.setTitle("Aviso");
-			alerta.setHeaderText(null);
-			alerta.setContentText("Por favor, selecciona una opción.");
-			alerta.showAndWait();
+			ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Atenció ","Por favor, selecciona una opción.", "file:imagenes/alerta.png", 100);
+//			alerta.showAndWait();
 		}
 		
 

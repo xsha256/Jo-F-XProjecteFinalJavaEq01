@@ -64,7 +64,7 @@ public class MenuController implements Initializable {
 	@FXML private MenuItem itemLogout;
 	
 	//array de ventanas abiertas
-	private ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
+	public ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
 	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
@@ -270,13 +270,14 @@ public class MenuController implements Initializable {
 	    	boolean juegoAbierto=false;
 	    	
 	        Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
-	        Scene scene = new Scene(root,600,500);//ponemos la medida ya que es una ventana con poca información anchoXalto
+	        Scene scene = new Scene(root,600,400);//ponemos la medida ya que es una ventana con poca información anchoXalto
 	        Stage window = new Stage();
 	        window.setScene(scene);
 	        window.setTitle(tituloVentana);
 //	        window.setMaximized(true);
 	        juegosAbiertos.add(window);//añadimos al arrayList de ventanas
-	        window.showAndWait();
+	        window.setResizable(false);//no deja agrandars
+	        window.show();
 	        
 //	        window.initModality(Modality.WINDOW_MODAL);
 //	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -290,7 +291,7 @@ public class MenuController implements Initializable {
 	
 	//lo que hacen los botones es llamar a la función de arriba y darle la ventana a abrir y el titulo de esta
 	public void actionPescamines(ActionEvent e) {
-	    abrirVentanaJuego("pescamines.fxml", "Pescamines", e);
+	    abrirVentanaJuego("Tamany.fxml", "Pescamines", e);
 	}
 
 	public void actionWordle(ActionEvent e) {

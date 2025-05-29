@@ -158,4 +158,21 @@ alertInfo {
   -fx-background-image: url("../../imagenes/fons2.png");
 }
 
+/*Dificultad Joc de la vida */
 
+.botonesMidaTauler{
+	-fx-background-color: #FFFFFF0D;
+	-fx-background-radius:20px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
+}
+
+.radiobuttonMidaTauler:hover{
+	-fx-padding:20px 8px;
+	-fx-background-color: #e4a81d;
+	-fx-background-radius:10px;
+	-fx-scale-x: 1.1;
+  	-fx-scale-y: 1.1;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
+	
+}

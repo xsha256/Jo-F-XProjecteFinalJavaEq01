@@ -178,28 +178,30 @@ public class JocVidaController implements Initializable {
 			lock.notify();
 		}
 	}
-
+	
 	public void acabar(ActionEvent e) {
 		try {
 			tabla.reiniciar();
 			continuar=false;
 			
 		    try {
-//		    	//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
-//				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
-//		        ventanaActual.close();
-		    	
+		    	//cerrar la ventana actual primero y luego abrir la de abajo como ventana NUEVA
+				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		        ventanaActual.close();
+		        
 		        Parent root = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
-		        Scene scene = new Scene(root,600,500);//ponemos la medida ya que es una ventana con poca información anchoXalto
+		        Scene scene = new Scene(root,600,400);//ponemos la medida ya que es una ventana con poca información anchoXalto
 		        Stage window = new Stage();
 		        window.setScene(scene);
 		        window.setTitle("Elecció Dificultad");
-//		        window.setMaximized(true);
+		        window.show();
 		        
-		        window.initModality(Modality.WINDOW_MODAL);
-		        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-		        window.initOwner(menuStage);
-		        window.showAndWait();
+//		        window.setMaximized(true);
+//		        
+//		        window.initModality(Modality.WINDOW_MODAL);
+//		        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+//		        window.initOwner(menuStage);
+//		        window.showAndWait();
 		    } catch (IOException ex) {
 		        ex.printStackTrace();
 		    }
@@ -287,7 +289,7 @@ public class JocVidaController implements Initializable {
 							//llamada a la alerta
 							int aux=tabla.getGeneraciones();
 							ventanaAlert alerta = new ventanaAlert();
-							alerta.alert("El juego ha entrado en un bucle. Has llegado hasta la generacion "+aux, "file:imagenes/danger.png");
+							alerta.alert("Bucle trobat","El juego ha entrado en un bucle. Has llegado hasta la generacion "+aux, "file:imagenes/alerta.png",100);
 						});
 					} else {
 						Platform.runLater(() -> {
@@ -300,7 +302,7 @@ public class JocVidaController implements Initializable {
 							//llamada a la alerta
 							int aux=tabla.getGeneraciones();
 							ventanaAlert alerta = new ventanaAlert();
-							alerta.alert("El juego ha entrado en un bucle. Has llegado hasta la generacion "+aux, "file:imagenes/danger.png");
+							alerta.alert("Bucle trobat ","El juego ha entrado en un bucle. Has llegado hasta la generacion "+aux, "file:imagenes/alerta.png",100);
 						});
 					}
 					return false;
