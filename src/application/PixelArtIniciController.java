@@ -1,7 +1,12 @@
 package application;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -15,7 +20,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -40,8 +44,11 @@ public class PixelArtIniciController implements Initializable {
 	@FXML
 	private TextField altura;
 
+	//TAULELL SERVEIX PER CANVIAR DE DADES ENTRE FINESTRES
 	private Taulell taulell;
 
+	
+	
 	//COMPROVA QUE LA ENTRADA SIGUEN NUMEROS I MULTIPLES DE 16
 	public boolean comprovarEntrada(String s1, String s2) {
 
@@ -92,35 +99,109 @@ public class PixelArtIniciController implements Initializable {
 		            ample = 32;
 		            alt = 32;
 		        }
+		        
 			taulell.setAmple(ample);
 			taulell.setAltura(alt);
 			
 			DadesPixelArt.getInstancia().setTaulell(taulell);
-			Parent root = FXMLLoader.load(getClass().getResource("PixelArtFXML.fxml"));
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("PixelArtFXML.fxml"));
+			Parent root = loader.load();
+			PixelArtController controlador = loader.getController(); // ← ACCEDEMOS AL CONTROLADOR
+
 			Scene escena2 = new Scene(root);
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Pixel Art");
 			window.setMaximized(true);
+
+			controlador.tancarPixelArt(window);
+
 			window.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 
-	// CANVI DE PANTALLA A LA SELECCIO DE JOC LA TE YORDAN
-
+	//TANCA LA FINESTRA I TORNA A LA PANTALLA DE SELECCIO DE JOC LA TE YORDAN
 	public void enrere() {
 
 		Stage stage = (Stage) botoEnrere.getScene().getWindow();
 		stage.close();
 
 	}
+	
 
-	// CANVI DE PANTALLA A LA SELECCIÓ DE DESATS
+	//DESERIALITZA I CARREGA EL ULTIM PANELL
 	public void desats() {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
 
+	    try {
+	       
+	        conn = ConexionBBDD.conectar();
+
+	        //JO VULL TREURE EL ULTIM ELEMENT 
+	        //String sql = "SELECT dibuix FROM pixelArt ORDER BY id DESC LIMIT 1";
+	        String sql = "SELECT dibuix FROM pixelArt WHERE id = ?"; 
+	        ps = conn.prepareStatement(sql);
+	        ps.setInt(1, 2); 
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            byte[] dades = rs.getBytes("dibuix");
+	            if (dades == null) {
+	                System.out.println("No hi ha dades per a aquest id.");
+	                return;
+	            }
+
+	            //DESERIALITZAR
+	            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(dades));
+	            Object obj = ois.readObject();
+	            ois.close();
+
+	            //JO SERIALITZE UN OBJECTE TAULELL QUE DINS TE UNA MATRIU DE CASELLES LLAVORS 
+	            //FAIG UN CASTING DE L'OBJECTE PER TINDRE UNA MATRIU DE CASELLES
+	            Casella[][] caselles = (Casella[][]) obj;
+	            Taulell  taulellDesat = new Taulell(caselles);
+	           
+	            DadesPixelArt.getInstancia().setTaulell(taulellDesat);
+
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("PixelArtFXML.fxml"));
+	            Parent root = loader.load();
+
+	            PixelArtController controlador = loader.getController();
+	            controlador.setTaulell(taulellDesat);
+	            
+	            Scene escena = new Scene(root);
+	            Stage window = (Stage) botoDesats.getScene().getWindow();
+	            			   
+	            window.setScene(escena);
+	            window.setTitle("Pixel Art (Desat)");
+	            window.setMaximized(true);	            
+	            window.show();
+
+	            //controlador.tancarPixelArt(window); // si aquest mètode és necessari
+
+
+	            
+
+	        } else {
+	            System.out.println("No s'ha trobat cap fila amb l'id indicat.");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        // Tancar recursos
+	        try { if (rs != null) rs.close(); } catch (Exception e) { /* ignorar */ }
+	        try { if (ps != null) ps.close(); } catch (Exception e) { /* ignorar */ }
+	        try { if (conn != null) conn.close(); } catch (Exception e) { /* ignorar */ }
+	    }
 	}
+
+
 
 	// MIDA DE 16X16
 	public void triarXicotet() {
