@@ -1,5 +1,7 @@
 package application;
 
+import static javafx.scene.paint.Color.MINTCREAM;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -12,7 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +25,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.Event;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -75,6 +75,7 @@ public class BuscaMinasController implements Initializable {
 	private int clicks = 0;
 	private boolean cargar = false;
 	private static Connection c = ConexionBBDD.conectar();
+	private static int idUsuari = 0;
 
 	EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
 
@@ -302,8 +303,27 @@ public class BuscaMinasController implements Initializable {
 			}));
 			timeline.setCycleCount(Timeline.INDEFINITE);
 			timeline.play();
+			
+			
 
 		});
+		try {
+		String sentencia = "SELECT id FROM usuari WHERE email = ?";
+		PreparedStatement s = c.prepareStatement(sentencia);
+		s.setString(1, LoginController.EMAIL);
+		ResultSet r;
+
+			r = s.executeQuery();
+		
+		while (r.next()) {
+			idUsuari = r.getInt("id");
+		}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		
+
+		
 	}
 
 	public void canviaEscena() {
@@ -482,11 +502,11 @@ public class BuscaMinasController implements Initializable {
 				Date hoy = new Date();
 				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String fecha = formato.format(hoy);
-
-
+				
+			
 				String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
-				s.setInt(1, 41);
+				s.setInt(1, idUsuari);
 				s.setString(2, fecha);
 				s.setBytes(3, datosSerializados);
 				s.setString(4, opcion);
@@ -524,7 +544,7 @@ public class BuscaMinasController implements Initializable {
 
 			String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement s = c.prepareStatement(sentencia);
-			s.setInt(1, 41);
+			s.setInt(1, idUsuari);
 			s.setString(2, fecha);
 			s.setBytes(3, datosSerializados);
 			s.setString(4, opcion);
@@ -544,8 +564,11 @@ public class BuscaMinasController implements Initializable {
 	public void ranking(ActionEvent event) {
 		try {
 
-			String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
+			//String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
+			String sentencia = "SELECT id, temps, data , tamany FROM pescaMines WHERE idUsuari = ? AND acabat LIKE 'Si' ORDER BY temps";
 			PreparedStatement s = c.prepareStatement(sentencia);
+			s.setInt(1, idUsuari);
+			System.out.println(idUsuari);
 			ResultSet r = s.executeQuery();
 
 			ArrayList<Partida> listaRanking = new ArrayList<>();
@@ -606,17 +629,27 @@ public class BuscaMinasController implements Initializable {
 	}
 
 	public void cargar(ActionEvent event) {
+		System.out.println("dentro descar");
 		try {
-			String sentencia = "SELECT id, data, sesioJoc, temps FROM pescaMines WHERE acabat = 'No'";
-			Statement s = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-			ResultSet r = s.executeQuery(sentencia);
+			
+			String sentencia = "SELECT id, data, sesioJoc, temps FROM pescaMines WHERE idUsuari = ? AND acabat = 'No'";
+			//Statement s = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			PreparedStatement s = c.prepareStatement(sentencia, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			s.setInt(1, idUsuari); 
+			ResultSet r = s.executeQuery();
 
 			ArrayList<Partida> partidas = new ArrayList<>();
 
+			System.out.println("dentro fuera while");
+			System.out.println("ID usuari: " + idUsuari);
 			while (r.next()) {
+				System.out.println("dentro  while");
 				Timestamp fecha = r.getTimestamp("data");
+				System.out.println(fecha);
 				byte[] datosSerializados = r.getBytes("sesioJoc");
+				System.out.println(datosSerializados);
 				double tiempo = r.getDouble("temps");
+				System.out.println(tiempo);
 				int id = r.getInt("id");
 				ByteArrayInputStream bais = new ByteArrayInputStream(datosSerializados);
 				ObjectInputStream ois = new ObjectInputStream(bais);
@@ -641,8 +674,8 @@ public class BuscaMinasController implements Initializable {
 			VBox root2 = FXMLLoader.load(getClass().getResource("CargarPartida.fxml"));
 			Scene escena2 = new Scene(root2);
 			escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();
-			window.setUserData(opcion);
+			Stage window = new Stage(); //(Stage) ((Node) event.getSource()).getScene().getWindow();
+			window.setUserData(partidas);
 			window.setScene(escena2);
 			window.setTitle("Busca Mines");
 			window.show();

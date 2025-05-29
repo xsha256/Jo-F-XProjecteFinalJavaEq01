@@ -58,13 +58,22 @@ public class TamanyController {
 	}
 
 	public void ranking(ActionEvent event) {
+		int idUsuari = 0;
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
 			Connection c = ConexionBBDD.conectar();
-
-			String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
+			String sentencia = "SELECT id FROM usuari WHERE email = ?";
 			PreparedStatement s = c.prepareStatement(sentencia);
+			s.setString(1, LoginController.EMAIL);
 			ResultSet r = s.executeQuery();
+			while (r.next()) {
+				idUsuari = r.getInt("id");
+			}
+			
+			//String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
+			sentencia = "SELECT id, temps, data , tamany FROM pescaMines WHERE idUsuari = ? AND acabat = 'Si' ORDER BY temps";
+			s = c.prepareStatement(sentencia);
+			s.setInt(1, idUsuari);
+			r = s.executeQuery();
 
 			ArrayList<Partida> listaRanking = new ArrayList<>();
 
@@ -115,7 +124,7 @@ public class TamanyController {
 			stage.setScene(new Scene(root));
 			stage.show();
 
-		} catch (ClassNotFoundException | SQLException | IOException e) {
+		} catch ( SQLException | IOException e) {
 			e.printStackTrace();
 		}
 

@@ -11,10 +11,10 @@
 
     <TableView fx:id="tableViewPartidas" prefHeight="300" prefWidth="600">
         <columns>
-            <TableColumn fx:id="colTamaño" prefWidth="150" text="Tamaño" />
-            <TableColumn fx:id="colTiempo" prefWidth="150" text="Tiempo" />
-            <TableColumn fx:id="colCasillasDescubiertas" prefWidth="150" text="Casillas Descubiertas" />
-            <TableColumn fx:id="colBanderasRestantes" prefWidth="150" text="Banderas Restantes" />
+            <TableColumn fx:id="colTamaño" prefWidth="150" text="Tamany" />
+            <TableColumn fx:id="colTiempo" prefWidth="150" text="Temps" />
+            <TableColumn fx:id="colCasillasDescubiertas" prefWidth="150" text="Casillas Descobertes" />
+            <TableColumn fx:id="colBanderasRestantes" prefWidth="150" text="Banderes Restants" />
         </columns>
     </TableView>
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">

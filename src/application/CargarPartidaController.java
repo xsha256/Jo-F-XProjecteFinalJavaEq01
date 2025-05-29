@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -104,6 +103,8 @@ public class CargarPartidaController implements Initializable {
 	        ArrayList<Partida> partidas = (ArrayList<Partida>) window.getUserData();
 	        tableViewPartidas.setItems(FXCollections.observableArrayList(partidas));
 	    });
+	    
+	    
 
 	}
 
