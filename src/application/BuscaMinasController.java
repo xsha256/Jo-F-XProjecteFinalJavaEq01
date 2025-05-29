@@ -111,15 +111,12 @@ public class BuscaMinasController implements Initializable {
 							if (node.getId().equals("mina")) {
 								timeline.stop();
 								mostrarMinas();
-								Alert alerta = new Alert(Alert.AlertType.WARNING);
-								alerta.setTitle("Aviso");
-								alerta.setHeaderText(null);
-								alerta.setContentText("Has explotado una mina");
-								alerta.showAndWait();
+							
+								ventanaAlert alerta = new ventanaAlert();
+								alerta.alert("Game Over","Has esclatat una mina!", "file:imagenes/boom.png", 300);
 								if (partidaCargada) {
 									System.out.println("Perder");
 									try {
-										
 										String sentencia = "DELETE FROM pescaMines where id = ?";
 										PreparedStatement s = c.prepareStatement(sentencia);
 										s.setInt(1, id);
@@ -181,11 +178,8 @@ public class BuscaMinasController implements Initializable {
 							} else {
 								try {
 									if (banderasPuestas == tablero.getMinas()) {
-										Alert alerta = new Alert(Alert.AlertType.WARNING);
-										alerta.setTitle("Aviso");
-										alerta.setHeaderText(null);
-										alerta.setContentText("No puedes poner mas banderas");
-										alerta.showAndWait();
+										ventanaAlert alerta = new ventanaAlert();
+										alerta.alert("Atenció","No pots posar més banderes", "file:imagenes/equis.png", 300);
 									} else {
 										Image bandera1 = new Image(new FileInputStream("imagenes/bandera.png"));
 										ImageView bandera = new ImageView(bandera1);
@@ -385,11 +379,9 @@ public class BuscaMinasController implements Initializable {
 		if (contarCuadrados() == ((tablero.getLongitudHorizontal() * tablero.getLongitudVertical())
 				- tablero.getMinas())) {
 			timeline.stop();
-			Alert alerta = new Alert(Alert.AlertType.WARNING);
-			alerta.setTitle("Aviso");
-			alerta.setHeaderText(null);
-			alerta.setContentText("Has ganado, Felicidades!!!");
-			alerta.showAndWait();
+			
+			ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("You Win","Has guanyat!!", "file:imagenes/win.png", 200);
 			if (partidaCargada) {
 				System.out.println("Ganar");
 				try {
@@ -465,11 +457,9 @@ public class BuscaMinasController implements Initializable {
 			
 		}
 		if (tablero.getMatriz_abajo() == null) {
-			Alert alerta = new Alert(Alert.AlertType.WARNING);
-			alerta.setTitle("Aviso");
-			alerta.setHeaderText(null);
-			alerta.setContentText("No has iniciado ninguna partida.");
-			alerta.showAndWait();
+			ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Atenció ","No has iniciat cap partida..", "file:imagenes/alerta.png", 100);
+			
 			return;
 		} else {
 			try {
@@ -505,6 +495,9 @@ public class BuscaMinasController implements Initializable {
 				alerta.setHeaderText(null);
 				alerta.setContentText("Partida guardada con éxito");
 				alerta.showAndWait();
+				
+//				ventanaAlert alerta = new ventanaAlert();
+//				alerta.alert("Desar Partida ","Partida desada amb èxit.", "file:imagenes/alerta.png", 100);
 			} catch (IOException  | SQLException e) {
 				e.printStackTrace();
 			}

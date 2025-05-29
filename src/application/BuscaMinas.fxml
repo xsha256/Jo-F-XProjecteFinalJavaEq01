@@ -16,7 +16,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text fx:id="casillasAbiertas" fill="#e8e8e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Caselles Obertes: ">
+                  <Text fx:id="casillasAbiertas" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Caselles Obertes: ">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -25,7 +25,7 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Text fx:id="tiempo" fill="#e8e8e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Temps: ">
+                  <Text fx:id="tiempo" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Temps: ">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
