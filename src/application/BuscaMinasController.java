@@ -119,13 +119,12 @@ public class BuscaMinasController implements Initializable {
 								if (partidaCargada) {
 									System.out.println("Perder");
 									try {
-										Class.forName("org.mariadb.jdbc.Driver");
 										
 										String sentencia = "DELETE FROM pescaMines where id = ?";
 										PreparedStatement s = c.prepareStatement(sentencia);
 										s.setInt(1, id);
 										s.executeUpdate();
-									} catch (ClassNotFoundException | SQLException e1) {
+									} catch ( SQLException e1) {
 										e1.printStackTrace();
 									}
 									partidaCargada = false;
@@ -315,7 +314,7 @@ public class BuscaMinasController implements Initializable {
 	public void canviaEscena() {
 
 		try {
-			VBox root2 = FXMLLoader.load(getClass().getResource("Tamaño.fxml"));
+			VBox root2 = FXMLLoader.load(getClass().getResource("Tamany.fxml"));
 			Scene escena2 = new Scene(root2, 600, 500);
 			Stage window = (Stage) root.getScene().getWindow();
 			window.setScene(escena2);
@@ -394,12 +393,11 @@ public class BuscaMinasController implements Initializable {
 			if (partidaCargada) {
 				System.out.println("Ganar");
 				try {
-					Class.forName("org.mariadb.jdbc.Driver");
 					String sentencia = "DELETE FROM pescaMines where id = ?";
 					PreparedStatement s = c.prepareStatement(sentencia);
 					s.setInt(1, id);
 					s.executeUpdate();
-				} catch (ClassNotFoundException | SQLException e1) {
+				} catch (  SQLException e1) {
 					e1.printStackTrace();
 				}
 				partidaCargada = false;
@@ -455,13 +453,12 @@ public class BuscaMinasController implements Initializable {
 	public void guardarPartida() {
 		if(partidaCargada) {
 			try {
-				Class.forName("org.mariadb.jdbc.Driver");
 
 				String sentencia = "DELETE FROM pescaMines where id = ?";
 				PreparedStatement s = c.prepareStatement(sentencia);
 				s.setInt(1, id);
 				s.executeUpdate();
-			} catch (ClassNotFoundException | SQLException e) {
+			} catch (  SQLException e) {
 				e.printStackTrace();
 			}
 			partidaCargada = false;
@@ -489,7 +486,6 @@ public class BuscaMinasController implements Initializable {
 				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String fecha = formato.format(hoy);
 
-				Class.forName("org.mariadb.jdbc.Driver");
 
 				String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
@@ -509,7 +505,7 @@ public class BuscaMinasController implements Initializable {
 				alerta.setHeaderText(null);
 				alerta.setContentText("Partida guardada con éxito");
 				alerta.showAndWait();
-			} catch (IOException | ClassNotFoundException | SQLException e) {
+			} catch (IOException  | SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -531,7 +527,6 @@ public class BuscaMinasController implements Initializable {
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String fecha = formato.format(hoy);
 
-			Class.forName("org.mariadb.jdbc.Driver");
 
 			String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement s = c.prepareStatement(sentencia);
@@ -546,7 +541,7 @@ public class BuscaMinasController implements Initializable {
 			s.close();
 			c.close();
 
-		} catch (IOException | ClassNotFoundException | SQLException e) {
+		} catch (IOException  | SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -554,7 +549,6 @@ public class BuscaMinasController implements Initializable {
 
 	public void ranking(ActionEvent event) {
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
 
 			String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
 			PreparedStatement s = c.prepareStatement(sentencia);
@@ -609,7 +603,7 @@ public class BuscaMinasController implements Initializable {
 			stage.setScene(new Scene(root));
 			stage.show();
 
-		} catch (ClassNotFoundException | SQLException | IOException e) {
+		} catch (  SQLException | IOException e) {
 			e.printStackTrace();
 		}
 
@@ -617,7 +611,6 @@ public class BuscaMinasController implements Initializable {
 
 	public void cargar(ActionEvent event) {
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
 			String sentencia = "SELECT id, data, sesioJoc, temps FROM pescaMines WHERE acabat = 'No'";
 			Statement s = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			ResultSet r = s.executeQuery(sentencia);

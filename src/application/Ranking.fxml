@@ -25,7 +25,7 @@
 
 			<HBox alignment="CENTER" prefHeight="100.0" prefWidth="560.0">
 				<children>
-					<Button onAction="#volverATamaño" style="-fx-background-color: #365057; -fx-background-radius: 10;" text="Volver a Tamaño" textFill="#141414">
+					<Button onAction="#volverATamany" style="-fx-background-color: #365057; -fx-background-radius: 10;" text="Volver a Tamaño" textFill="#141414">
 						<font>
 							<Font name="System Bold" size="18.0" />
 						</font>

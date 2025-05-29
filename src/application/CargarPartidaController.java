@@ -50,7 +50,7 @@ public class CargarPartidaController implements Initializable {
 		colBanderasRestantes.setCellValueFactory(new PropertyValueFactory<>("banderasRestantes"));
 
 
-	    colTamaño.setCellFactory(column -> new TableCell<>() {
+	    colTamaño.setCellFactory(column -> new TableCell<Partida, String>() {
 	        @Override
 	        protected void updateItem(String item, boolean empty) {
 	            super.updateItem(item, empty);
@@ -59,7 +59,7 @@ public class CargarPartidaController implements Initializable {
 	        }
 	    });
 
-	    colTiempo.setCellFactory(column -> new TableCell<>() {
+	    colTiempo.setCellFactory(column -> new TableCell<Partida, String>() {
 	        @Override
 	        protected void updateItem(String item, boolean empty) {
 	            super.updateItem(item, empty);
@@ -81,7 +81,7 @@ public class CargarPartidaController implements Initializable {
 
 
 
-	    colCasillasDescubiertas.setCellFactory(column -> new TableCell<>() {
+	    colCasillasDescubiertas.setCellFactory(column -> new TableCell<Partida, Integer>() {
 	        @Override
 	        protected void updateItem(Integer item, boolean empty) {
 	            super.updateItem(item, empty);
@@ -90,7 +90,7 @@ public class CargarPartidaController implements Initializable {
 	        }
 	    });
 
-	    colBanderasRestantes.setCellFactory(column -> new TableCell<>() {
+	    colBanderasRestantes.setCellFactory(column -> new TableCell<Partida, Integer>() {
 	        @Override
 	        protected void updateItem(Integer item, boolean empty) {
 	            super.updateItem(item, empty);
@@ -111,7 +111,7 @@ public class CargarPartidaController implements Initializable {
 
 	public void volver(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Tamaño.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Tamany.fxml"));
 			Parent root = loader.load();
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			Scene escena2 = new Scene(root, 600, 500);

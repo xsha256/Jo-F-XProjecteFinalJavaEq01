@@ -93,9 +93,9 @@ public class RankingController implements Initializable {
 		});
 	}
 
-	public void volverATamaño(ActionEvent event) {
+	public void volverATamany(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Tamaño.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Tamany.fxml"));
 			Parent root = loader.load();
 
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
