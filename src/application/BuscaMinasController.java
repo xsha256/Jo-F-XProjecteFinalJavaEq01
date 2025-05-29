@@ -73,7 +73,7 @@ public class BuscaMinasController implements Initializable {
 
 	private int clicks = 0;
 	private boolean cargar = false;
-	private Connection c = ConexionBBDD.conectar();
+	private static Connection c = ConexionBBDD.conectar();
 
 	EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
 
@@ -489,7 +489,7 @@ public class BuscaMinasController implements Initializable {
 
 				String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
-				s.setInt(1, 1);
+				s.setInt(1, 41);
 				s.setString(2, fecha);
 				s.setBytes(3, datosSerializados);
 				s.setString(4, opcion);
@@ -497,8 +497,8 @@ public class BuscaMinasController implements Initializable {
 				s.setString(6, "No");
 				s.executeUpdate();
 
-				s.close();
-				c.close();
+//				s.close();
+//				c.close();
 
 				Alert alerta = new Alert(Alert.AlertType.INFORMATION);
 				alerta.setTitle("Aviso");
@@ -530,7 +530,7 @@ public class BuscaMinasController implements Initializable {
 
 			String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement s = c.prepareStatement(sentencia);
-			s.setInt(1, 1);
+			s.setInt(1, 41);
 			s.setString(2, fecha);
 			s.setBytes(3, datosSerializados);
 			s.setString(4, opcion);
@@ -538,8 +538,8 @@ public class BuscaMinasController implements Initializable {
 			s.setString(6, "Si");
 			s.executeUpdate();
 
-			s.close();
-			c.close();
+//			s.close();
+//			c.close();
 
 		} catch (IOException  | SQLException e) {
 			e.printStackTrace();
@@ -633,9 +633,9 @@ public class BuscaMinasController implements Initializable {
 				partidas.add(partida);
 			}
 
-			r.close();
-			s.close();
-			c.close();
+//			r.close();
+//			s.close();
+//			c.close();
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("CargarPartida.fxml"));
 			Parent root = loader.load();
