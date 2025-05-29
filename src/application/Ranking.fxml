@@ -13,7 +13,10 @@
 
 	<children>
 		<VBox alignment="TOP_CENTER" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
-			<Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Mi Ranking de Partidas" textFill="WHITE" />
+			<Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Mi Ranking de Partidas" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="20.0" />
+            </font></Label>
 
 			<TableView fx:id="tablaRanking" prefHeight="300" prefWidth="560">
 				<columns>
@@ -25,7 +28,7 @@
 
 			<HBox alignment="CENTER" prefHeight="100.0" prefWidth="560.0">
 				<children>
-					<Button onAction="#volverATamany" style="-fx-background-color: #365057; -fx-background-radius: 10;" text="Volver a Tamaño" textFill="#141414">
+					<Button onAction="#volverATamany" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Volver a Tamaño" textFill="WHITE">
 						<font>
 							<Font name="System Bold" size="18.0" />
 						</font>
