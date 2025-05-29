@@ -32,14 +32,16 @@ public class TamanyController {
 			RadioButton seleccionado = (RadioButton) selectedToggle;
 			String opcion = seleccionado.getId();
 			try {
+				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+				ventanaActual.close();
 				VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
-
 				Scene escena2 = new Scene(root2);
-				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
+				escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);
-				window.setTitle("PescaMines");
-				window.setMaximized(true);
+				window.setTitle("Busca Mines");
+				window.setMaximized(true);// lo abrimos en maximizado
 				window.show();
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -50,22 +52,9 @@ public class TamanyController {
 		}
 	}
 
-	public void enrere(ActionEvent event) {
-		try {
-
-			Parent nuevaVista = FXMLLoader.load(getClass().getResource("Menu.fxml"));
-
-			Scene nuevaEscena = new Scene(nuevaVista);
-			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-			window.setScene(nuevaEscena);
-			window.setMaximized(true);// abrimos maximizado
-
-			window.show();
-
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+	public void enrere(ActionEvent e) {
+		Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		ventanaActual.close();
 	}
 
 	public void ranking(ActionEvent event) {

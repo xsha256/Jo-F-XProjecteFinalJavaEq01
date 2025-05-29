@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.Event;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -308,9 +309,14 @@ public class BuscaMinasController implements Initializable {
 	public void canviaEscena() {
 
 		try {
+
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			ventanaActual.close();
 			VBox root2 = FXMLLoader.load(getClass().getResource("Tamany.fxml"));
 			Scene escena2 = new Scene(root2);
-			Stage window = (Stage) root.getScene().getWindow();
+
+			Stage window = new Stage(); //(Stage) root.getScene().getWindow();
+
 			window.setScene(escena2);
 			window.setTitle("Juego de la Vida");
 			window.show();
@@ -324,10 +330,11 @@ public class BuscaMinasController implements Initializable {
 
 		try {
 			VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
-			Scene escena2 = new Scene(root2, 1000, 800);
+			Scene escena2 = new Scene(root2);
 			Stage window = (Stage) root.getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Juego de la Vida");
+			window.setMaximized(true);
 			window.show();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -582,10 +589,12 @@ public class BuscaMinasController implements Initializable {
 				listaRanking.add(new Partida(tiempo2, fechaFormateada, tamaño, id));
 			}
 
+			Stage ventanaActual =  (Stage) ((Node) event.getSource()).getScene().getWindow();
+			ventanaActual.close();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Ranking.fxml"));
 			Parent root = loader.load();
 
-			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			Stage stage = new Stage(); //(Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setUserData(listaRanking);
 			stage.setScene(new Scene(root));
 			stage.show();
@@ -624,15 +633,19 @@ public class BuscaMinasController implements Initializable {
 //			s.close();
 //			c.close();
 
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("CargarPartida.fxml"));
-			Parent root = loader.load();
 
-			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-			stage.setUserData(partidas);
-
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
+			
+			
+			Stage ventanaActual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			ventanaActual.close();
+			VBox root2 = FXMLLoader.load(getClass().getResource("CargarPartida.fxml"));
+			Scene escena2 = new Scene(root2);
+			escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();
+			window.setUserData(opcion);
+			window.setScene(escena2);
+			window.setTitle("Busca Mines");
+			window.show();
 
 		} catch (SQLException | IOException | ClassNotFoundException e) {
 			e.printStackTrace();
