@@ -1,5 +1,30 @@
 package application;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -7,30 +32,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class MenuController implements Initializable {
 	//atributos
@@ -59,20 +63,39 @@ public class MenuController implements Initializable {
 	@FXML private MenuItem itemBaixa;
 	@FXML private MenuItem itemLogout;
 	
+	//array de ventanas abiertas
+	public ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
 	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
 		this.emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
 		
+		//funcion para cerrar todas las ventas abiertas a traves de Menu
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			
+			ventanaActual.setOnCloseRequest(evt ->{
+				System.out.println("Hola Mundo!");
+				if(juegosAbiertos!=null) {
+					for(Stage s: juegosAbiertos) {
+						s.close();
+					}
+				}
+				
+			});
+		});
+		
+		
+		
 		try {
 			// cargar el driver de MariaDB... con una vez sobra creo :) 
-	        Class.forName("org.mariadb.jdbc.Driver");
+//	        Class.forName("org.mariadb.jdbc.Driver");
 	        
-//			//Conexion BBDD--------------------------------------------------------------
-//			String urlBaseDatos = "jdbc:mariadb://localhost:3306/jofx";
-//			String usuario = "root";
-//			String contra = "";
-			this.c = ConexionBBDD.conectar();
+
+			 this.c = ConexionBBDD.conectar();
+
+
+
 			//----------------------------------------------------------------------------
 			
 			//llamamos a la funcion que comprueba el nombre de usuario
@@ -93,36 +116,30 @@ public class MenuController implements Initializable {
 	
 	//al pulsar esto, se borra la cuenta del usuario
 	public void actionBaja(ActionEvent e){
-		//al entrar aquí al usuario le sale el alert para confirmar
-	    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-	    alert.getDialogPane().setId("alertDarseDeBaja");
-	    alert.setTitle("🚩 Confirmació");
-	    alert.setHeaderText("Estàs segur que vols donar-te de baixa?");
-	    alert.setContentText("Aquesta acció eliminarà el teu usuari per sempre.");
-	    
+		
+		Alert alert = new Alert(AlertType.NONE);
+		alert.setTitle("🚩 Confirmació");
+		alert.getDialogPane().setPrefSize(500, 300);
+		Image iconAlert = new Image("file:imagenes/danger.png");
+		ImageView alertView = new ImageView(iconAlert);
+		alertView.setFitWidth(200);
+		alertView.setPreserveRatio(true);
+		Label msg = new Label("Estàs segur que vols donar-te de baixa?\n Aquesta acció eliminarà el teu usuari per sempre.");
+		msg.setTextAlignment(TextAlignment.CENTER);
+		msg.setWrapText(true);
+		msg.getStyleClass().add("msgAlertError");
+		VBox content = new VBox(15, alertView, msg);
+		content.setAlignment(Pos.CENTER);
+		content.setPadding(new Insets(20));
+		content.setPrefWidth(200);
+		alert.getDialogPane().setContent(content);
+		alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
 	    //botones personalizados
 	    ButtonType botAceptar = new ButtonType("Acceptar", ButtonBar.ButtonData.OK_DONE);
 	    ButtonType botCancelar = new ButtonType("Cancel·lar", ButtonBar.ButtonData.CANCEL_CLOSE);
-	    
 	    alert.getButtonTypes().setAll(botAceptar,botCancelar);//añadir los botones
 	    
-	    DialogPane dialogPane = alert.getDialogPane();
-
-	    //color texto
-		 Node header = dialogPane.lookup(".header-panel");
-		 header.setStyle("-fx-background-color: #e8e8e8;");
-
-		 Node content = dialogPane.lookup(".content");
-		 content.setStyle("-fx-text-fill: white;"+"-fx-background-color: #0d262e;");
-		 
-		 Node buttonBar = dialogPane.lookup(".button-bar");
-		 buttonBar.setStyle("-fx-background-color: #0d262e;");
-
-		 
-		 alert.getDialogPane().getStylesheets().add(
-				    getClass().getResource("application.css").toExternalForm()
-		);
-
 	    Button botonAceptar = (Button) alert.getDialogPane().lookupButton(botAceptar);
 	    botonAceptar.setStyle(
 	        "-fx-background-color: #2a7963;" +     
@@ -131,6 +148,7 @@ public class MenuController implements Initializable {
 	    );
 	    botonAceptar.setCursor(Cursor.HAND);
 
+
 	    Button botonCancelar = (Button) alert.getDialogPane().lookupButton(botCancelar);
 	    botonCancelar.setStyle(
 	        "-fx-background-color: #f44336;" +     
@@ -138,9 +156,10 @@ public class MenuController implements Initializable {
 	        "-fx-font-weight: bold;"
 	    );
 	    botonCancelar.setCursor(Cursor.HAND);
-
+	    
+		
 	    Optional<ButtonType> resultado = alert.showAndWait();
-
+	    
 	    if(resultado.isPresent() && resultado.get() == botAceptar) {//si pulsa ok -> adiós cuenta. Si pulsa no, pues nada
 	    	String sentencia = "DELETE FROM usuari WHERE email =?";
 
@@ -248,17 +267,22 @@ public class MenuController implements Initializable {
 	//intento de "reciclar" codigo para los botones del menu-----------------------------
 	private void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
 	    try {
+	    	boolean juegoAbierto=false;
+	    	
 	        Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
-	        Scene scene = new Scene(root,600,500);//ponemos la medida ya que es una ventana con poca información anchoXalto
+	        Scene scene = new Scene(root,600,400);//ponemos la medida ya que es una ventana con poca información anchoXalto
 	        Stage window = new Stage();
 	        window.setScene(scene);
 	        window.setTitle(tituloVentana);
 //	        window.setMaximized(true);
-	        
-	        window.initModality(Modality.WINDOW_MODAL);
-	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-	        window.initOwner(menuStage);
+	        juegosAbiertos.add(window);//añadimos al arrayList de ventanas
+	        window.setResizable(false);//no deja agrandars
 	        window.showAndWait();
+	        
+//	        window.initModality(Modality.WINDOW_MODAL);
+//	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+//	        window.initOwner(menuStage);
+//	        window.showAndWait();
 	    } catch (IOException ex) {
 	        ex.printStackTrace();
 	    }
