@@ -206,11 +206,10 @@ alertInfo {
 }
 
 /*Css tableView */
-
 /* 1. Fondo general de la tabla */
 .table-view.tabla1 {
     -fx-background-color: #FFFFFF0D;
-    -fx-control-inner-background: #FFFFFF0D; /* Fondo con opacidad */
+    -fx-control-inner-background: #FFFFFF0D;
     -fx-table-cell-border-color: transparent;
     -fx-padding: 0;
 }
@@ -240,6 +239,7 @@ alertInfo {
 .table-view.tabla1 .column-header {
     -fx-background-color: #365057;
 }
+
 .table-view.tabla1 .column-header .label {
     -fx-text-fill: #e4a81d;
     -fx-font-weight: bold;
