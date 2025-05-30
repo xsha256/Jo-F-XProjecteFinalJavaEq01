@@ -468,7 +468,8 @@ public class BuscaMinasController implements Initializable {
 
 		return contador;
 	}
-
+	
+	
 	public void guardarPartida() {
 		if(partidaCargada) {
 			try {
@@ -502,8 +503,7 @@ public class BuscaMinasController implements Initializable {
 				Date hoy = new Date();
 				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String fecha = formato.format(hoy);
-				
-			
+
 				String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
 				s.setInt(1, idUsuari);
