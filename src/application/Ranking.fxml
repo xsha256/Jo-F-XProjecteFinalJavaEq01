@@ -21,9 +21,9 @@
 
 			<TableView fx:id="tablaRanking" prefHeight="300" prefWidth="560" styleClass="tabla1">
 				<columns>
-					<TableColumn fx:id="columnaTiempo" prefWidth="190.0" resizable="false" text="Temps" />
+					<TableColumn fx:id="columnaTiempo" prefWidth="180.0" resizable="false" text="Temps" />
 					<TableColumn fx:id="columnaFecha" prefWidth="192.0" resizable="false" text="Data" />
-					<TableColumn fx:id="columnaTamanyo" prefWidth="190.0" resizable="false" text="Mida" />
+					<TableColumn fx:id="columnaTamanyo" prefWidth="188.0" resizable="false" text="Mida" />
 				</columns>
 			</TableView>
 

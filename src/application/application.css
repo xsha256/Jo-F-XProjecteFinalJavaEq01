@@ -249,3 +249,8 @@ alertInfo {
 .table-view.tabla1 .placeholder .label {
     -fx-text-fill: transparent;
 }
+
+/* Color de fondo para fila seleccionada */
+.table-view.tabla1 .table-row-cell:selected {
+    -fx-background-color: #e4a81d66;
+}
