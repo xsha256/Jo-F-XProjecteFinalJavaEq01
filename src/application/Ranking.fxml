@@ -23,7 +23,7 @@
 				<columns>
 					<TableColumn fx:id="columnaTiempo" prefWidth="190.0" resizable="false" text="Temps" />
 					<TableColumn fx:id="columnaFecha" prefWidth="192.0" resizable="false" text="Data" />
-					<TableColumn fx:id="columnaTamanyo" prefWidth="190.0" resizable="false" text="Tamany" />
+					<TableColumn fx:id="columnaTamanyo" prefWidth="190.0" resizable="false" text="Mida" />
 				</columns>
 			</TableView>
 
