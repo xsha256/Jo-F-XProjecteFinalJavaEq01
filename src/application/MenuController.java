@@ -331,6 +331,8 @@ public class MenuController implements Initializable {
 	//lo que hacen los botones es llamar a la función de arriba y darle la ventana a abrir y el titulo de esta
 	public void actionPescamines(ActionEvent e) {
 		if(pescaminesActivo) {
+			ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
 			abrirVentanaJuego("Tamany.fxml", "Pescamines", e);
@@ -341,6 +343,8 @@ public class MenuController implements Initializable {
 
 	public void actionWordle(ActionEvent e) {
 	    if(wordleActivo) {
+	    	ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
 			abrirVentanaJuego("wordle.fxml", "Wordle", e);
@@ -350,6 +354,8 @@ public class MenuController implements Initializable {
 
 	public void actionPixelArt(ActionEvent e) {
 	    if(pixelartActivo) {
+	    	ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
 			abrirVentanaJuego("pixelart.fxml", "Pixel Art", e);
@@ -360,6 +366,8 @@ public class MenuController implements Initializable {
 
 	public void actionJocDeLaVida(ActionEvent e) {
 	    if(jocvidaActivo) {
+	    	ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
 			 abrirVentanaJuego("Dificultad.fxml", "Joc de la Vida", e);
