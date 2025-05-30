@@ -20,7 +20,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -45,8 +44,6 @@ public class PixelArtIniciController implements Initializable {
 	@FXML
 	private TextField altura;
 
-	private Mode mode = Mode.PINTAR;
-	private String color;
 	// TAULELL SERVEIX PER CANVIAR DE DADES ENTRE FINESTRES
 	private Taulell taulell;
 
@@ -64,7 +61,7 @@ public class PixelArtIniciController implements Initializable {
 	}
 
 	// FA UN RECULL DE LES DADES PASSADES PER SETTEXT, LES COMPROVA I CREA EL NOU
-	// PANELL
+	// PANELL COMPROVAR QUE NO POSA TEXT, SI POSA TEXT 32X32 PREDEFINIT
 	public void jugar(ActionEvent e) {
 
 		try {
@@ -78,12 +75,12 @@ public class PixelArtIniciController implements Initializable {
 				ample = Integer.parseInt(amplada.getText());
 				alt = Integer.parseInt(altura.getText());
 
-				if (ample > 128 || ample == 0) {
+				if (ample > 128 || ample <= 0) {
 					ample = 128;
 					ajustat = true;
 				}
 
-				if (alt > 64 || alt == 0) {
+				if (alt > 64 || alt <= 0) {
 					alt = 64;
 					ajustat = true;
 				}
@@ -125,7 +122,7 @@ public class PixelArtIniciController implements Initializable {
 		}
 	}
 
-	// TANCA LA FINESTRA I TORNA A LA PANTALLA DE SELECCIO DE JOC LA TE YORDAN
+	// TANCA LA FINESTRA I TORNA A LA PANTALLA DE SELECCIO DE JOC
 	public void enrere() {
 
 		Stage stage = (Stage) botoEnrere.getScene().getWindow();
@@ -135,9 +132,9 @@ public class PixelArtIniciController implements Initializable {
 
 	// DESERIALITZA I CARREGA EL ULTIM PANELL
 	public void desats() {
-		Casella[][] matriuRecarrega;
 		Connection conn = null;
 		PreparedStatement ps = null;
+		PreparedStatement psEliminar = null;
 		ResultSet rs = null;
 
 		try {
@@ -145,10 +142,8 @@ public class PixelArtIniciController implements Initializable {
 			conn = ConexionBBDD.conectar();
 
 			// JO VULL TREURE EL ULTIM ELEMENT
-			// String sql = "SELECT dibuix FROM pixelArt ORDER BY id DESC LIMIT 1";
-			String sql = "SELECT dibuix FROM pixelArt WHERE id = ?";
+			String sql = "SELECT dibuix FROM pixelArt ORDER BY id DESC LIMIT 1";
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, 5);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
@@ -164,65 +159,17 @@ public class PixelArtIniciController implements Initializable {
 				ois.close();
 
 				// JO SERIALITZE UN OBJECTE TAULELL QUE DINS TE UNA MATRIU DE CASELLES LLAVORS
-				// FAIG UN CASTING DE L'OBJECTE PER TINDRE UNA taulell amb les caselles
+				// FAIG UN CASTING DE L'OBJECTE PER TINDRE UN TAULELL
 
 				Taulell taulellDesat = (Taulell) obj;
 
 				DadesPixelArt.getInstancia().setTaulell(taulellDesat);
-				matriuRecarrega = taulellDesat.getCaselles();
-				for (int i = 0; i < matriuRecarrega.length; i++) {
-					for (int j = 0; j < matriuRecarrega[i].length; j++) {
-						Label casella = new Label();
-						color=matriuRecarrega[i][j].getColor();
-						casella.setPrefSize(matriuRecarrega[i][j].getGrandaria(), matriuRecarrega[i][j].getGrandaria());
-						casella.setMinSize(matriuRecarrega[i][j].getGrandaria(), matriuRecarrega[i][j].getGrandaria());
-						casella.setMaxSize(matriuRecarrega[i][j].getGrandaria(), matriuRecarrega[i][j].getGrandaria());
-						casella.setStyle("-fx-background-color:" + matriuRecarrega[i][j].getColor() + "; -fx-alignment: center;");
-
-						casella.setOnMouseClicked(e -> {
-
-							if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
-								// agafe el valor que li he passat en el color picker
-								casella.setStyle("-fx-background-color:"+color+";");
-
-							} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
-								casella.setStyle("-fx-background-color:" + color + ";");
-								
-							}
-
-						});
-
-						// HABILITA EL DRAG EN TOTES LES CEL·LES
-						casella.setOnDragDetected(e -> {
-							casella.startFullDrag();
-							if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
-								casella.setStyle("-fx-background-color: " + color+ ";");
-							
-							} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
-								casella.setStyle("-fx-background-color:" + color + ";");
-								
-							}
-						});
-
-						// MENTRE ARRASTRE TOTES ES PINTEN
-						casella.setOnMouseDragEntered(e -> {
-							if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
-								casella.setStyle("-fx-background-color: " + color + ";");
-								
-							} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
-								casella.setStyle("-fx-background-color:" + color + ";");
-								
-							}
-						});
-					}
-
-				}
 
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("PixelArtFXML.fxml"));
 				Parent root = loader.load();
 
 				PixelArtController controlador = loader.getController();
-				controlador.setTaulell(taulellDesat);
+				controlador.carregarTaulellUltimaSessio(taulellDesat);
 
 				Scene escena = new Scene(root);
 				Stage window = (Stage) botoDesats.getScene().getWindow();
@@ -232,31 +179,21 @@ public class PixelArtIniciController implements Initializable {
 				window.setMaximized(true);
 				window.show();
 
-				// controlador.tancarPixelArt(window);
-
 			} else {
 				System.out.println("No s'ha trobat cap fila amb l'id indicat.");
 			}
 
+			String eliminar="DELETE FROM pixelart";
+			psEliminar = conn.prepareStatement(eliminar);
+			psEliminar.executeUpdate();
+			
+			conn.close();
+			ps.close();
+			rs.close();
+			psEliminar.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			// Tancar recursos
-			try {
-				if (rs != null)
-					rs.close();
-			} catch (Exception e) {
-				/* ignorar */ }
-			try {
-				if (ps != null)
-					ps.close();
-			} catch (Exception e) {
-				/* ignorar */ }
-			try {
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-				/* ignorar */ }
 		}
 	}
 
