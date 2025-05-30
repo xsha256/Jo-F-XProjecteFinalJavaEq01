@@ -49,10 +49,18 @@ public class CargarPartidaController implements Initializable {
 			if(ventanaActual.isShowing()) {
 				MenuController.carregarpescaminesActivo=true;
 				System.out.println("La ventana cargarPartida-pescaminas esta activa. Boolean: "+MenuController.carregarpescaminesActivo);
+				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
 			}
 			ventanaActual.setOnHidden(evt ->{
 				MenuController.carregarpescaminesActivo=false;
 				System.out.println("La ventana cargarPartida-pescaminas se cerró. Boolean: "+MenuController.carregarpescaminesActivo);
+				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
 				
 			});
 		});
@@ -125,6 +133,7 @@ public class CargarPartidaController implements Initializable {
 
 
 	public void volver(ActionEvent event) {
+		MenuController.carregarpescaminesActivo=false;
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Tamany.fxml"));
 			Parent root = loader.load();
@@ -145,7 +154,7 @@ public class CargarPartidaController implements Initializable {
 
 	public void cargarPartida(ActionEvent event) {
 	    Partida partidaSeleccionada = tableViewPartidas.getSelectionModel().getSelectedItem();
-
+	    
 	    if (partidaSeleccionada != null) {
 	        try {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("BuscaMinas.fxml"));

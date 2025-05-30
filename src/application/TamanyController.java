@@ -42,29 +42,39 @@ public class TamanyController implements Initializable{
 			if(ventanaActual.isShowing()) {
 				MenuController.midapescaminesActivo=true;
 				System.out.println("La ventana mida-pescaminas esta activa. Boolean: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
 			}
 			ventanaActual.setOnHidden(evt ->{
 				MenuController.midapescaminesActivo=false;
 				System.out.println("La ventana mida-pescaminas se cerró. Boolean: "+MenuController.midapescaminesActivo);
-				
+				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
 			});
 		});
 	}
 	
 	public void recogerIdUsuario(String emailUsuario) {
+	    this.c = ConexionBBDD.conectar();
+	    
+	    try {
+	        String sentencia = "SELECT id FROM usuari WHERE email = ?";
+	        PreparedStatement s = c.prepareStatement(sentencia);
+	        s.setString(1, emailUsuario);
+	        ResultSet rs = s.executeQuery();
 
-		this.c = ConexionBBDD.conectar();
-		
-		try {
-			String sentencia = "SELECT id FROM usuari where email = ?";
-			PreparedStatement s = c.prepareStatement(sentencia);
-			s.setString(1, emailUsuario);
-			ResultSet rs = s.executeQuery(sentencia);
-			idUsuari = rs.getInt("id");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	        if (rs.next()) {
+	            idUsuari = rs.getInt("id");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	public void canviaEscena(ActionEvent e) {
 		

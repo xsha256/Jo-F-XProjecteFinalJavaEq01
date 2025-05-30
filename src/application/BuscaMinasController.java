@@ -78,15 +78,20 @@ public class BuscaMinasController implements Initializable {
 	public static String emailMoha=LoginController.EMAIL;
 	
 	public void recogerIdUsuario(String emailUsuario) {
-		try {
-			String sentencia = "SELECT id FROM usuari where email = ?";
-			PreparedStatement s = c.prepareStatement(sentencia);
-			s.setString(1, emailUsuario);
-			ResultSet rs = s.executeQuery(sentencia);
-			idUsuari = rs.getInt("id");
-		} catch (  SQLException e) {
-			e.printStackTrace();
-		}
+	    this.c = ConexionBBDD.conectar();
+	    
+	    try {
+	        String sentencia = "SELECT id FROM usuari WHERE email = ?";
+	        PreparedStatement s = c.prepareStatement(sentencia);
+	        s.setString(1, emailUsuario);
+	        ResultSet rs = s.executeQuery();
+
+	        if (rs.next()) {
+	            idUsuari = rs.getInt("id");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
@@ -233,11 +238,20 @@ public class BuscaMinasController implements Initializable {
 			Stage ventanaActual = (Stage) root.getScene().getWindow();
 			if(ventanaActual.isShowing()) {
 				MenuController.pescaminesActivo=true;
+				MenuController.carregarpescaminesActivo=false;
 				System.out.println("El pescaminas esta activo. Boolean: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
 			}
 			ventanaActual.setOnHidden(evt ->{
 				MenuController.pescaminesActivo=false;
 				System.out.println("El pescaminas se cerró. Boolean: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
 				
 			});
 		});
@@ -495,8 +509,12 @@ public class BuscaMinasController implements Initializable {
 		int contador = 0;
 		for (int i = 0; i < tablero.getLongitudHorizontal(); i++) {
 			for (int j = 0; j < tablero.getLongitudHorizontal(); j++) {
-				if (etiquetas[i][j].getId().equals("noMinaVista") && etiquetas[i][j] !=null) {
-					contador++;
+//				if (etiquetas[i][j].getId().equals("noMinaVista") && etiquetas[i][j] !=null) {
+//					contador++;
+//				}
+				//asi no da fallo. Comprobando primero el null
+				if (etiquetas[i][j] != null && "noMinaVista".equals(etiquetas[i][j].getId())) {
+				    contador++;
 				}
 			}
 		}

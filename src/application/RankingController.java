@@ -40,11 +40,20 @@ public class RankingController implements Initializable {
 			Stage ventanaActual = (Stage) root.getScene().getWindow();
 			if(ventanaActual.isShowing()) {
 				MenuController.rankingpescaminesActivo=true;
+				MenuController.midapescaminesActivo=false;
 				System.out.println("La ventana ranking-pescaminas esta activa. Boolean: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
 			}
 			ventanaActual.setOnHidden(evt ->{
 				MenuController.rankingpescaminesActivo=false;
 				System.out.println("La ventana ranking-pescaminas se cerró. Boolean: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
 			});
 		});
 		columnaTiempo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTiempo()));
@@ -106,6 +115,7 @@ public class RankingController implements Initializable {
 	}
 
 	public void volverATamany(ActionEvent event) {
+		MenuController.rankingpescaminesActivo=false;
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Tamany.fxml"));
 			Parent root = loader.load();
