@@ -54,9 +54,7 @@ public class PixelArtController implements Initializable {
 	//ESTE ES PER AL SINGLETON
 	private Taulell taulell;
 	
-	public void setTaulell(Taulell taulell) {
-	    this.taulell = taulell;
-	}
+
 
 	private int files;
 	private int columnes;
@@ -64,6 +62,9 @@ public class PixelArtController implements Initializable {
 	private Mode mode = Mode.PINTAR;
 	private Casella [][] taulellCaselles;
 
+	public void setTaulell(Taulell taulell) {
+	    this.taulell = taulell;
+	}
 
 	public void carregarTaulell() {
 	    if (taulell == null || taulell.getCaselles() == null) {
@@ -211,7 +212,7 @@ public class PixelArtController implements Initializable {
 		try {
 
 			//SERIALITZACIO
-			Taulell t1 = this.taulell;
+			Taulell t1 = new Taulell(taulellCaselles);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(t1);
@@ -382,7 +383,6 @@ public class PixelArtController implements Initializable {
 		        contador++;
 		    }
 		} else {
-
 		    carregarTaulell();
 		}
 	}
