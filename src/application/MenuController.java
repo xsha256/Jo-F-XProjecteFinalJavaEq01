@@ -1,5 +1,18 @@
 package application;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,17 +37,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 	//atributos
@@ -64,11 +66,13 @@ public class MenuController implements Initializable {
 	@FXML private MenuItem itemLogout;
 	
 	//array de ventanas abiertas
-	public ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
+	public static ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
+	//hashmap para no poder abrir el mismo juego a la vez
+	public static Map<String, Stage> juegosPorNombre = new HashMap<>();
 	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
-		this.emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
+	this.emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
 		
 		//funcion para cerrar todas las ventas abiertas a traves de Menu
 		Platform.runLater(()->{
@@ -76,12 +80,16 @@ public class MenuController implements Initializable {
 			
 			ventanaActual.setOnCloseRequest(evt ->{
 				System.out.println("Hola Mundo!");
-				if(juegosAbiertos!=null) {
-					for(Stage s: juegosAbiertos) {
-						s.close();
-					}
-				}
-				
+				for (Stage s : new ArrayList<>(juegosAbiertos)) {
+			        s.close();
+			        pescaminesActivo=false;
+			        jocvidaActivo=false;
+			    	pixelartActivo=false;
+			    	wordleActivo=false;
+			        
+			    }
+			    juegosAbiertos.clear();
+			    juegosPorNombre.clear();				
 			});
 		});
 		
@@ -187,12 +195,24 @@ public class MenuController implements Initializable {
 	//metodo para cerrar sesión
 	public void actionLogout(ActionEvent e) {
 		try {
+			
 			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
 			Scene escena= new Scene(root);
 			Stage window = new Stage();
 			window.setScene(escena);
 			window.setTitle("Login");
 			window.show();
+			
+			for (Stage s : new ArrayList<>(juegosAbiertos)) {
+			    s.close();
+			    pescaminesActivo=false;
+		        jocvidaActivo=false;
+		    	pixelartActivo=false;
+		    	wordleActivo=false;
+			}
+			juegosAbiertos.clear();
+			juegosPorNombre.clear();
+
 			
 			//cerrar la ventana actual
 			Stage ventanaActual = (Stage) itemLogout.getParentPopup().getOwnerWindow();
@@ -263,26 +283,45 @@ public class MenuController implements Initializable {
 	        e.printStackTrace();
 	    }
 	}
-
+	
+	public static boolean jocvidaActivo=false;
+	public static boolean pescaminesActivo=false;
+	public static boolean pixelartActivo=false;
+	public static boolean wordleActivo=false;
+	
 	//intento de "reciclar" codigo para los botones del menu-----------------------------
-	private void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
+	public void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
 	    try {
-	    	boolean juegoAbierto=false;
-	    	
+	        if (juegosPorNombre.containsKey(rutaFXML)) {
+	            Stage juego = juegosPorNombre.get(rutaFXML);
+	            if (juego.isShowing()) {
+	                juego.toFront();//trae el juego al frente
+	                juego.requestFocus();
+	                return;//no abre otro
+	            } else {
+	            	//si está cerrado lo quitamos de las listas
+	                juegosPorNombre.remove(rutaFXML);
+	                juegosAbiertos.remove(juego);
+	            }
+	        }
+
 	        Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
-	        Scene scene = new Scene(root,600,400);//ponemos la medida ya que es una ventana con poca información anchoXalto
-	        Stage window = new Stage();
-	        window.setScene(scene);
-	        window.setTitle(tituloVentana);
-//	        window.setMaximized(true);
-	        juegosAbiertos.add(window);//añadimos al arrayList de ventanas
-	        window.setResizable(false);//no deja agrandars
-	        window.showAndWait();
-	        
-//	        window.initModality(Modality.WINDOW_MODAL);
-//	        Stage menuStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-//	        window.initOwner(menuStage);
-//	        window.showAndWait();
+	        Scene scene = new Scene(root, 600, 400);
+	        Stage ventana = new Stage();
+	        ventana.setScene(scene);
+	        ventana.setTitle(tituloVentana);
+	        ventana.setResizable(false);
+	        ventana.show();
+	        //añadir los juegos abiertos
+	        juegosAbiertos.add(ventana);
+	        juegosPorNombre.put(rutaFXML, ventana);
+
+	        //Si cerramos manualmente tambien quitamos de las listats
+	        ventana.setOnCloseRequest(event -> {
+	            juegosAbiertos.remove(ventana);
+	            juegosPorNombre.remove(rutaFXML);
+	        });
+
 	    } catch (IOException ex) {
 	        ex.printStackTrace();
 	    }
@@ -291,19 +330,41 @@ public class MenuController implements Initializable {
 	
 	//lo que hacen los botones es llamar a la función de arriba y darle la ventana a abrir y el titulo de esta
 	public void actionPescamines(ActionEvent e) {
-	    abrirVentanaJuego("pescamines.fxml", "Pescamines", e);
+		if(pescaminesActivo) {
+			return;
+		}else {
+			abrirVentanaJuego("Tamany.fxml", "Pescamines", e);
+			pescaminesActivo=true;
+		}
+	   
 	}
 
 	public void actionWordle(ActionEvent e) {
-	    abrirVentanaJuego("wordle.fxml", "Wordle", e);
+	    if(wordleActivo) {
+			return;
+		}else {
+			abrirVentanaJuego("wordle.fxml", "Wordle", e);
+			wordleActivo=true;
+		}
 	}
 
 	public void actionPixelArt(ActionEvent e) {
-	    abrirVentanaJuego("pixelart.fxml", "Pixel Art", e);
+	    if(pixelartActivo) {
+			return;
+		}else {
+			abrirVentanaJuego("pixelart.fxml", "Pixel Art", e);
+			pixelartActivo=true;
+		}
+	    
 	}
 
 	public void actionJocDeLaVida(ActionEvent e) {
-	    abrirVentanaJuego("Dificultad.fxml", "Joc de la Vida", e);
+	    if(jocvidaActivo) {
+			return;
+		}else {
+			 abrirVentanaJuego("Dificultad.fxml", "Joc de la Vida", e);
+			 jocvidaActivo=true;
+		}
 	}
 
 	
