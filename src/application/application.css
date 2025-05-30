@@ -204,3 +204,48 @@ alertInfo {
 	-fx-scale-y:1.1;
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
 }
+
+/*Css tableView */
+
+/* 1. Fondo general de la tabla */
+.table-view.tabla1 {
+    -fx-background-color: #FFFFFF0D;
+    -fx-control-inner-background: #FFFFFF0D; /* Fondo con opacidad */
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* 2. Fondo cuando hay filas: forzar fondo del área de datos */
+.table-view.tabla1 .viewport {
+    -fx-background-color: #FFFFFF0D;
+}
+
+/* 3. Fondo de cada celda */
+.table-view.tabla1 .table-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+/* 4. Fondo de cada fila */
+.table-view.tabla1 .table-row-cell {
+    -fx-background-color: transparent;
+}
+
+/* 5. Fondo al pasar el ratón (hover) */
+.table-view.tabla1 .table-row-cell:hover {
+    -fx-background-color: #365057;
+}
+
+/* 6. Fondo de cabecera y texto */
+.table-view.tabla1 .column-header {
+    -fx-background-color: #365057;
+}
+.table-view.tabla1 .column-header .label {
+    -fx-text-fill: #e4a81d;
+    -fx-font-weight: bold;
+}
+
+/* 7. Estilo del placeholder (cuando está vacía) */
+.table-view.tabla1 .placeholder .label {
+    -fx-text-fill: transparent;
+}

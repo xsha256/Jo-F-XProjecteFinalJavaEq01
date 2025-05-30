@@ -19,7 +19,7 @@
 				</font>
 			</Label>
 
-			<TableView fx:id="tablaRanking" prefHeight="300" prefWidth="560">
+			<TableView fx:id="tablaRanking" prefHeight="300" prefWidth="560" styleClass="tabla1">
 				<columns>
 					<TableColumn fx:id="columnaTiempo" prefWidth="180" text="Temps" />
 					<TableColumn fx:id="columnaFecha" prefWidth="192.0" text="Data" />
