@@ -81,6 +81,7 @@ public class DificultadController implements Initializable {
 
 				Stage ventanaActual =  (Stage) ((Node) e.getSource()).getScene().getWindow();
 				ventanaActual.close();
+				
 				VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 				String rutaFXML= "JocVida.fxml";
 				Scene escena2 = new Scene(root2);
@@ -98,8 +99,7 @@ public class DificultadController implements Initializable {
 				//añadir los juegos abiertos
 		        MenuController.juegosAbiertos.add(window);
 		        MenuController.juegosPorNombre.put(rutaFXML, window);
-		        
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		} else {

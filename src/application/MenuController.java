@@ -82,6 +82,11 @@ public class MenuController implements Initializable {
 				System.out.println("Hola Mundo!");
 				for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			        s.close();
+			        pescaminesActivo=false;
+			        jocvidaActivo=false;
+			    	pixelartActivo=false;
+			    	wordleActivo=false;
+			        
 			    }
 			    juegosAbiertos.clear();
 			    juegosPorNombre.clear();				
@@ -200,6 +205,10 @@ public class MenuController implements Initializable {
 			
 			for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			    s.close();
+			    pescaminesActivo=false;
+		        jocvidaActivo=false;
+		    	pixelartActivo=false;
+		    	wordleActivo=false;
 			}
 			juegosAbiertos.clear();
 			juegosPorNombre.clear();
@@ -275,8 +284,13 @@ public class MenuController implements Initializable {
 	    }
 	}
 	
+	public static boolean jocvidaActivo=false;
+	public static boolean pescaminesActivo=false;
+	public static boolean pixelartActivo=false;
+	public static boolean wordleActivo=false;
+	
 	//intento de "reciclar" codigo para los botones del menu-----------------------------
-	private void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
+	public void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
 	    try {
 	        if (juegosPorNombre.containsKey(rutaFXML)) {
 	            Stage juego = juegosPorNombre.get(rutaFXML);
@@ -316,19 +330,41 @@ public class MenuController implements Initializable {
 	
 	//lo que hacen los botones es llamar a la función de arriba y darle la ventana a abrir y el titulo de esta
 	public void actionPescamines(ActionEvent e) {
-	    abrirVentanaJuego("Tamany.fxml", "Pescamines", e);
+		if(pescaminesActivo) {
+			return;
+		}else {
+			abrirVentanaJuego("Tamany.fxml", "Pescamines", e);
+			pescaminesActivo=true;
+		}
+	   
 	}
 
 	public void actionWordle(ActionEvent e) {
-	    abrirVentanaJuego("wordle.fxml", "Wordle", e);
+	    if(wordleActivo) {
+			return;
+		}else {
+			abrirVentanaJuego("wordle.fxml", "Wordle", e);
+			wordleActivo=true;
+		}
 	}
 
 	public void actionPixelArt(ActionEvent e) {
-	    abrirVentanaJuego("pixelart.fxml", "Pixel Art", e);
+	    if(pixelartActivo) {
+			return;
+		}else {
+			abrirVentanaJuego("pixelart.fxml", "Pixel Art", e);
+			pixelartActivo=true;
+		}
+	    
 	}
 
 	public void actionJocDeLaVida(ActionEvent e) {
-	    abrirVentanaJuego("Dificultad.fxml", "Joc de la Vida", e);
+	    if(jocvidaActivo) {
+			return;
+		}else {
+			 abrirVentanaJuego("Dificultad.fxml", "Joc de la Vida", e);
+			 jocvidaActivo=true;
+		}
 	}
 
 	
