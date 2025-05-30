@@ -29,7 +29,7 @@
 
 			<HBox alignment="CENTER" prefHeight="100.0" prefWidth="560.0">
 				<children>
-					<Button onAction="#volverATamany" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Tornar a Mida" textFill="WHITE">
+					<Button fx:id="botonRankingMida" onAction="#volverATamany" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Tornar a Mida" textFill="WHITE">
 						<font>
 							<Font name="System Bold" size="18.0" />
 						</font>

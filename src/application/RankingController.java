@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 
 public class RankingController implements Initializable {
 	@FXML private AnchorPane root;
+	@FXML private Button botonRankingMida;
 	@FXML
 	private TableView<Partida> tablaRanking;
 	@FXML
@@ -33,8 +35,15 @@ public class RankingController implements Initializable {
 
 	@FXML
 	private TableColumn<Partida, String> columnaFecha;
+	
+	public void ocultarBotonMida() {
+		botonRankingMida.setVisible(false);//boton invisible y
+		botonRankingMida.setDisable(true);//lo desactiva completamente
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
 		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
 		Platform.runLater(()->{
 			Stage ventanaActual = (Stage) root.getScene().getWindow();

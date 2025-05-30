@@ -671,14 +671,20 @@ public class BuscaMinasController implements Initializable {
 				listaRanking.add(new Partida(tiempo2, fechaFormateada, tamaño, id));
 			}
 
-			Stage ventanaActual =  (Stage) ((Node) event.getSource()).getScene().getWindow();
-			ventanaActual.close();
+//			Stage ventanaActual =  (Stage) ((Node) event.getSource()).getScene().getWindow();
+//			ventanaActual.close();
+			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Ranking.fxml"));
 			Parent root = loader.load();
 			String rutaFXML="Ranking.fxml";
 			Stage stage = new Stage(); //(Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setUserData(listaRanking);
 			stage.setScene(new Scene(root));
+			
+			//oculta el botón de la ventana para no poder utilizar lo de "ir a mida"
+			RankingController controller = loader.getController();
+			controller.ocultarBotonMida();  // <- ahora sí, seguro
+			
 			stage.show();
 			//añadir los juegos abiertos
 	        MenuController.juegosAbiertos.add(stage);
