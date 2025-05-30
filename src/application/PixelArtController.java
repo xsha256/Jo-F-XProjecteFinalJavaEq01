@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,8 +33,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class PixelArtController implements Initializable {
-
-	//public static String correu=Menu.controller();
 	
 	@FXML
 	private Button pinzell;
@@ -119,7 +116,7 @@ public class PixelArtController implements Initializable {
 	public BufferedImage crearImatgePNG(Casella[][] taulellCaselles) {
 	    int files = taulellCaselles.length;
 	    int columnes = taulellCaselles[0].length;
-	    int midaCasella = 20; // o la mida que vulguis per casella
+	    int midaCasella = 20;
 
 	    BufferedImage image = new BufferedImage(columnes * midaCasella, files * midaCasella, BufferedImage.TYPE_INT_RGB);
 	    Graphics2D g2d = image.createGraphics();
@@ -127,13 +124,23 @@ public class PixelArtController implements Initializable {
 	    for (int i = 0; i < files; i++) {
 	        for (int j = 0; j < columnes; j++) {
 	            Casella c = taulellCaselles[i][j];
+
+	            Color color;
 	            if (c.isOcupat()) {
-	            	Color color = (Color) c.getColor();
-	            }else {
-	            	Color color = "FFFFFF";
+	            	//IMPORTANT!!! 
+	            	//SI TINC DOS COLORS IMPORTATS, JO PUC ESPECIFICAR AIXÍ QUIN COLOR VULL GASTAR
+	                color = javafx.scene.paint.Color.web(c.getColor());
+	            } else {
+	                color = javafx.scene.paint.Color.WHITE;
 	            }
-	       
-	            g2d.setColor(color);
+
+	            java.awt.Color awtColor = new java.awt.Color(
+	                (float) color.getRed(),
+	                (float) color.getGreen(),
+	                (float) color.getBlue()
+	            );
+
+	            g2d.setColor(awtColor);
 	            g2d.fillRect(j * midaCasella, i * midaCasella, midaCasella, midaCasella);
 	        }
 	    }
@@ -144,33 +151,29 @@ public class PixelArtController implements Initializable {
 	
 	//ESTA FUNCIÓ GUARDA LA IMATGE EN PNG... ME FALTA
 	public void descarregar(ActionEvent e) {
-		 Date diaDeJoc = new Date();
-	        SimpleDateFormat format = new SimpleDateFormat("MM_dd HH_mm_ss");
-	        String data = format.format(diaDeJoc);
-		try {
-			
-		        Taulell t1 = crearImatgePNG(taulellCaselles);
-		        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		        ObjectOutputStream oos;
-			oos = new ObjectOutputStream(baos);
-			 oos.writeObject(t1);
-		        oos.close();
-		        byte[] imatgeSerialitzada = baos.toByteArray();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-       
-       
-		try {
-			File bin = new File(data+".png");
-			bin.createNewFile();
-		} catch (IOException err) {
-			// TODO Auto-generated catch block
-			err.printStackTrace();
-		}
-		
-	
+	    Date diaDeJoc = new Date();
+	    SimpleDateFormat format = new SimpleDateFormat("dd_HH_mm_ss");
+	    String data = format.format(diaDeJoc);
+	    File outputFile = new File("PixelArt_" + data + ".png");
+
+	    try {
+	        BufferedImage image = crearImatgePNG(taulellCaselles);
+	        javax.imageio.ImageIO.write(image, "png", outputFile);
+
+	        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+	        alert.setTitle("Imatge Guardada");
+	        alert.setHeaderText(null);
+	        alert.setContentText("La imatge s'ha guardat com a: " + outputFile.getName());
+	        alert.showAndWait();
+
+	    } catch (IOException e1) {
+	        e1.printStackTrace();
+	        Alert alert = new Alert(Alert.AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("No s'ha pogut guardar la imatge");
+	        alert.setContentText(e1.getMessage());
+	        alert.showAndWait();
+	    }
 	}
 	
 	//ESTA FUNCIÓ TANCA EL PIXEL ART PER COMPLET, PERO PRIMER PREGUNTA SI ESTAS SEGUR
