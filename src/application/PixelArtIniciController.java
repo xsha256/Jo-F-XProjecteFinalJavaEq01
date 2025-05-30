@@ -164,7 +164,7 @@ public class PixelArtIniciController implements Initializable {
 				ois.close();
 
 				// JO SERIALITZE UN OBJECTE TAULELL QUE DINS TE UNA MATRIU DE CASELLES LLAVORS
-				// FAIG UN CASTING DE L'OBJECTE PER TINDRE UNA MATRIU DE CASELLES
+				// FAIG UN CASTING DE L'OBJECTE PER TINDRE UNA taulell amb les caselles
 
 				Taulell taulellDesat = (Taulell) obj;
 
