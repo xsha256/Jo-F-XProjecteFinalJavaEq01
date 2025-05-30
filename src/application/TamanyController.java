@@ -53,6 +53,7 @@ public class TamanyController {
 				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				ventanaActual.close();
 				VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
+				String rutaFXML="BuscaMinas.fxml";
 				Scene escena2 = new Scene(root2);
 				escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -61,6 +62,10 @@ public class TamanyController {
 				window.setTitle("Busca Mines");
 				window.setMaximized(true);// lo abrimos en maximizado
 				window.show();
+				
+				//añadir los juegos abiertos
+		        MenuController.juegosAbiertos.add(window);
+		        MenuController.juegosPorNombre.put(rutaFXML, window);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -73,6 +78,7 @@ public class TamanyController {
 	public void enrere(ActionEvent e) {
 		Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		ventanaActual.close();
+		
 	}
 
 	public void ranking(ActionEvent event) {
@@ -120,6 +126,7 @@ public class TamanyController {
 							tiempo2 = "0" + min + ":0" + seg2;
 						} else {
 							tiempo2 = "0" + min + ":" + seg2;
+							
 						}
 					} else {
 						if (seg2 < 10) {
@@ -138,12 +145,15 @@ public class TamanyController {
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Ranking.fxml"));
 			Parent root = loader.load();
-
+			String rutaFXML="Ranking.fxml";
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setUserData(listaRanking);
 			stage.setScene(new Scene(root));
 			stage.show();
-
+			//añadir los juegos abiertos
+	        MenuController.juegosAbiertos.add(stage);
+	        MenuController.juegosPorNombre.put(rutaFXML, stage);
+	        
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}

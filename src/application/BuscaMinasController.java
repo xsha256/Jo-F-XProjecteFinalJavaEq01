@@ -130,6 +130,7 @@ public class BuscaMinasController implements Initializable {
 							
 								ventanaAlert alerta = new ventanaAlert();
 								alerta.alert("Game Over","Has esclatat una mina!", "file:imagenes/boom.png", 300);
+								
 								if (partidaCargada) {
 									System.out.println("Perder");
 									try {
@@ -348,12 +349,15 @@ public class BuscaMinasController implements Initializable {
 			ventanaActual.close();
 			VBox root2 = FXMLLoader.load(getClass().getResource("Tamany.fxml"));
 			Scene escena2 = new Scene(root2);
-
+			String rutaFXML="Tamany.fxml";
 			Stage window = new Stage(); //(Stage) root.getScene().getWindow();
 
 			window.setScene(escena2);
 			window.setTitle("Juego de la Vida");
 			window.show();
+			//añadir los juegos abiertos
+	        MenuController.juegosAbiertos.add(window);
+	        MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -365,11 +369,15 @@ public class BuscaMinasController implements Initializable {
 		try {
 			VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
 			Scene escena2 = new Scene(root2);
+			String rutaFXML="BuscaMinas.fxml";
 			Stage window = (Stage) root.getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Juego de la Vida");
 			window.setMaximized(true);
 			window.show();
+			//añadir los juegos abiertos
+	        MenuController.juegosAbiertos.add(window);
+	        MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -636,12 +644,14 @@ public class BuscaMinasController implements Initializable {
 			ventanaActual.close();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Ranking.fxml"));
 			Parent root = loader.load();
-
+			String rutaFXML="Ranking.fxml";
 			Stage stage = new Stage(); //(Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setUserData(listaRanking);
 			stage.setScene(new Scene(root));
 			stage.show();
-
+			//añadir los juegos abiertos
+	        MenuController.juegosAbiertos.add(stage);
+	        MenuController.juegosPorNombre.put(rutaFXML, stage);
 		} catch (  SQLException | IOException e) {
 			e.printStackTrace();
 		}
@@ -693,13 +703,16 @@ public class BuscaMinasController implements Initializable {
 			ventanaActual.close();
 			VBox root2 = FXMLLoader.load(getClass().getResource("CargarPartida.fxml"));
 			Scene escena2 = new Scene(root2);
+			String rutaFXML="CargarPartida.fxml";
 			escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage window = new Stage(); //(Stage) ((Node) event.getSource()).getScene().getWindow();
 			window.setUserData(partidas);
 			window.setScene(escena2);
 			window.setTitle("Busca Mines");
 			window.show();
-
+			//añadir los juegos abiertos
+	        MenuController.juegosAbiertos.add(window);
+	        MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (SQLException | IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

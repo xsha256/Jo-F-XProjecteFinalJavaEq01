@@ -205,11 +205,14 @@ public class JocVidaController implements Initializable {
 				Parent root = FXMLLoader.load(getClass().getResource("Dificultad.fxml"));
 				Scene scene = new Scene(root, 600, 400);// ponemos la medida ya que es una ventana con poca información
 														// anchoXalto
+				String rutaFXML="Dificultad.fxml";
 				Stage window = new Stage();
 				window.setScene(scene);
 				window.setTitle("Elecció Dificultad");
 				window.show();
-
+				//añadir los juegos abiertos
+		        MenuController.juegosAbiertos.add(window);
+		        MenuController.juegosPorNombre.put(rutaFXML, window);
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
@@ -244,11 +247,14 @@ public class JocVidaController implements Initializable {
 
 			Parent root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
 			Scene escena2 = new Scene(root2);
+			String rutaFXML="JocVida.fxml";
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Joc De La Vida");
 			window.show();
-
+			//añadir los juegos abiertos
+	        MenuController.juegosAbiertos.add(window);
+	        MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

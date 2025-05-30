@@ -1,5 +1,9 @@
 package application;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +16,6 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class DificultadController implements Initializable {
 
@@ -82,7 +82,7 @@ public class DificultadController implements Initializable {
 				Stage ventanaActual =  (Stage) ((Node) e.getSource()).getScene().getWindow();
 				ventanaActual.close();
 				VBox root2 = FXMLLoader.load(getClass().getResource("JocVida.fxml"));
-			
+				String rutaFXML= "JocVida.fxml";
 				Scene escena2 = new Scene(root2);
 				escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
@@ -94,6 +94,11 @@ public class DificultadController implements Initializable {
 		        window.setMaximized(true);//lo abrimos en maximizado
 		        
 				window.show();
+				
+				//añadir los juegos abiertos
+		        MenuController.juegosAbiertos.add(window);
+		        MenuController.juegosPorNombre.put(rutaFXML, window);
+		        
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

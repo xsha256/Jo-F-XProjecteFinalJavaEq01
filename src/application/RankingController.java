@@ -97,11 +97,14 @@ public class RankingController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Tamany.fxml"));
 			Parent root = loader.load();
-
+			String rutaFXML="Tamany.fxml";
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setScene(new Scene(root));
 			stage.setTitle("Seleccionar Tamany");
 			stage.show();
+			//añadir los juegos abiertos
+	        MenuController.juegosAbiertos.add(stage);
+	        MenuController.juegosPorNombre.put(rutaFXML, stage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

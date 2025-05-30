@@ -114,11 +114,15 @@ public class CargarPartidaController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Tamany.fxml"));
 			Parent root = loader.load();
+			String rutaFXML="Tamany.fxml";
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			Scene escena2 = new Scene(root, 600, 500);
 			stage.setScene(escena2);
 			stage.setTitle("Seleccionar Mida");
 			stage.show();
+			//añadir los juegos abiertos
+	        MenuController.juegosAbiertos.add(stage);
+	        MenuController.juegosPorNombre.put(rutaFXML, stage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -132,6 +136,7 @@ public class CargarPartidaController implements Initializable {
 	        try {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("BuscaMinas.fxml"));
 	            Parent root = loader.load();
+	            String rutaFXML="BuscaMinas.fxml";
 				Scene escena2 = new Scene(root);
 	            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 	            window.setUserData(partidaSeleccionada);
@@ -139,7 +144,9 @@ public class CargarPartidaController implements Initializable {
 	            window.setTitle("Pescamines");
 	            window.setMaximized(true);
 	            window.show();
-
+	          //añadir los juegos abiertos
+		        MenuController.juegosAbiertos.add(window);
+		        MenuController.juegosPorNombre.put(rutaFXML, window);
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }

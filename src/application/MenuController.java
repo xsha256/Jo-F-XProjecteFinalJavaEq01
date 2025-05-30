@@ -66,13 +66,13 @@ public class MenuController implements Initializable {
 	@FXML private MenuItem itemLogout;
 	
 	//array de ventanas abiertas
-	public ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
+	public static ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
 	//hashmap para no poder abrir el mismo juego a la vez
-	private Map<String, Stage> juegosPorNombre = new HashMap<>();
+	public static Map<String, Stage> juegosPorNombre = new HashMap<>();
 	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
-		this.emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
+	this.emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
 		
 		//funcion para cerrar todas las ventas abiertas a traves de Menu
 		Platform.runLater(()->{
@@ -80,12 +80,11 @@ public class MenuController implements Initializable {
 			
 			ventanaActual.setOnCloseRequest(evt ->{
 				System.out.println("Hola Mundo!");
-				if(juegosAbiertos!=null) {
-					for(Stage s: juegosAbiertos) {
-						s.close();
-					}
-				}
-				
+				for (Stage s : new ArrayList<>(juegosAbiertos)) {
+			        s.close();
+			    }
+			    juegosAbiertos.clear();
+			    juegosPorNombre.clear();				
 			});
 		});
 		
@@ -191,12 +190,20 @@ public class MenuController implements Initializable {
 	//metodo para cerrar sesión
 	public void actionLogout(ActionEvent e) {
 		try {
+			
 			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
 			Scene escena= new Scene(root);
 			Stage window = new Stage();
 			window.setScene(escena);
 			window.setTitle("Login");
 			window.show();
+			
+			for (Stage s : new ArrayList<>(juegosAbiertos)) {
+			    s.close();
+			}
+			juegosAbiertos.clear();
+			juegosPorNombre.clear();
+
 			
 			//cerrar la ventana actual
 			Stage ventanaActual = (Stage) itemLogout.getParentPopup().getOwnerWindow();
@@ -267,7 +274,7 @@ public class MenuController implements Initializable {
 	        e.printStackTrace();
 	    }
 	}
-
+	
 	//intento de "reciclar" codigo para los botones del menu-----------------------------
 	private void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
 	    try {
@@ -291,7 +298,7 @@ public class MenuController implements Initializable {
 	        ventana.setTitle(tituloVentana);
 	        ventana.setResizable(false);
 	        ventana.show();
-
+	        //añadir los juegos abiertos
 	        juegosAbiertos.add(ventana);
 	        juegosPorNombre.put(rutaFXML, ventana);
 
