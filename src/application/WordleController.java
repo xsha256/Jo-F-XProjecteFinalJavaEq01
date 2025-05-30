@@ -14,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
@@ -64,17 +65,16 @@ public class WordleController implements Initializable {
 	
 	
 	private Label[][] caselles = new Label[6][5];
-	private String paraula = paraulaAleatoria();
+	private String paraula = "GASTA";
 	private int columnaActual = 0;
 	private int filaActual = 0;
 	private Stage finestra;
 
 	private int[] comptadorIntents = new int[7];//del 1 al 6
 	private int intents=1;
-	private int fallades=0;
-	private int falladesParaules=0;
-	private int encertats=0;
-	private int encertatParaula=0;
+	private int encertats = 0;
+	private int encertatsSuma = 0;
+	private int vegades = 0;
 	//private String emailUsauri=LoginController.EMAIL;
 	
 	private EventHandler<KeyEvent> tecla = new EventHandler<KeyEvent>() {
@@ -245,7 +245,6 @@ public class WordleController implements Initializable {
 				celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
 				actualitzarColorTeclat(lletraUsuari, "#43a047");//metodo per pintar el teclat
 				comptadorIntents[intents]++;
-				encertats++;
 			} else if (lletraUsuari != lletraCorrecta && paraula.contains(String.valueOf(lletraUsuari))) {
 				int totalLletraParaula = comptarLletra(paraula, lletraUsuari);
 				int totalLletraUsuari = comptarLletraUsuari(fila, lletraUsuari, columna);
@@ -266,7 +265,6 @@ public class WordleController implements Initializable {
 				// Gris: lletra no està en la paraula
 				celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
 				actualitzarColorTeclat(lletraUsuari, "lightgrey");
-				fallades++;
 				encertada = false;
 			}
 
@@ -284,8 +282,6 @@ public class WordleController implements Initializable {
 		if ((fila == 5 && columnaActual == 4) && !encertada) {// si estem en la fila 5 i no la ha acertat
 
 			try {
-
-				falladesParaules++;
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Incorrecte");
 				alert.setHeaderText("INCORRECTE"); // text al costat de la icona
@@ -353,7 +349,7 @@ public class WordleController implements Initializable {
 		if (encertada) {
 			try {
 				
-				encertatParaula++;
+				encertats++;
 
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Correcte");
@@ -601,7 +597,7 @@ public class WordleController implements Initializable {
 				
 			 psInsert.setInt(1, 1);
 			 psInsert.setInt(2, intents);
-			 psInsert.setInt(3, fallades);
+			 psInsert.setInt(3, 0);
 			 psInsert.setInt(4, encertats);
 			 psInsert.executeUpdate();
 			
@@ -623,20 +619,56 @@ public class WordleController implements Initializable {
 	}
 	
 	public String estadistica() {
+				
+		try {
+			Connection c = ConexionBBDD.conectar();
+			
+			String consultaSelect="SELECT COUNT(?) AS comptar FROM wordle GROUP BY (?)"; 
+			PreparedStatement psSelect = c.prepareStatement(consultaSelect);
+			psSelect.setString(1, "idUsuari");
+			psSelect.setString(2,  "idUsuari");
+			ResultSet rs = psSelect.executeQuery();
+			while (rs.next()) {
+				
+				vegades = rs.getInt("comptar");
+				System.out.println(vegades);
+			}
+			
+			
+			/*String consultaSelect2="SELECT SUM(?) AS sumar FROM wordle GROUP BY (?)"; 
+			PreparedStatement psSelect2 = c.prepareStatement(consultaSelect2);
+			psSelect2.setString(1, "encertats");
+			psSelect2.setString(2,  "idUsuari");
+			ResultSet rs2 = psSelect2.executeQuery();
+			while (rs2.next()) {
+				
+				encertatsSuma = rs2.getInt("sumar");
+				System.out.println(encertatsSuma);
+
+			}*/
+
+			//SELECT intents, SUM(idUsuari) FROM wordle GROUP BY (intents);
+			//fer el grup i la suma per a traurer la estadistica
+			//el que ixca dividit per 100 o per 10? i per a les caselles maxim ixiran 10
+			
+		} catch (SQLException e) {
+			System.out.println("Error: "+e.getMessage());
+		}
 		
-		int totalpartides = falladesParaules+encertatParaula;
+		
+		
+		
 		String simbol ="⬛";
 		StringBuilder resultat = new StringBuilder();
 		resultat.append("\n ===== ESTADÍSTICA ====="+"\n");
-		resultat.append("Partides: "+totalpartides+"\n");
-		resultat.append("Partides guanyades: "+encertatParaula+"\n");
-		resultat.append("Partides perdudes: "+falladesParaules+"\n");
+		resultat.append("Partides: "+vegades+"\n");
+		resultat.append("Partides guanyades: "+encertatsSuma+"\n");
 		resultat.append("----------------------------------\n");
 		
-		for (int i = 1; i <= intents; i++) {
-			resultat.append(i+": "+simbol.repeat(comptadorIntents[i])+"("+((comptadorIntents[i]*10)/encertatParaula)+"%)\n");
-			
-		}
+//		for (int i = 1; i <= 6; i++) {
+//			resultat.append(i+": "+simbol.repeat(comptadorIntents[i])+"("+((comptadorIntents[i]*10)/encertatParaula)+"%)\n");
+//			
+//		}
 	
 		return resultat.toString();
 	
