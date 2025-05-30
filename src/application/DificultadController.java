@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +43,21 @@ public class DificultadController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.midajocvidaActivo=true;
+				System.out.println("La ventana mida-jocVida esta activa. Boolean: "+MenuController.midajocvidaActivo);
+				System.out.println("BooleanJuegoActivo: "+MenuController.jocvidaActivo);
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.midajocvidaActivo=false;
+				System.out.println("La ventana mida-jocVida se cerró. Boolean: "+MenuController.midajocvidaActivo);
+				System.out.println("BooleanJuegoActivo: "+MenuController.jocvidaActivo);
+			});
+		});
+		
 		//Guardamos estilos originales para poder restaurarlos luego
 //        jugarStyleOriginal = jugar.getStyle();
 //        botoEnrereStyleOriginal = botoEnrere.getStyle();

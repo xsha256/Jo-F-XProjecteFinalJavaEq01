@@ -228,6 +228,20 @@ public class BuscaMinasController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.pescaminesActivo=true;
+				System.out.println("El pescaminas esta activo. Boolean: "+MenuController.pescaminesActivo);
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.pescaminesActivo=false;
+				System.out.println("El pescaminas se cerró. Boolean: "+MenuController.pescaminesActivo);
+				
+			});
+		});
+		
 		Platform.runLater(() -> {
 			Stage window = (Stage) root.getScene().getWindow();
 			data = window.getUserData();
@@ -342,7 +356,6 @@ public class BuscaMinasController implements Initializable {
 	}
 
 	public void canviaEscena() {
-
 		try {
 
 			Stage ventanaActual = (Stage) root.getScene().getWindow();

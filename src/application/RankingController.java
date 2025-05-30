@@ -1,5 +1,10 @@
 package application;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -13,15 +18,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-
 public class RankingController implements Initializable {
-
+	@FXML private AnchorPane root;
 	@FXML
 	private TableView<Partida> tablaRanking;
 	@FXML
@@ -32,9 +33,20 @@ public class RankingController implements Initializable {
 
 	@FXML
 	private TableColumn<Partida, String> columnaFecha;
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.rankingpescaminesActivo=true;
+				System.out.println("La ventana ranking-pescaminas esta activa. Boolean: "+MenuController.rankingpescaminesActivo);
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.rankingpescaminesActivo=false;
+				System.out.println("La ventana ranking-pescaminas se cerró. Boolean: "+MenuController.rankingpescaminesActivo);
+			});
+		});
 		columnaTiempo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTiempo()));
 
 		columnaFecha

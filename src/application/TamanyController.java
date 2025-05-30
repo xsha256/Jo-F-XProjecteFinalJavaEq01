@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,10 +9,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,18 +25,36 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class TamanyController {
+public class TamanyController implements Initializable{
 	private Connection c;
 	@FXML
 	ToggleGroup opcionesGrupo;
-
+	@FXML
+	private VBox root;
 	// recoger idUsuario y guardarlo
 	private static int idUsuari = 0;
 	public static String emailMoha = LoginController.EMAIL;
-
+	
+	public void initialize(URL location, ResourceBundle resources) {
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.midapescaminesActivo=true;
+				System.out.println("La ventana mida-pescaminas esta activa. Boolean: "+MenuController.midapescaminesActivo);
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.midapescaminesActivo=false;
+				System.out.println("La ventana mida-pescaminas se cerró. Boolean: "+MenuController.midapescaminesActivo);
+				
+			});
+		});
+	}
+	
 	public void recogerIdUsuario(String emailUsuario) {
 
 		this.c = ConexionBBDD.conectar();
+		
 		try {
 			String sentencia = "SELECT id FROM usuari where email = ?";
 			PreparedStatement s = c.prepareStatement(sentencia);
@@ -45,6 +67,7 @@ public class TamanyController {
 	}
 
 	public void canviaEscena(ActionEvent e) {
+		
 		Toggle selectedToggle = opcionesGrupo.getSelectedToggle();
 		if (selectedToggle != null) {
 			RadioButton seleccionado = (RadioButton) selectedToggle;
@@ -59,7 +82,7 @@ public class TamanyController {
 				Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);
-				window.setTitle("Busca Mines");
+				window.setTitle("Pescamines");
 				window.setMaximized(true);// lo abrimos en maximizado
 				window.show();
 				
@@ -82,6 +105,7 @@ public class TamanyController {
 	}
 
 	public void ranking(ActionEvent event) {
+		
 		recogerIdUsuario(emailMoha);
 		try {
 			Connection c = ConexionBBDD.conectar();

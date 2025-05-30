@@ -43,6 +43,20 @@ public class CargarPartidaController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.carregarpescaminesActivo=true;
+				System.out.println("La ventana cargarPartida-pescaminas esta activa. Boolean: "+MenuController.carregarpescaminesActivo);
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.carregarpescaminesActivo=false;
+				System.out.println("La ventana cargarPartida-pescaminas se cerró. Boolean: "+MenuController.carregarpescaminesActivo);
+				
+			});
+		});
+		
 		colTamaño.setCellValueFactory(new PropertyValueFactory<>("tamaño"));
 		colTiempo.setCellValueFactory(new PropertyValueFactory<>("tiempo"));
 		colCasillasDescubiertas.setCellValueFactory(new PropertyValueFactory<>("contadorCasillasAbiertas"));

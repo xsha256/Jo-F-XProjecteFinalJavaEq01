@@ -205,10 +205,19 @@ public class MenuController implements Initializable {
 			
 			for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			    s.close();
-			    pescaminesActivo=false;
+			    
 		        jocvidaActivo=false;
+		        midajocvidaActivo=false;
+		        
+		        pescaminesActivo=false;
+		        midapescaminesActivo=false;
+		    	rankingpescaminesActivo=false;
+		    	carregarpescaminesActivo=false;
+		    	
 		    	pixelartActivo=false;
 		    	wordleActivo=false;
+		    	
+		    
 			}
 			juegosAbiertos.clear();
 			juegosPorNombre.clear();
@@ -285,7 +294,13 @@ public class MenuController implements Initializable {
 	}
 	
 	public static boolean jocvidaActivo=false;
+	public static boolean midajocvidaActivo=false;
+	
 	public static boolean pescaminesActivo=false;
+	public static boolean midapescaminesActivo=false;
+	public static boolean rankingpescaminesActivo=false;
+	public static boolean carregarpescaminesActivo=false;
+	
 	public static boolean pixelartActivo=false;
 	public static boolean wordleActivo=false;
 	
@@ -330,15 +345,26 @@ public class MenuController implements Initializable {
 	
 	//lo que hacen los botones es llamar a la función de arriba y darle la ventana a abrir y el titulo de esta
 	public void actionPescamines(ActionEvent e) {
-		if(pescaminesActivo) {
+		if(pescaminesActivo || midapescaminesActivo || rankingpescaminesActivo || carregarpescaminesActivo) {//si hay alguna ventana en true, no entra al juego
 			ventanaAlert alerta = new ventanaAlert();
 			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
 			abrirVentanaJuego("Tamany.fxml", "Pescamines", e);
-			pescaminesActivo=true;
+			midapescaminesActivo=true;
 		}
 	   
+	}
+	
+	public void actionJocDeLaVida(ActionEvent e) {
+	    if(jocvidaActivo || midajocvidaActivo) {
+	    	ventanaAlert alerta = new ventanaAlert();
+			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
+			return;
+		}else {
+			 abrirVentanaJuego("Dificultad.fxml", "Joc de la Vida", e);
+			 midajocvidaActivo=true;
+		}
 	}
 
 	public void actionWordle(ActionEvent e) {
@@ -364,16 +390,7 @@ public class MenuController implements Initializable {
 	    
 	}
 
-	public void actionJocDeLaVida(ActionEvent e) {
-	    if(jocvidaActivo) {
-	    	ventanaAlert alerta = new ventanaAlert();
-			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
-			return;
-		}else {
-			 abrirVentanaJuego("Dificultad.fxml", "Joc de la Vida", e);
-			 jocvidaActivo=true;
-		}
-	}
+	
 
 	
 	/*

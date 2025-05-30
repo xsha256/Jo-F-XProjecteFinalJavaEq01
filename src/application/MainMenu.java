@@ -17,7 +17,6 @@ public class MainMenu extends Application {
 			
 			primaryStage.setTitle("Menu Principal Usuario");// define el titulo de la ventana
 			primaryStage.setMaximized(true);// para ejecutar en pantalla completa
-
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

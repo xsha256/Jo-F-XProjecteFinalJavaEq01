@@ -61,6 +61,19 @@ public class JocVidaController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.jocvidaActivo=true;
+				System.out.println("El juego jocVida esta activa. Boolean: "+MenuController.jocvidaActivo);
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.jocvidaActivo=false;
+				System.out.println("El juego jocVida se cerró. Boolean: "+MenuController.jocvidaActivo);
+				
+			});
+		});
 
 		Platform.runLater(() -> {
 			Stage window = (Stage) root.getScene().getWindow();
