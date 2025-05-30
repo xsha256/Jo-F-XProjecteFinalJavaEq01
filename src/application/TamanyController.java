@@ -22,9 +22,27 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class TamanyController {
-
+	private Connection c;
 	@FXML
 	ToggleGroup opcionesGrupo;
+
+	// recoger idUsuario y guardarlo
+	private static int idUsuari = 0;
+	public static String emailMoha = LoginController.EMAIL;
+
+	public void recogerIdUsuario(String emailUsuario) {
+
+		this.c = ConexionBBDD.conectar();
+		try {
+			String sentencia = "SELECT id FROM usuari where email = ?";
+			PreparedStatement s = c.prepareStatement(sentencia);
+			s.setString(1, emailUsuario);
+			ResultSet rs = s.executeQuery(sentencia);
+			idUsuari = rs.getInt("id");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void canviaEscena(ActionEvent e) {
 		Toggle selectedToggle = opcionesGrupo.getSelectedToggle();
@@ -37,7 +55,7 @@ public class TamanyController {
 				VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
 				Scene escena2 = new Scene(root2);
 				escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();
+				Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
 				window.setUserData(opcion);
 				window.setScene(escena2);
 				window.setTitle("Busca Mines");
@@ -58,7 +76,7 @@ public class TamanyController {
 	}
 
 	public void ranking(ActionEvent event) {
-		int idUsuari = 0;
+		recogerIdUsuario(emailMoha);
 		try {
 			Connection c = ConexionBBDD.conectar();
 			String sentencia = "SELECT id FROM usuari WHERE email = ?";
@@ -68,8 +86,10 @@ public class TamanyController {
 			while (r.next()) {
 				idUsuari = r.getInt("id");
 			}
-			
-			//String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
+
+			// String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM
+			// pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY
+			// temps";
 			sentencia = "SELECT id, temps, data , tamany FROM pescaMines WHERE idUsuari = ? AND acabat = 'Si' ORDER BY temps";
 			s = c.prepareStatement(sentencia);
 			s.setInt(1, idUsuari);
@@ -124,7 +144,7 @@ public class TamanyController {
 			stage.setScene(new Scene(root));
 			stage.show();
 
-		} catch ( SQLException | IOException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 

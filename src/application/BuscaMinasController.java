@@ -1,6 +1,23 @@
 package application;
 
-import static javafx.scene.paint.Color.MINTCREAM;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,26 +41,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
 
 public class BuscaMinasController implements Initializable {
 
@@ -76,9 +73,26 @@ public class BuscaMinasController implements Initializable {
 	private boolean cargar = false;
 	private static Connection c = ConexionBBDD.conectar();
 	private static int idUsuari = 0;
-
+	
+	//recoger idUsuario y guardarlo
+	public static String emailMoha=LoginController.EMAIL;
+	
+	public void recogerIdUsuario(String emailUsuario) {
+		try {
+			String sentencia = "SELECT id FROM usuari where email = ?";
+			PreparedStatement s = c.prepareStatement(sentencia);
+			s.setString(1, emailUsuario);
+			ResultSet rs = s.executeQuery(sentencia);
+			idUsuari = rs.getInt("id");
+		} catch (  SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-
+		
+		
+		
 		@Override
 		public void handle(MouseEvent e) {
 			Node node = (Node) e.getTarget();
@@ -460,7 +474,7 @@ public class BuscaMinasController implements Initializable {
 		int contador = 0;
 		for (int i = 0; i < tablero.getLongitudHorizontal(); i++) {
 			for (int j = 0; j < tablero.getLongitudHorizontal(); j++) {
-				if (etiquetas[i][j].getId().equals("noMinaVista")) {
+				if (etiquetas[i][j].getId().equals("noMinaVista") && etiquetas[i][j] !=null) {
 					contador++;
 				}
 			}
@@ -471,6 +485,7 @@ public class BuscaMinasController implements Initializable {
 	
 	
 	public void guardarPartida() {
+		recogerIdUsuario(emailMoha);
 		if(partidaCargada) {
 			try {
 
@@ -491,19 +506,22 @@ public class BuscaMinasController implements Initializable {
 			return;
 		} else {
 			try {
+				
 				Partida partida = new Partida(contarCuadrados(), banderasRestantes, opcion, tablero.getMatriz_abajo());
+				
 				partida.setEtiquetas(etiquetas);
-
+				
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ObjectOutputStream oos = new ObjectOutputStream(baos);
 				oos.writeObject(partida);
 				oos.close();
 				byte[] datosSerializados = baos.toByteArray();
-
+				
 				Date hoy = new Date();
 				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String fecha = formato.format(hoy);
-
+				System.out.println("dentro del else3");
+				
 				String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
 				s.setInt(1, idUsuari);
@@ -519,7 +537,7 @@ public class BuscaMinasController implements Initializable {
 				
 				ventanaAlert alerta = new ventanaAlert();
 				alerta.alert("Desar Partida ","Partida desada amb èxit.", "file:imagenes/saved.png", 100);
-			} catch (IOException  | SQLException e) {
+			} catch (Exception e) {//IOException  | SQLException e
 				e.printStackTrace();
 			}
 		}
@@ -527,6 +545,7 @@ public class BuscaMinasController implements Initializable {
 	}
 
 	public void guardarPartida2() {
+		recogerIdUsuario(emailMoha);
 		try {
 			Partida partida = new Partida(contarCuadrados(), banderasRestantes, opcion, tablero.getMatriz_abajo());
 			partida.setEtiquetas(etiquetas);
@@ -562,6 +581,7 @@ public class BuscaMinasController implements Initializable {
 	}
 
 	public void ranking(ActionEvent event) {
+		recogerIdUsuario(emailMoha);
 		try {
 
 			//String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
@@ -629,7 +649,7 @@ public class BuscaMinasController implements Initializable {
 	}
 
 	public void cargar(ActionEvent event) {
-		System.out.println("dentro descar");
+		recogerIdUsuario(emailMoha);
 		try {
 			
 			String sentencia = "SELECT id, data, sesioJoc, temps FROM pescaMines WHERE idUsuari = ? AND acabat = 'No'";
