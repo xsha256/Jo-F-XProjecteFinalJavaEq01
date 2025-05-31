@@ -594,7 +594,7 @@ public class WordleController implements Initializable {
 			 String insertParaula ="INSERT INTO paraulesfetes (idWordle, paraula) VALUES (?,?)";
 			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);
 				
-			 psInsert.setInt(1, 1);
+			 psInsert.setInt(1, 41);
 			 psInsert.setInt(2, intents);
 			 psInsert.setInt(3, 0);
 			 psInsert.setInt(4, encertats);
