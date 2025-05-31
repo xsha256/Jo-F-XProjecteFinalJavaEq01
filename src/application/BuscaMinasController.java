@@ -1,5 +1,34 @@
 package application;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -17,30 +46,8 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
-
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class BuscaMinasController implements Initializable {
 
@@ -73,31 +80,29 @@ public class BuscaMinasController implements Initializable {
 	private boolean cargar = false;
 	private static Connection c = ConexionBBDD.conectar();
 	private static int idUsuari = 0;
-	
-	//recoger idUsuario y guardarlo
-	public static String emailMoha=LoginController.EMAIL;
-	
-	public void recogerIdUsuario(String emailUsuario) {
-	    this.c = ConexionBBDD.conectar();
-	    
-	    try {
-	        String sentencia = "SELECT id FROM usuari WHERE email = ?";
-	        PreparedStatement s = c.prepareStatement(sentencia);
-	        s.setString(1, emailUsuario);
-	        ResultSet rs = s.executeQuery();
 
-	        if (rs.next()) {
-	            idUsuari = rs.getInt("id");
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+	// recoger idUsuario y guardarlo
+	public static String emailMoha = LoginController.EMAIL;
+
+	public void recogerIdUsuario(String emailUsuario) {
+		this.c = ConexionBBDD.conectar();
+
+		try {
+			String sentencia = "SELECT id FROM usuari WHERE email = ?";
+			PreparedStatement s = c.prepareStatement(sentencia);
+			s.setString(1, emailUsuario);
+			ResultSet rs = s.executeQuery();
+
+			if (rs.next()) {
+				idUsuari = rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-		
-		
-		
+
 		@Override
 		public void handle(MouseEvent e) {
 			Node node = (Node) e.getTarget();
@@ -132,10 +137,10 @@ public class BuscaMinasController implements Initializable {
 							if (node.getId().equals("mina")) {
 								timeline.stop();
 								mostrarMinas();
-							
+
 								ventanaAlert alerta = new ventanaAlert();
-								alerta.alert("Game Over","Has esclatat una mina!", "file:imagenes/boom.png", 300);
-								
+								alerta.alert("Game Over", "Has esclatat una mina!", "file:imagenes/boom.png", 300);
+
 								if (partidaCargada) {
 									System.out.println("Perder");
 									try {
@@ -143,7 +148,7 @@ public class BuscaMinasController implements Initializable {
 										PreparedStatement s = c.prepareStatement(sentencia);
 										s.setInt(1, id);
 										s.executeUpdate();
-									} catch ( SQLException e1) {
+									} catch (SQLException e1) {
 										e1.printStackTrace();
 									}
 									partidaCargada = false;
@@ -187,10 +192,10 @@ public class BuscaMinasController implements Initializable {
 						} catch (FileNotFoundException e1) {
 							e1.printStackTrace();
 						}
-						
-					}else {
-						if (!node.getId().equals("noMinaVista")
-								&& (node.getId().equals("noMina") || node.getId() == null || node.getId().equals("mina"))) {
+
+					} else {
+						if (!node.getId().equals("noMinaVista") && (node.getId().equals("noMina")
+								|| node.getId() == null || node.getId().equals("mina"))) {
 							if (((Label) node).getGraphic() != null) {
 								((Label) node).setGraphic(null);
 								banderasPuestas--;
@@ -201,7 +206,8 @@ public class BuscaMinasController implements Initializable {
 								try {
 									if (banderasPuestas == tablero.getMinas()) {
 										ventanaAlert alerta = new ventanaAlert();
-										alerta.alert("Atenció","No pots posar més banderes", "file:imagenes/equis.png", 300);
+										alerta.alert("Atenció", "No pots posar més banderes", "file:imagenes/equis.png",
+												300);
 									} else {
 										Image bandera1 = new Image(new FileInputStream("imagenes/bandera.png"));
 										ImageView bandera = new ImageView(bandera1);
@@ -223,8 +229,7 @@ public class BuscaMinasController implements Initializable {
 
 						}
 					}
-					
-					
+
 				}
 			}
 		}
@@ -233,31 +238,34 @@ public class BuscaMinasController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
-		Platform.runLater(()->{
+		// funcion que cambia el estado de los booleans para poder duplicados abiertos
+		// del mismo juego
+		Platform.runLater(() -> {
 			Stage ventanaActual = (Stage) root.getScene().getWindow();
-			if(ventanaActual.isShowing()) {
-				MenuController.pescaminesActivo=true;
-				MenuController.carregarpescaminesActivo=false;
-				System.out.println("El pescaminas esta activo. Boolean: "+MenuController.pescaminesActivo);
-				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
-				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
-				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
-				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
+			if (ventanaActual.isShowing()) {
+				MenuController.pescaminesActivo = true;
+				MenuController.carregarpescaminesActivo = false;
+				System.out.println("El pescaminas esta activo. Boolean: " + MenuController.pescaminesActivo);
+				System.out.println("BooleanMida: " + MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: " + MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: " + MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: " + MenuController.carregarpescaminesActivo);
 			}
-			ventanaActual.setOnHidden(evt ->{
-				MenuController.pescaminesActivo=false;
-				System.out.println("El pescaminas se cerró. Boolean: "+MenuController.pescaminesActivo);
-				System.out.println("BooleanMida: "+MenuController.midapescaminesActivo);
-				System.out.println("BooleanRanking: "+MenuController.rankingpescaminesActivo);
-				System.out.println("BooleanJoc: "+MenuController.pescaminesActivo);
-				System.out.println("BooleanCarregar: "+MenuController.carregarpescaminesActivo);
-				
+			ventanaActual.setOnHidden(evt -> {
+				MenuController.pescaminesActivo = false;
+				System.out.println("El pescaminas se cerró. Boolean: " + MenuController.pescaminesActivo);
+				System.out.println("BooleanMida: " + MenuController.midapescaminesActivo);
+				System.out.println("BooleanRanking: " + MenuController.rankingpescaminesActivo);
+				System.out.println("BooleanJoc: " + MenuController.pescaminesActivo);
+				System.out.println("BooleanCarregar: " + MenuController.carregarpescaminesActivo);
+				alerta("Vols guardar la partida abans d'eixir?","file:imagenes/alerta.png");
+
 			});
 		});
-		
+
 		Platform.runLater(() -> {
 			Stage window = (Stage) root.getScene().getWindow();
+
 			data = window.getUserData();
 
 			if (data instanceof String) {
@@ -346,27 +354,65 @@ public class BuscaMinasController implements Initializable {
 			}));
 			timeline.setCycleCount(Timeline.INDEFINITE);
 			timeline.play();
-			
-			
 
 		});
 		try {
-		String sentencia = "SELECT id FROM usuari WHERE email = ?";
-		PreparedStatement s = c.prepareStatement(sentencia);
-		s.setString(1, LoginController.EMAIL);
-		ResultSet r;
+			String sentencia = "SELECT id FROM usuari WHERE email = ?";
+			PreparedStatement s = c.prepareStatement(sentencia);
+			s.setString(1, LoginController.EMAIL);
+			ResultSet r;
 
 			r = s.executeQuery();
-		
-		while (r.next()) {
-			idUsuari = r.getInt("id");
-		}
+
+			while (r.next()) {
+				idUsuari = r.getInt("id");
+			}
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
-		
 
-		
+	}
+
+	public void alerta(String msgParam, String fotoPath) {
+		try {
+			Alert alert = new Alert(AlertType.NONE);
+			alert.setTitle("🚩 Error");
+			alert.getDialogPane().setPrefSize(250, 530);
+			Image iconAlert = new Image(fotoPath);
+			ImageView alertView = new ImageView(iconAlert);
+			alertView.setFitWidth(100);
+			alertView.setPreserveRatio(true);
+			Label msg = new Label(msgParam);
+			msg.setMaxWidth(500);
+			msg.setWrapText(true);
+			msg.getStyleClass().add("msgAlertError");
+			VBox content = new VBox(15, alertView, msg);
+			content.setAlignment(Pos.CENTER);
+			content.setPadding(new Insets(20));
+			content.setPrefWidth(500);
+			alert.getDialogPane().setContent(content);
+			alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+			ButtonType cancelar = new ButtonType("Cancel·lar", ButtonBar.ButtonData.CANCEL_CLOSE);
+			ButtonType aceptar = new ButtonType("Acceptar", ButtonBar.ButtonData.OK_DONE);
+
+			alert.getDialogPane().getButtonTypes().addAll(aceptar, cancelar);
+
+			Button registrarButton = (Button) alert.getDialogPane().lookupButton(aceptar);
+			registrarButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
+			registrarButton.getStyleClass().add("boton-hover");
+			alert.getDialogPane().getStyleClass().add("alertError");
+			Button loginButton = (Button) alert.getDialogPane().lookupButton(cancelar);
+			loginButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
+			loginButton.getStyleClass().add("boton-hover");
+			alert.getDialogPane().getStyleClass().add("alertError");
+			Optional<ButtonType> resultado = alert.showAndWait();
+			if (resultado.isPresent() && resultado.get() == aceptar) {
+				guardarPartida();
+			}
+		} catch (Exception error) {
+			System.out.println("Error: " + error);
+		}
 	}
 
 	public void canviaEscena() {
@@ -376,15 +422,15 @@ public class BuscaMinasController implements Initializable {
 			ventanaActual.close();
 			VBox root2 = FXMLLoader.load(getClass().getResource("Tamany.fxml"));
 			Scene escena2 = new Scene(root2);
-			String rutaFXML="Tamany.fxml";
-			Stage window = new Stage(); //(Stage) root.getScene().getWindow();
+			String rutaFXML = "Tamany.fxml";
+			Stage window = new Stage(); // (Stage) root.getScene().getWindow();
 
 			window.setScene(escena2);
 			window.setTitle("Juego de la Vida");
 			window.show();
-			//añadir los juegos abiertos
-	        MenuController.juegosAbiertos.add(window);
-	        MenuController.juegosPorNombre.put(rutaFXML, window);
+			// añadir los juegos abiertos
+			MenuController.juegosAbiertos.add(window);
+			MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -396,15 +442,15 @@ public class BuscaMinasController implements Initializable {
 		try {
 			VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
 			Scene escena2 = new Scene(root2);
-			String rutaFXML="BuscaMinas.fxml";
+			String rutaFXML = "BuscaMinas.fxml";
 			Stage window = (Stage) root.getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Juego de la Vida");
 			window.setMaximized(true);
 			window.show();
-			//añadir los juegos abiertos
-	        MenuController.juegosAbiertos.add(window);
-	        MenuController.juegosPorNombre.put(rutaFXML, window);
+			// añadir los juegos abiertos
+			MenuController.juegosAbiertos.add(window);
+			MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -437,8 +483,8 @@ public class BuscaMinasController implements Initializable {
 	public void liberarCuadrados(int x, int y) {
 		String[][] matriz_abajo = tablero.getMatriz_abajo();
 		if (etiquetas[x][y].getGraphic() != null) {
-			
-		}else {
+
+		} else {
 			if (matriz_abajo[x][y].equals("0")) {
 				etiquetas[x][y].setStyle("-fx-background-color: white;-fx-border-color: black;");
 				etiquetas[x][y].setId("noMinaVista");
@@ -450,14 +496,13 @@ public class BuscaMinasController implements Initializable {
 				etiquetas[x][y].setId("noMinaVista");
 			}
 		}
-	
-		
+
 		if (contarCuadrados() == ((tablero.getLongitudHorizontal() * tablero.getLongitudVertical())
 				- tablero.getMinas())) {
 			timeline.stop();
-			
+
 			ventanaAlert alerta = new ventanaAlert();
-			alerta.alert("You Win","Has guanyat!!", "file:imagenes/win.png", 200);
+			alerta.alert("You Win", "Has guanyat!!", "file:imagenes/win.png", 200);
 			if (partidaCargada) {
 				System.out.println("Ganar");
 				try {
@@ -465,7 +510,7 @@ public class BuscaMinasController implements Initializable {
 					PreparedStatement s = c.prepareStatement(sentencia);
 					s.setInt(1, id);
 					s.executeUpdate();
-				} catch (  SQLException e1) {
+				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				partidaCargada = false;
@@ -486,19 +531,19 @@ public class BuscaMinasController implements Initializable {
 			int nj = y + dy[i];
 
 			if (ni >= 0 && ni < tablero.getLongitudHorizontal() && nj >= 0 && nj < tablero.getLongitudHorizontal()) {
-				if (!etiquetas[ni][nj].getId().equals("noMinaVista") ) {
+				if (!etiquetas[ni][nj].getId().equals("noMinaVista")) {
 					if (matriz_abajo[ni][nj].equals("0")) {
 						liberarCuadrados(ni, nj);
 					} else if (!matriz_abajo[ni][nj].equals("x")) {
 						if (etiquetas[ni][nj].getGraphic() != null) {
-							
-						}else {
+
+						} else {
 							etiquetas[ni][nj].setStyle("-fx-background-color: white;-fx-border-color: black;");
 							etiquetas[ni][nj].setText(matriz_abajo[ni][nj]);
 							etiquetas[ni][nj].setAlignment(Pos.CENTER);
 							etiquetas[ni][nj].setId("noMinaVista");
 						}
-						
+
 					}
 				}
 			}
@@ -512,55 +557,54 @@ public class BuscaMinasController implements Initializable {
 //				if (etiquetas[i][j].getId().equals("noMinaVista") && etiquetas[i][j] !=null) {
 //					contador++;
 //				}
-				//asi no da fallo. Comprobando primero el null
+				// asi no da fallo. Comprobando primero el null
 				if (etiquetas[i][j] != null && "noMinaVista".equals(etiquetas[i][j].getId())) {
-				    contador++;
+					contador++;
 				}
 			}
 		}
 
 		return contador;
 	}
-	
-	
+
 	public void guardarPartida() {
 		recogerIdUsuario(emailMoha);
-		if(partidaCargada) {
+		if (partidaCargada) {
 			try {
 
 				String sentencia = "DELETE FROM pescaMines where id = ?";
 				PreparedStatement s = c.prepareStatement(sentencia);
 				s.setInt(1, id);
 				s.executeUpdate();
-			} catch (  SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			partidaCargada = false;
-			
+
 		}
 		if (tablero.getMatriz_abajo() == null) {
 			ventanaAlert alerta = new ventanaAlert();
-			alerta.alert("Atenció ","No has iniciat cap partida..", "file:imagenes/alerta.png", 100);
-			
+			alerta.alert("Atenció ", "No has iniciat cap partida..", "file:imagenes/alerta.png", 100);
+
 			return;
 		} else {
 			try {
-				
+
 				Partida partida = new Partida(contarCuadrados(), banderasRestantes, opcion, tablero.getMatriz_abajo());
-				
+
 				partida.setEtiquetas(etiquetas);
-				
+
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ObjectOutputStream oos = new ObjectOutputStream(baos);
 				oos.writeObject(partida);
 				oos.close();
 				byte[] datosSerializados = baos.toByteArray();
-				
+
 				Date hoy = new Date();
 				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String fecha = formato.format(hoy);
 				System.out.println("dentro del else3");
-				
+
 				String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
 				s.setInt(1, idUsuari);
@@ -573,10 +617,10 @@ public class BuscaMinasController implements Initializable {
 
 //				s.close();
 //				c.close();
-				
+
 				ventanaAlert alerta = new ventanaAlert();
-				alerta.alert("Desar Partida ","Partida desada amb èxit.", "file:imagenes/saved.png", 100);
-			} catch (Exception e) {//IOException  | SQLException e
+				alerta.alert("Desar Partida ", "Partida desada amb èxit.", "file:imagenes/saved.png", 100);
+			} catch (Exception e) {// IOException | SQLException e
 				e.printStackTrace();
 			}
 		}
@@ -599,7 +643,6 @@ public class BuscaMinasController implements Initializable {
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String fecha = formato.format(hoy);
 
-
 			String sentencia = "INSERT INTO pescaMines (idUsuari, data, sesioJoc, tamany, temps, acabat) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement s = c.prepareStatement(sentencia);
 			s.setInt(1, idUsuari);
@@ -613,7 +656,7 @@ public class BuscaMinasController implements Initializable {
 //			s.close();
 //			c.close();
 
-		} catch (IOException  | SQLException e) {
+		} catch (IOException | SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -623,7 +666,9 @@ public class BuscaMinasController implements Initializable {
 		recogerIdUsuario(emailMoha);
 		try {
 
-			//String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY temps";
+			// String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM
+			// pescaMines, usuari WHERE idUsuari = usuari.id AND acabat = 'Si' ORDER BY
+			// temps";
 			String sentencia = "SELECT id, temps, data , tamany FROM pescaMines WHERE idUsuari = ? AND acabat LIKE 'Si' ORDER BY temps";
 			PreparedStatement s = c.prepareStatement(sentencia);
 			s.setInt(1, idUsuari);
@@ -673,23 +718,23 @@ public class BuscaMinasController implements Initializable {
 
 //			Stage ventanaActual =  (Stage) ((Node) event.getSource()).getScene().getWindow();
 //			ventanaActual.close();
-			
+
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Ranking.fxml"));
 			Parent root = loader.load();
-			String rutaFXML="Ranking.fxml";
-			Stage stage = new Stage(); //(Stage) ((Node) event.getSource()).getScene().getWindow();
+			String rutaFXML = "Ranking.fxml";
+			Stage stage = new Stage(); // (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setUserData(listaRanking);
 			stage.setScene(new Scene(root));
-			
-			//oculta el botón de la ventana para no poder utilizar lo de "ir a mida"
+
+			// oculta el botón de la ventana para no poder utilizar lo de "ir a mida"
 			RankingController controller = loader.getController();
-			controller.ocultarBotonMida();  // <- ahora sí, seguro
-			
+			controller.ocultarBotonMida(); // <- ahora sí, seguro
+
 			stage.show();
-			//añadir los juegos abiertos
-	        MenuController.juegosAbiertos.add(stage);
-	        MenuController.juegosPorNombre.put(rutaFXML, stage);
-		} catch (  SQLException | IOException e) {
+			// añadir los juegos abiertos
+			MenuController.juegosAbiertos.add(stage);
+			MenuController.juegosPorNombre.put(rutaFXML, stage);
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 
@@ -698,11 +743,13 @@ public class BuscaMinasController implements Initializable {
 	public void cargar(ActionEvent event) {
 		recogerIdUsuario(emailMoha);
 		try {
-			
+
 			String sentencia = "SELECT id, data, sesioJoc, temps FROM pescaMines WHERE idUsuari = ? AND acabat = 'No'";
-			//Statement s = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-			PreparedStatement s = c.prepareStatement(sentencia, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-			s.setInt(1, idUsuari); 
+			// Statement s = c.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+			// ResultSet.CONCUR_READ_ONLY);
+			PreparedStatement s = c.prepareStatement(sentencia, ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY);
+			s.setInt(1, idUsuari);
 			ResultSet r = s.executeQuery();
 
 			ArrayList<Partida> partidas = new ArrayList<>();
@@ -733,23 +780,20 @@ public class BuscaMinasController implements Initializable {
 //			s.close();
 //			c.close();
 
-
-			
-			
 			Stage ventanaActual = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			ventanaActual.close();
 			VBox root2 = FXMLLoader.load(getClass().getResource("CargarPartida.fxml"));
 			Scene escena2 = new Scene(root2);
-			String rutaFXML="CargarPartida.fxml";
+			String rutaFXML = "CargarPartida.fxml";
 			escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			Stage window = new Stage(); //(Stage) ((Node) event.getSource()).getScene().getWindow();
+			Stage window = new Stage(); // (Stage) ((Node) event.getSource()).getScene().getWindow();
 			window.setUserData(partidas);
 			window.setScene(escena2);
 			window.setTitle("Busca Mines");
 			window.show();
-			//añadir los juegos abiertos
-	        MenuController.juegosAbiertos.add(window);
-	        MenuController.juegosPorNombre.put(rutaFXML, window);
+			// añadir los juegos abiertos
+			MenuController.juegosAbiertos.add(window);
+			MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (SQLException | IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
