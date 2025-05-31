@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -201,9 +202,9 @@ public class PixelArtIniciController implements Initializable {
 	// MIDA DE 16X16
 	public void triarXicotet() {
 		amplada.setText("16");
-		amplada.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
+		amplada.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 		altura.setText("16");
-		altura.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
+		altura.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 	}
 
 	public void canviXicotet() {
@@ -214,9 +215,9 @@ public class PixelArtIniciController implements Initializable {
 	// MIDA DE 32X32
 	public void triarMitja() {
 		amplada.setText("32");
-		amplada.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
+		amplada.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 		altura.setText("32");
-		altura.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
+		altura.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 	}
 
 	public void canviMitja() {
@@ -227,9 +228,9 @@ public class PixelArtIniciController implements Initializable {
 	// MIDA DE 64X64
 	public void triarGran() {
 		amplada.setText("64");
-		amplada.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
+		amplada.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 		altura.setText("64");
-		altura.setStyle("-fx-text-fill: #e8e8e8; -fx-background-color: #365057;");
+		altura.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 	}
 
 	public void canviGran() {
