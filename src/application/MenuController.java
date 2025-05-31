@@ -86,6 +86,8 @@ public class MenuController implements Initializable {
 			        jocvidaActivo=false;
 			    	pixelartActivo=false;
 			    	wordleActivo=false;
+					tancarSesioApretado=false;
+
 			        
 			    }
 			    juegosAbiertos.clear();
@@ -191,17 +193,13 @@ public class MenuController implements Initializable {
 	    
 
 	}
-	
+	public static boolean tancarSesioApretado=false;
 	//metodo para cerrar sesión
 	public void actionLogout(ActionEvent e) {
+		tancarSesioApretado=true;
 		try {
 			
-			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-			Scene escena= new Scene(root);
-			Stage window = new Stage();
-			window.setScene(escena);
-			window.setTitle("Login");
-			window.show();
+
 			
 			for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			    s.close();
@@ -226,6 +224,12 @@ public class MenuController implements Initializable {
 			//cerrar la ventana actual
 			Stage ventanaActual = (Stage) itemLogout.getParentPopup().getOwnerWindow();
 	        ventanaActual.close();
+			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+			Scene escena= new Scene(root);
+			Stage window = new Stage();
+			window.setScene(escena);
+			window.setTitle("Login");
+			window.show();
 	        
 		} catch (IOException e1) {
 			e1.printStackTrace();

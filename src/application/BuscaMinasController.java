@@ -258,8 +258,14 @@ public class BuscaMinasController implements Initializable {
 				System.out.println("BooleanRanking: " + MenuController.rankingpescaminesActivo);
 				System.out.println("BooleanJoc: " + MenuController.pescaminesActivo);
 				System.out.println("BooleanCarregar: " + MenuController.carregarpescaminesActivo);
+				if(MenuController.tancarSesioApretado) {
 				alerta("Vols guardar la partida abans d'eixir?","file:imagenes/alerta.png");
+				}
 
+			});
+			
+			ventanaActual.setOnCloseRequest(evt -> {
+				alerta("Vols guardar la partida abans d'eixir?","file:imagenes/alerta.png");
 			});
 		});
 
