@@ -92,6 +92,7 @@ public class MenuController implements Initializable {
 			    	carregarpescaminesActivo=false;
 			    	
 			    	pixelartActivo=false;
+			    	midapixelartActivo=false;
 			    	
 			    	wordleActivo=false;
 			    	infowordleActivo=false;
@@ -217,6 +218,7 @@ public class MenuController implements Initializable {
 		    	carregarpescaminesActivo=false;
 		    	
 		    	pixelartActivo=false;
+		    	midapixelartActivo=false;
 		    	
 		    	wordleActivo=false;
 		    	infowordleActivo=false;
@@ -312,6 +314,8 @@ public class MenuController implements Initializable {
 	public static boolean carregarpescaminesActivo=false;
 	
 	public static boolean pixelartActivo=false;
+	public static boolean midapixelartActivo=false;
+	
 	public static boolean wordleActivo=false;
 	public static boolean infowordleActivo=false;
 	
@@ -391,13 +395,13 @@ public class MenuController implements Initializable {
 	}
 
 	public void actionPixelArt(ActionEvent e) {
-	    if(pixelartActivo) {
+	    if(midapixelartActivo || pixelartActivo) {
 	    	ventanaAlert alerta = new ventanaAlert();
 			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
 			abrirVentanaJuego("PixelArtIniciFXML.fxml", "Pixel Art", e);
-//			pixelartActivo=true;
+			midapixelartActivo=true;
 		}
 	    
 	}

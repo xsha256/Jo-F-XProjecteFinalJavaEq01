@@ -156,7 +156,7 @@ public class WordleController implements Initializable {
 				// donar mida i forma a les caselles
 				celda.setPrefWidth(65);
 				celda.setPrefHeight(65);
-				celda.setStyle("-fx-background-color: white;" + "-fx-border-radius: 5;" + "-fx-font-size: 20;"
+				celda.setStyle("-fx-background-color: #F0F0F00D;" + "-fx-background-radius: 10;" + "-fx-font-size: 20;"
 						+ "-fx-font-weight: bold;");
 				celda.setAlignment(Pos.CENTER);
 				celda.setId("escriu");
@@ -256,7 +256,7 @@ public class WordleController implements Initializable {
 
 			if (lletraUsuari == lletraCorrecta) {
 				// Verd: lletra correcta i posició correcta
-				celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+				celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10;");
 				actualitzarColorTeclat(lletraUsuari, "#43a047");//metodo per pintar el teclat
 				comptadorIntents[intents]++;
 			} else if (lletraUsuari != lletraCorrecta && paraula.contains(String.valueOf(lletraUsuari))) {
@@ -265,19 +265,19 @@ public class WordleController implements Initializable {
 
 				if (totalLletraUsuari >= totalLletraParaula) {
 					// Ja has posat aquesta lletra més vegades de les que hi ha a la paraula
-					celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+					celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold; -fx-background-radius: 10;");
 					actualitzarColorTeclat(lletraUsuari, "lightgrey");
 					
 				} else {
 					// Groc: lletra està a la paraula però no en aquesta posició i encara no s'ha
 					// exhaurit el seu compte
-					celda.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");
+					celda.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10;");
 					actualitzarColorTeclat(lletraUsuari, "#e4a81d");
 				}
 				encertada = false;
 			} else {
 				// Gris: lletra no està en la paraula
-				celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold;");
+				celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold; -fx-background-radius: 10;");
 				actualitzarColorTeclat(lletraUsuari, "lightgrey");
 				encertada = false;
 			}
@@ -294,18 +294,19 @@ public class WordleController implements Initializable {
 
 		/* ALERT INCORRECTE */
 		if ((fila == 5 && columnaActual == 4) && !encertada) {// si estem en la fila 5 i no la ha acertat
-
+			
 			try {
+				
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Incorrecte");
 				alert.setHeaderText("INCORRECTE"); // text al costat de la icona
-				alert.getDialogPane().setPrefSize(250, 500);
-				// Image iconAlert = new
-				// Image(getClass().getResourceAsStream("/Jo-F-XProjecteFinalJavaEq01/src/images/icona.png"));
-				// ImageView alertView = new ImageView(iconAlert);
-				// alertView.setFitWidth(200);
-				// alertView.setPreserveRatio(true);
-
+				alert.getDialogPane().setPrefSize(500, 400);
+//				 Image iconAlert = new
+//				 Image(getClass().getResourceAsStream("file:images/icona.png"));
+//				 ImageView alertView = new ImageView(iconAlert);
+//				 alertView.setFitWidth(200);
+//				 alertView.setPreserveRatio(true);
+				
 				Label msg = new Label("No has adivinant la paraula. \n La paraula correcta es: " + paraula.toUpperCase());
 				msg.setMaxWidth(500);
 				msg.setWrapText(true);
@@ -321,7 +322,6 @@ public class WordleController implements Initializable {
 				content.setAlignment(Pos.CENTER);
 				content.setPadding(new Insets(20));
 				content.setPrefWidth(500);
-
 				alert.getDialogPane().setContent(content);
 				// alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
@@ -331,19 +331,21 @@ public class WordleController implements Initializable {
 				alert.getDialogPane().getStyleClass().add("alertError");
 				// tornar a la pantalla de inici
 				Optional<ButtonType> result = alert.showAndWait();
-
+				
 				if (result.isPresent() && result.get() == ButtonType.OK) {
+					MenuController.wordleActivo=false;
+					MenuController.infowordleActivo=true;
 					try {
-						VBox root = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
-
-						// En comptes de usar 'escena', que és null, agafem l'stage des d'un node
-						// existent
-						Stage stage = (Stage) grid1.getScene().getWindow();
-
-						Scene scene = new Scene(root);
-						stage.setScene(scene);
-						stage.setMaximized(true);
-						stage.show();
+						Stage stage = (Stage) root.getScene().getWindow();
+						stage.close();
+						
+						Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+						Scene escena2 = new Scene(escena, 600,400);
+						Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();			
+						 window.setScene(escena2);
+						 window.setTitle("Wordle");
+						 
+						 window.show();
 
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -404,11 +406,14 @@ public class WordleController implements Initializable {
 				alert.setContentText(estadistica());
 				// tornar a la pantalla de inici
 				Optional<ButtonType> result = alert.showAndWait();
-
+				
 				if (result.isPresent() && result.get() == ButtonType.OK) {
+					MenuController.wordleActivo=false;
+					MenuController.infowordleActivo=true;
 					try {
+						/*
 						VBox root = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
-
+						
 						// En comptes de usar 'escena', que és null, agafem l'stage des d'un node
 						// existent
 						Stage stage = (Stage) grid1.getScene().getWindow();
@@ -417,7 +422,20 @@ public class WordleController implements Initializable {
 						stage.setScene(scene);
 						stage.setMaximized(true);
 						stage.show();
-
+						
+						*/
+						
+						Stage stage = (Stage) root.getScene().getWindow();
+						stage.close();
+						
+						Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+						Scene escena2 = new Scene(escena, 600,400);
+						Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();			
+						 window.setScene(escena2);
+						 window.setTitle("Wordle");
+						 
+						 window.show();
+						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

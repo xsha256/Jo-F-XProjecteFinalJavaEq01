@@ -19,7 +19,7 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <GridPane fx:id="grid1" layoutX="13.0" layoutY="70.0" prefHeight="333.0" prefWidth="574.0">
+            <GridPane fx:id="grid1" layoutX="13.0" layoutY="70.0" prefHeight="333.0" prefWidth="574.0" styleClass="casellesLletres">
               
             </GridPane>
             <GridPane fx:id="grid2" hgap="5.0" layoutX="13.0" layoutY="460.0" prefHeight="210.0" prefWidth="574.0" style="-fx-cursor: hand;" styleClass="tecladoWordle" vgap="2.0">

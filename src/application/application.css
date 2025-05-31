@@ -256,5 +256,31 @@ alertInfo {
 }
 
 .tecladoWordle Button{
+	-fx-background-radius: 15px;
 	-fx-font-weight: bold;
+	-fx-font-size:16;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
+}
+
+.tecladoWordle Button:hover{
+	-fx-background-radius: 15px;
+	-fx-background-color:  #96e399;
+	-fx-font-weight: bold;
+	-fx-font-size:20;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
+}
+
+.casellesLletres Label{
+	-fx-text-fill: white;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
+}
+
+
+/*Pixelart */
+
+.botonesPixelart:hover{
+	-fx-scale-x:1.1;
+	-fx-scale-y:1.1;
+	-fx-cursor:hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0, 0, 6);
 }

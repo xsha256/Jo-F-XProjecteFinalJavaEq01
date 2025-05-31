@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -408,7 +409,24 @@ public class PixelArtController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.pixelartActivo=true;
+				System.out.println("La ventana mida-pescaminas esta activa. Boolean: "+MenuController.pixelartActivo);
+				System.out.println("BooleanMida: "+MenuController.midapixelartActivo);
+				
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.pixelartActivo=false;
+				System.out.println("La ventana mida-pescaminas se cerró. Boolean: "+MenuController.pixelartActivo);
+				System.out.println("BooleanMida: "+MenuController.midapixelartActivo);
+				
+			});
+		});
+		
+		
 		DadesPixelArt dades = DadesPixelArt.getInstancia();
 
 		// AGAFA LES DADES QUE LI HA PASSAT PEL SETTEXT DEL INICI

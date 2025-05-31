@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -239,7 +240,23 @@ public class PixelArtIniciController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.midapixelartActivo=true;
+				System.out.println("La ventana mida-pescaminas esta activa. Boolean: "+MenuController.midapixelartActivo);
+				System.out.println("BooleaJoc: "+MenuController.pixelartActivo);
+				
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.midapixelartActivo=false;
+				System.out.println("La ventana mida-pescaminas se cerró. Boolean: "+MenuController.midapixelartActivo);
+				System.out.println("BooleanJoc: "+MenuController.pixelartActivo);
+				
+			});
+		});
+		
 		root.prefWidthProperty().bind(root.widthProperty());
 		root.prefHeightProperty().bind(root.heightProperty());
 		canviGran();

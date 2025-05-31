@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<BorderPane fx:id="root" prefHeight="418.0" prefWidth="613.0" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PixelArtController">
+<BorderPane fx:id="root" prefHeight="418.0" prefWidth="613.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PixelArtController">
    <left>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="pinzell" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pintar" prefHeight="55.0" prefWidth="37.0" style="-fx-background-color: #e85a71;" textAlignment="CENTER" textFill="#e8e8e8">
+            <Button fx:id="pinzell" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pintar" prefHeight="55.0" prefWidth="37.0" style="-fx-background-color: #e85a71;" styleClass="botonesPixelart" textAlignment="CENTER" textFill="#e8e8e8">
                <VBox.margin>
                   <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
                </VBox.margin>
@@ -27,7 +27,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="borrador" alignment="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" textAlignment="CENTER" textFill="#e8e8e8">
+            <Button fx:id="borrador" alignment="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" styleClass="botonesPixelart" textAlignment="CENTER" textFill="#e8e8e8">
                <VBox.margin>
                   <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
                </VBox.margin>
@@ -39,7 +39,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <ColorPicker fx:id="color" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;">
+            <ColorPicker fx:id="color" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" styleClass="botonesPixelart">
                <VBox.margin>
                   <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
                </VBox.margin>
@@ -53,9 +53,9 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="118.0" prefWidth="613.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="pantallaInici" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#tornarInici" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" textFill="#141414">
+            <Button fx:id="pantallaInici" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#tornarInici" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" styleClass="botonesPixelart" textFill="#141414">
                <HBox.margin>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                  <Insets bottom="30.0" left="137.0" right="30.0" top="30.0" />
                </HBox.margin>
                <graphic>
                   <ImageView fitHeight="47.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
@@ -65,7 +65,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="guardarImatge" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#guardarBDD" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" textFill="#e8e8e8">
+            <Button fx:id="guardarImatge" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#guardarBDD" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" styleClass="botonesPixelart" textFill="#e8e8e8">
                <HBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </HBox.margin>
@@ -77,7 +77,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="imatgePNG" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#descarregar" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" textAlignment="CENTER" textFill="#e8e8e8">
+            <Button fx:id="imatgePNG" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#descarregar" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" styleClass="botonesPixelart" textAlignment="CENTER" textFill="#e8e8e8">
                <HBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </HBox.margin>
@@ -93,7 +93,7 @@
       </HBox>
    </bottom>
    <center>
-      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" style="-fx-background-color: #FFFFFF0D; -fx-background-radius: 10;" BorderPane.alignment="CENTER">
          <children>
             <GridPane fx:id="graella" alignment="CENTER" gridLinesVisible="true">
                <HBox.margin>
