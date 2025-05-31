@@ -239,7 +239,7 @@ public class PixelArtController implements Initializable {
 
 			String sentenciaObtenirID = "SELECT id FROM usuari WHERE email LIKE ?";
 			PreparedStatement psID = c.prepareStatement(sentenciaObtenirID);
-			psID.setString(1, "a@m.es"/* LoginController.EMAIL */ );
+			psID.setString(1, LoginController.EMAIL );
 			ResultSet r = psID.executeQuery();
 			int id = 0;
 			while (r.next()) {

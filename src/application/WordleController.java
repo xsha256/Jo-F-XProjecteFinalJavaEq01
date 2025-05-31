@@ -569,12 +569,13 @@ public class WordleController implements Initializable {
 	        }
 	    }
 	}
-	/*public int consultarId() {
+	public int consultarId() {
+		int idUsuari=0;
 		try {
-			int idUsuari=0;
 			 Connection c= ConexionBBDD.conectar();
-			 String consultaInsert="SELECT id FROM usuari WHERE email = "+emailUsuario;		 
-			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);			 
+			 String consultaInsert="SELECT id FROM usuari WHERE email = ?";		 
+			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);	
+			 psInsert.setString(1, LoginController.EMAIL);
 			 ResultSet rs = psInsert.executeQuery(consultaInsert);
 			 while (rs.next()) {
 				idUsuari=rs.getInt("id");
@@ -583,7 +584,9 @@ public class WordleController implements Initializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}*/
+		System.out.println(idUsuari);
+		return idUsuari;
+	}
 	
 	
 	public void InsertarBBDD() {
@@ -594,7 +597,7 @@ public class WordleController implements Initializable {
 			 String insertParaula ="INSERT INTO paraulesfetes (idWordle, paraula) VALUES (?,?)";
 			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);
 				
-			 psInsert.setInt(1, 41);
+			 psInsert.setInt(1, consultarId());
 			 psInsert.setInt(2, intents);
 			 psInsert.setInt(3, 0);
 			 psInsert.setInt(4, encertats);
@@ -602,7 +605,7 @@ public class WordleController implements Initializable {
 			
 			 //guardar la paraula que se ha ejecutat
 			 PreparedStatement psParaula = c.prepareStatement(insertParaula);
-			 psParaula.setInt(1, 18);//posar el id correcte
+			 psParaula.setInt(1, consultarId());//posar el id correcte
 			 psParaula.setString(2, paraula);
 			 psParaula.executeUpdate();
 			 
