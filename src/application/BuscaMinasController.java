@@ -383,7 +383,7 @@ public class BuscaMinasController implements Initializable {
 		try {
 			Alert alert = new Alert(AlertType.NONE);
 			alert.setTitle("🚩 Error");
-			alert.getDialogPane().setPrefSize(250, 530);
+			alert.getDialogPane().setPrefSize(500, 400);
 			Image iconAlert = new Image(fotoPath);
 			ImageView alertView = new ImageView(iconAlert);
 			alertView.setFitWidth(100);
@@ -670,6 +670,9 @@ public class BuscaMinasController implements Initializable {
 
 	public void ranking(ActionEvent event) {
 		recogerIdUsuario(emailMoha);
+		if(!MenuController.rankingpescaminesActivo) {
+			
+		
 		try {
 
 			// String sentencia = "SELECT pescaMines.id, temps, data , tamany FROM
@@ -743,7 +746,9 @@ public class BuscaMinasController implements Initializable {
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
-
+		}else {
+			System.out.println("No se puede entrar más de una vez a ranking.");
+		}
 	}
 
 	public void cargar(ActionEvent event) {

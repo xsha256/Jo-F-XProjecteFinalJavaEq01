@@ -82,12 +82,16 @@ public class MenuController implements Initializable {
 				System.out.println("Hola Mundo!");
 				for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			        s.close();
-			        pescaminesActivo=false;
 			        jocvidaActivo=false;
+			        midajocvidaActivo=false;
+			        
+			        pescaminesActivo=false;
+			        midapescaminesActivo=false;
+			    	rankingpescaminesActivo=false;
+			    	carregarpescaminesActivo=false;
+			    	
 			    	pixelartActivo=false;
 			    	wordleActivo=false;
-					tancarSesioApretado=false;
-
 			        
 			    }
 			    juegosAbiertos.clear();
@@ -199,8 +203,6 @@ public class MenuController implements Initializable {
 		tancarSesioApretado=true;
 		try {
 			
-
-			
 			for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			    s.close();
 			    
@@ -224,6 +226,7 @@ public class MenuController implements Initializable {
 			//cerrar la ventana actual
 			Stage ventanaActual = (Stage) itemLogout.getParentPopup().getOwnerWindow();
 	        ventanaActual.close();
+	        
 			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
 			Scene escena= new Scene(root);
 			Stage window = new Stage();
