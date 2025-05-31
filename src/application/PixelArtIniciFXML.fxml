@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="root" alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" minHeight="0.0" minWidth="0.0" prefHeight="Infinity" prefWidth="Infinity" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PixelArtIniciController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="1076.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="363.0" text="Mida del Tauler" textAlignment="CENTER" textFill="#e8e8e8">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="1076.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" onDragDetected="#canviXicotet" onMouseClicked="#triarXicotet" prefHeight="35.0" prefWidth="71.0" text="16x16" textAlignment="CENTER" textFill="#e8e8e8" fx:id="xicotet">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" right="30.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="mitja" alignment="CENTER" contentDisplay="CENTER" onDragDetected="#canviMitja" onMouseClicked="#triarMitja" prefHeight="35.0" prefWidth="71.0" text="32x32" textAlignment="CENTER" textFill="#e8e8e8">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" right="30.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="gran" alignment="CENTER" contentDisplay="CENTER" onDragDetected="#canviGran" onMouseClicked="#triarGran" prefHeight="35.0" prefWidth="71.0" text="64x64" textAlignment="CENTER" textFill="#e8e8e8">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" right="30.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="39.0" prefWidth="1076.0">
+         <children>
+            <Label prefHeight="27.0" prefWidth="165.0" style="-fx-text-fill: #e8e8e8;" text="Mida personalitzada">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="amplada" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="66.0" promptText="320" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8;" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="24.0" style="-fx-text-fill: #e8e8e8;" text="x">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="altura" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="60.0" promptText="180" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8;" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="98.0" prefWidth="1076.0">
+         <children>
+            <Button fx:id="botoJugar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#jugar" prefHeight="82.0" prefWidth="325.0" style="-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;" text="A JUGAR!">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="73.0" prefWidth="1076.0">
+         <children>
+            <Button fx:id="botoEnrere" alignment="CENTER" mnemonicParsing="false" onAction="#enrere" prefHeight="38.0" prefWidth="155.0" style="-fx-background-color: #2a7963; -fx-text-fill: #141414;" text="Enrere">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="botoDesats" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#desats" prefHeight="51.0" prefWidth="154.0" style="-fx-background-color: #2a7963;" text="Desats" textAlignment="CENTER" textFill="#141414" wrapText="true">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets right="10.0" />
+         </opaqueInsets>
+      </HBox>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</VBox>

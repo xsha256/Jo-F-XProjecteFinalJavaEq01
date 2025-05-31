@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+
+<BorderPane fx:id="root" prefHeight="418.0" prefWidth="613.0" style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PixelArtController">
+   <left>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="pinzell" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pintar" prefHeight="55.0" prefWidth="37.0" style="-fx-background-color: #e85a71;" textAlignment="CENTER" textFill="#e8e8e8">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/Pinzell.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="borrador" alignment="CENTER" mnemonicParsing="false" onAction="#borrar" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" textAlignment="CENTER" textFill="#e8e8e8">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="44.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/goma.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <ColorPicker fx:id="color" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+               </VBox.margin>
+               <value>
+                  <Color />
+               </value>
+            </ColorPicker>
+         </children>
+      </VBox>
+   </left>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="118.0" prefWidth="613.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="pantallaInici" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#tornarInici" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" textFill="#141414">
+               <HBox.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </HBox.margin>
+               <graphic>
+                  <ImageView fitHeight="47.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/enrere.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="guardarImatge" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#guardarBDD" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" textFill="#e8e8e8">
+               <HBox.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </HBox.margin>
+               <graphic>
+                  <ImageView fitHeight="39.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/Guardar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="imatgePNG" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#descarregar" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: #2a7963;" textAlignment="CENTER" textFill="#e8e8e8">
+               <HBox.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </HBox.margin>
+               <graphic>
+                  <ImageView fitHeight="47.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/Descarregar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane fx:id="graella" alignment="CENTER" gridLinesVisible="true">
+               <HBox.margin>
+                  <Insets right="20.0" top="20.0" />
+               </HBox.margin>
+            </GridPane>
+         </children>
+         <BorderPane.margin>
+            <Insets right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </center>
+</BorderPane>
