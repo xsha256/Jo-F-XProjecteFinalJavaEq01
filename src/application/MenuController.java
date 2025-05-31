@@ -380,8 +380,8 @@ public class MenuController implements Initializable {
 			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
-			abrirVentanaJuego("wordle.fxml", "Wordle", e);
-			wordleActivo=true;
+			abrirVentanaJuego("wordleLogin.fxml", "Wordle", e);
+//			wordleActivo=true;
 		}
 	}
 
@@ -391,8 +391,8 @@ public class MenuController implements Initializable {
 			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
-			abrirVentanaJuego("pixelart.fxml", "Pixel Art", e);
-			pixelartActivo=true;
+			abrirVentanaJuego("PixelArtIniciFXML.fxml", "Pixel Art", e);
+//			pixelartActivo=true;
 		}
 	    
 	}
