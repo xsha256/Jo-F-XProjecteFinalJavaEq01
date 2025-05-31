@@ -79,6 +79,7 @@ public class MenuController implements Initializable {
 			Stage ventanaActual = (Stage) root.getScene().getWindow();
 			
 			ventanaActual.setOnCloseRequest(evt ->{
+				tancarSesioApretado=true;
 				System.out.println("Hola Mundo!");
 				for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			        s.close();
@@ -92,7 +93,7 @@ public class MenuController implements Initializable {
 			    	
 			    	pixelartActivo=false;
 			    	wordleActivo=false;
-			        
+			    	
 			    }
 			    juegosAbiertos.clear();
 			    juegosPorNombre.clear();				
@@ -216,7 +217,6 @@ public class MenuController implements Initializable {
 		    	
 		    	pixelartActivo=false;
 		    	wordleActivo=false;
-		    	
 		    
 			}
 			juegosAbiertos.clear();

@@ -259,12 +259,12 @@ public class BuscaMinasController implements Initializable {
 				System.out.println("BooleanJoc: " + MenuController.pescaminesActivo);
 				System.out.println("BooleanCarregar: " + MenuController.carregarpescaminesActivo);
 				if(MenuController.tancarSesioApretado) {
-				alerta("Vols guardar la partida abans d'eixir?","file:imagenes/alerta.png");
+					alerta("Vols guardar la partida abans d'eixir?","file:imagenes/alerta.png");
 				}
 
 			});
 			
-			ventanaActual.setOnCloseRequest(evt -> {
+			ventanaActual.setOnCloseRequest(evt -> {//si se cierra desde la X la ventana, pregunta si quieres guardar.
 				alerta("Vols guardar la partida abans d'eixir?","file:imagenes/alerta.png");
 			});
 		});
@@ -671,7 +671,6 @@ public class BuscaMinasController implements Initializable {
 	public void ranking(ActionEvent event) {
 		recogerIdUsuario(emailMoha);
 		if(!MenuController.rankingpescaminesActivo) {
-			
 		
 		try {
 
