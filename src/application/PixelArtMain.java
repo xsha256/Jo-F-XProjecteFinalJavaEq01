@@ -15,7 +15,9 @@ public class PixelArtMain extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setMaximized(true);
+			//primaryStage.setMaximized(true);
+			root.prefWidthProperty().bind(root.widthProperty());
+			root.prefHeightProperty().bind(root.heightProperty());
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

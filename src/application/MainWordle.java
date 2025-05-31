@@ -1,23 +1,24 @@
 package application;
-	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
-
-
-
-public class Main extends Application {
+public class MainWordle extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			HBox root = (HBox)FXMLLoader.load(getClass().getResource("Login.fxml"));
-			Scene scene = new Scene(root);
+			VBox escena = (VBox)FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+			Scene scene = new Scene(escena);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			escena.prefWidthProperty().bind(escena.widthProperty());
+			escena.prefHeightProperty().bind(escena.heightProperty());
+
 			primaryStage.setScene(scene);
+			primaryStage.setMaximized(true);
+			primaryStage.setScene(scene);			
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
