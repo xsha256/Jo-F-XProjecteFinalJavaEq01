@@ -65,7 +65,7 @@ public class WordleController implements Initializable {
 	
 	
 	private Label[][] caselles = new Label[6][5];
-	private String paraula = "GASTA";
+	private String paraula = paraulaAleatoria();
 	private int columnaActual = 0;
 	private int filaActual = 0;
 	private Stage finestra;
@@ -73,7 +73,6 @@ public class WordleController implements Initializable {
 	private int[] comptadorIntents = new int[7];//del 1 al 6
 	private int intents=1;
 	private int encertats = 0;
-	private int encertatsSuma = 0;
 	private int vegades = 0;
 	//private String emailUsauri=LoginController.EMAIL;
 	
@@ -592,7 +591,7 @@ public class WordleController implements Initializable {
 		 try {
 			 Connection c= ConexionBBDD.conectar();
 			 String consultaInsert="INSERT INTO wordle (idUsuari,intents,fallades,encertats) VALUES (?,?,?,?)";		
-			 String insertParaula ="INSERT INTO paraulesFetes (idWordle, paraula) VALUES (?,?)";
+			 String insertParaula ="INSERT INTO paraulesfetes (idWordle, paraula) VALUES (?,?)";
 			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);
 				
 			 psInsert.setInt(1, 1);
@@ -603,7 +602,7 @@ public class WordleController implements Initializable {
 			
 			 //guardar la paraula que se ha ejecutat
 			 PreparedStatement psParaula = c.prepareStatement(insertParaula);
-			 psParaula.setInt(1, 1);
+			 psParaula.setInt(1, 18);//posar el id correcte
 			 psParaula.setString(2, paraula);
 			 psParaula.executeUpdate();
 			 
@@ -619,37 +618,36 @@ public class WordleController implements Initializable {
 	}
 	
 	public String estadistica() {
-				
+				int encertades =0;
 		try {
 			Connection c = ConexionBBDD.conectar();
 			
+			//comptar total de partides jugades
 			String consultaSelect="SELECT COUNT(?) AS comptar FROM wordle GROUP BY (?)"; 
 			PreparedStatement psSelect = c.prepareStatement(consultaSelect);
 			psSelect.setString(1, "idUsuari");
 			psSelect.setString(2,  "idUsuari");
 			ResultSet rs = psSelect.executeQuery();
-			while (rs.next()) {
-				
+			while (rs.next()) {				
 				vegades = rs.getInt("comptar");
-				System.out.println(vegades);
+
 			}
 			
+			//comptar quantes partides s'han guanyat en cada numero de intent
+
+			String consultaIntents= "SELECT intents FROM wordle WHERE idUsuari = ? AND encertats = 5";
+			PreparedStatement ps = c.prepareStatement(consultaIntents);
+	        ps.setString(1, "idUsuari");
+	        ResultSet rs2 = ps.executeQuery();
+
+	        while (rs2.next()) {
+	            int intents = rs.getInt("intents");
+	            if (intents >= 1 && intents <= 6) {
+	                comptadorIntents[intents]++; // incrementem el comptador d’aquest intent
+	                encertades++;
+	            }
+	        }
 			
-			/*String consultaSelect2="SELECT SUM(?) AS sumar FROM wordle GROUP BY (?)"; 
-			PreparedStatement psSelect2 = c.prepareStatement(consultaSelect2);
-			psSelect2.setString(1, "encertats");
-			psSelect2.setString(2,  "idUsuari");
-			ResultSet rs2 = psSelect2.executeQuery();
-			while (rs2.next()) {
-				
-				encertatsSuma = rs2.getInt("sumar");
-				System.out.println(encertatsSuma);
-
-			}*/
-
-			//SELECT intents, SUM(idUsuari) FROM wordle GROUP BY (intents);
-			//fer el grup i la suma per a traurer la estadistica
-			//el que ixca dividit per 100 o per 10? i per a les caselles maxim ixiran 10
 			
 		} catch (SQLException e) {
 			System.out.println("Error: "+e.getMessage());
@@ -662,13 +660,21 @@ public class WordleController implements Initializable {
 		StringBuilder resultat = new StringBuilder();
 		resultat.append("\n ===== ESTADÍSTICA ====="+"\n");
 		resultat.append("Partides: "+vegades+"\n");
-		resultat.append("Partides guanyades: "+encertatsSuma+"\n");
 		resultat.append("----------------------------------\n");
 		
-//		for (int i = 1; i <= 6; i++) {
-//			resultat.append(i+": "+simbol.repeat(comptadorIntents[i])+"("+((comptadorIntents[i]*10)/encertatParaula)+"%)\n");
-//			
-//		}
+		//total d'encerts
+		for (int i = 1; i <=6; i++) {
+			encertades+=comptadorIntents[i];
+			
+		}
+		
+		for (int i = 1; i <= 6; i++) {
+			int percentatge = 0;
+			if (encertades!=0) {
+				percentatge = (comptadorIntents[i] * 100) / encertades;
+			}
+			resultat.append(i+": "+simbol.repeat(percentatge/10) + "("+percentatge+"%)\n");
+		}
 	
 		return resultat.toString();
 	
