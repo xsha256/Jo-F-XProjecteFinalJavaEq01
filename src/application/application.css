@@ -254,3 +254,7 @@ alertInfo {
 .table-view.tabla1 .table-row-cell:selected {
     -fx-background-color: #e4a81d66;
 }
+
+.tecladoWordle Button{
+	-fx-font-weight: bold;
+}

@@ -92,8 +92,9 @@ public class MenuController implements Initializable {
 			    	carregarpescaminesActivo=false;
 			    	
 			    	pixelartActivo=false;
-			    	wordleActivo=false;
 			    	
+			    	wordleActivo=false;
+			    	infowordleActivo=false;
 			    }
 			    juegosAbiertos.clear();
 			    juegosPorNombre.clear();				
@@ -216,7 +217,9 @@ public class MenuController implements Initializable {
 		    	carregarpescaminesActivo=false;
 		    	
 		    	pixelartActivo=false;
+		    	
 		    	wordleActivo=false;
+		    	infowordleActivo=false;
 		    
 			}
 			juegosAbiertos.clear();
@@ -310,6 +313,8 @@ public class MenuController implements Initializable {
 	
 	public static boolean pixelartActivo=false;
 	public static boolean wordleActivo=false;
+	public static boolean infowordleActivo=false;
+	
 	
 	//intento de "reciclar" codigo para los botones del menu-----------------------------
 	public void abrirVentanaJuego(String rutaFXML, String tituloVentana, ActionEvent e) {
@@ -375,13 +380,13 @@ public class MenuController implements Initializable {
 	}
 
 	public void actionWordle(ActionEvent e) {
-	    if(wordleActivo) {
+	    if(wordleActivo || infowordleActivo) {
 	    	ventanaAlert alerta = new ventanaAlert();
 			alerta.alert("Impossible obrir la finestra", "Atenció! Ja tens aquest joc obert.", "file:imagenes/equis.png", 200);
 			return;
 		}else {
 			abrirVentanaJuego("wordleLogin.fxml", "Wordle", e);
-//			wordleActivo=true;
+			infowordleActivo=true;
 		}
 	}
 

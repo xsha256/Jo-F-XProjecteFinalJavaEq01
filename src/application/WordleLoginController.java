@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,14 +33,18 @@ public class WordleLoginController implements Initializable {
 
 	public void jugar(ActionEvent e) {
 		try {
+			//si le damos a jugar, cierra la ventana de inicio y muestra el juego
+			Stage stage = (Stage)botoenrere.getScene().getWindow();
+			stage.close();
+			
 			Parent escena = FXMLLoader.load(getClass().getResource("wordle.fxml"));
 			Scene escena2 = new Scene(escena);
 			//obtenim la finestra de l'aplicació actual
-			 Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();			
+			 Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();			
 			 window.setScene(escena2);
 			 window.setTitle("Wordle");
-			 //window.setMaximized(true);
-
+			 window.setMaximized(true);
+			 
 			 window.show();
 		} catch (IOException error) {
 			error.printStackTrace();
@@ -49,8 +54,21 @@ public class WordleLoginController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) escena.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.infowordleActivo=true;
+				System.out.println("La ventana info-wordle esta activa. Boolean: "+MenuController.infowordleActivo);
+				System.out.println("BooleanJuegoActivo: "+MenuController.wordleActivo);
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.infowordleActivo=false;
+				System.out.println("La ventana info-wordle se cerró. Boolean: "+MenuController.infowordleActivo);
+				System.out.println("BooleanJuegoActivo: "+MenuController.wordleActivo);
+			});
+		});
+
 	}
 
 	

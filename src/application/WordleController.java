@@ -130,6 +130,21 @@ public class WordleController implements Initializable {
 	};
 
 	public void initialize(URL arg0, ResourceBundle arg1) {// creacio de caselles
+		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			if(ventanaActual.isShowing()) {
+				MenuController.wordleActivo=true;
+				System.out.println("La ventana joc-wordle esta activa. Boolean: "+MenuController.wordleActivo);
+				System.out.println("BooleanInfoWordle: "+MenuController.infowordleActivo);
+			}
+			ventanaActual.setOnHidden(evt ->{
+				MenuController.wordleActivo=false;
+				System.out.println("La ventana joc-wordle se cerró. Boolean: "+MenuController.wordleActivo);
+				System.out.println("BooleanInfoWordle: "+MenuController.infowordleActivo);
+			});
+		});
+		
 		Platform.runLater(() -> {
 			finestra = (Stage) root.getScene().getWindow();
 			finestra.addEventFilter(KeyEvent.KEY_PRESSED, tecla);
@@ -360,7 +375,7 @@ public class WordleController implements Initializable {
 				// alertView.setFitWidth(200);
 				// alertView.setPreserveRatio(true);
 
-				Label msg = new Label("ENHORABONA HAS ADIVINAT LA PARAULA !!!!!!");
+				Label msg = new Label("ENHORABONA HAS ENDEVINAT LA PARAULA !!!!!!");
 				msg.setMaxWidth(500);
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
@@ -479,15 +494,19 @@ public class WordleController implements Initializable {
 	}
 
 	public void enrereInici(ActionEvent e) {
+		MenuController.wordleActivo=false;
 		try {
+			Stage stage = (Stage) root.getScene().getWindow();
+			stage.close();
+			
 			Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
-			Scene escena2 = new Scene(escena);
+			Scene escena2 = new Scene(escena, 600, 400);
 			// obtenim la finestra de l'aplicació actual
-			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Wordle");
 			window.show();
-			window.setMaximized(true);
+//			window.setMaximized(true);
 
 		} catch (IOException error) {
 			error.printStackTrace();
