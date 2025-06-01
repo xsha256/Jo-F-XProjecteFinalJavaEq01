@@ -109,7 +109,7 @@ public class TamanyController implements Initializable{
 			}
 		} else {
 			ventanaAlert alerta = new ventanaAlert();
-			alerta.alert("Atenció ", "Por favor, selecciona una opción.", "file:imagenes/alerta.png", 100);
+			alerta.alert("Atenció ", "Per favor, selecciona una opció.", "file:imagenes/alerta.png", 100);
 		}
 	}
 

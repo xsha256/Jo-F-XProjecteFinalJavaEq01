@@ -82,7 +82,7 @@
                         <Insets bottom="15.0" />
                      </HBox.margin>
                   </Label>
-                  <Label contentDisplay="TOP" style="-fx-text-fill: #e8e8e8;" text="significa que la lletra no es correcta, per lo tant no està">
+                  <Label contentDisplay="TOP" style="-fx-text-fill: #e8e8e8;" text="significa que la lletra no és correcta, per tant, no està">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>

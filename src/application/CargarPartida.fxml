@@ -13,18 +13,18 @@
         <columns>
             <TableColumn fx:id="colTamaño" prefWidth="150" resizable="false" text="Mida" />
             <TableColumn fx:id="colTiempo" prefWidth="150" resizable="false" text="Temps" />
-            <TableColumn fx:id="colCasillasDescubiertas" prefWidth="150" resizable="false" text="Casillas Descobertes" />
+            <TableColumn fx:id="colCasillasDescubiertas" prefWidth="150" resizable="false" text="Caselles Descobertes" />
             <TableColumn fx:id="colBanderasRestantes" prefWidth="150" resizable="false" text="Banderes Restants" />
         </columns>
     </TableView>
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
       <children>
       
-          <Button onAction="#cargarPartida" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Cargar partida seleccionada" textFill="WHITE">
+          <Button onAction="#cargarPartida" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Carregar partida seleccionada" textFill="WHITE">
             <font>
                <Font name="System Bold" size="18.0" />
             </font></Button>
-          <Button onAction="#volver" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Tornar a elegir Tamany" textFill="WHITE">
+          <Button onAction="#volver" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Tornar a elegir grandària" textFill="WHITE">
             <font>
                <Font name="System Bold" size="18.0" />
             </font></Button>

@@ -25,7 +25,7 @@
                <children>
                   <StackPane prefHeight="150.0" prefWidth="1300.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="tituloNomUsuari" styleClass="label-titol" text="A que t'apeteix jugar hui, @ ?" />
+                        <Label fx:id="tituloNomUsuari" styleClass="label-titol" text="A què t'apeteix jugar hui, @ ?" />
                      </children>
                   </StackPane>
                   <Region HBox.hgrow="ALWAYS" />
@@ -94,7 +94,7 @@
                                           <Insets left="10.0" right="10.0" top="10.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Label styleClass="label-subtitolJoc" text="Joc clàsic d'estratègia">
+                                    <Label styleClass="label-subtitolJoc" text="Joc clàssic d'estratègia">
                                        <font>
                                           <Font size="15.0" />
                                        </font>

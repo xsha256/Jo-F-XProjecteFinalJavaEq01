@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox onKeyPressed="#enterKey" alignment="CENTER" prefHeight="539.0" prefWidth="700.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegistreController">
+<HBox alignment="CENTER" onKeyPressed="#enterKey" prefHeight="539.0" prefWidth="700.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegistreController">
 	<children>
 		<VBox alignment="CENTER_LEFT" prefHeight="450.0" prefWidth="390.0">
 			<children>
@@ -72,7 +72,7 @@
                </VBox.margin>
             </PasswordField>
             <Label fx:id="labelConfContrasenya" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Confirmacio de contrasenya*" visible="false" />
-            <PasswordField fx:id="confcontrasenyatxt" prefHeight="28.0" promptText="Confirmacio de contrasenya" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;" />
+            <PasswordField fx:id="confcontrasenyatxt" prefHeight="28.0" promptText="Confirmació de contrasenya" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;" />
 				<HBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="390.0">
 					<children>
 						<ImageView fx:id="showPic" fitHeight="76.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
@@ -100,7 +100,7 @@
 				</HBox>
 				<HBox alignment="CENTER" prefHeight="28.0" prefWidth="423.0">
 					<children>
-						<Button fx:id="registreBoton"  mnemonicParsing="false" onAction="#registrar" prefHeight="28.0" prefWidth="220.0" style="-fx-background-color: #2a7963;" styleClass="boton-hover" text="Registre" textFill="#e8e8e8">
+						<Button fx:id="registreBoton" mnemonicParsing="false" onAction="#registrar" prefHeight="28.0" prefWidth="220.0" style="-fx-background-color: #2a7963;" styleClass="boton-hover" text="Registre" textFill="#e8e8e8">
 							<HBox.margin>
 								<Insets right="12.0" />
 							</HBox.margin>

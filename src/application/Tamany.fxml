@@ -47,7 +47,7 @@
             <Line endX="80.0" startX="80.0" startY="-80.0" stroke="WHITE" strokeWidth="2.0" />
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
                <children>
-                  <RadioButton fx:id="media" mnemonicParsing="false" styleClass="radiobuttonMidaTauler2" text="Mitjana&#10;(Mitjà)" textFill="WHITE" toggleGroup="$opcionesGrupo">
+                  <RadioButton fx:id="media" mnemonicParsing="false" prefHeight="60.0" prefWidth="149.0" styleClass="radiobuttonMidaTauler2" text="Mitjana&#10;(Intermèdia)" textFill="WHITE" toggleGroup="$opcionesGrupo">
                      <font>
                         <Font size="20.0" />
                      </font>

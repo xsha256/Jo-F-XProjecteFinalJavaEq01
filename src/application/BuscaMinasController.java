@@ -435,7 +435,7 @@ public class BuscaMinasController implements Initializable {
 			Stage window = new Stage(); // (Stage) root.getScene().getWindow();
 
 			window.setScene(escena2);
-			window.setTitle("Juego de la Vida");
+			window.setTitle("Joc de la Vida");
 			window.show();
 			// añadir los juegos abiertos
 			MenuController.juegosAbiertos.add(window);
@@ -454,7 +454,7 @@ public class BuscaMinasController implements Initializable {
 			String rutaFXML = "BuscaMinas.fxml";
 			Stage window = (Stage) root.getScene().getWindow();
 			window.setScene(escena2);
-			window.setTitle("Juego de la Vida");
+			window.setTitle("Joc de la Vida");
 			window.setMaximized(true);
 			window.show();
 			// añadir los juegos abiertos
@@ -593,7 +593,7 @@ public class BuscaMinasController implements Initializable {
 		}
 		if (tablero.getMatriz_abajo() == null) {
 			ventanaAlert alerta = new ventanaAlert();
-			alerta.alert("Atenció ", "No has iniciat cap partida..", "file:imagenes/alerta.png", 100);
+			alerta.alert("Atenció ", "No has iniciat cap partida...", "file:imagenes/alerta.png", 100);
 
 			return;
 		} else {
@@ -802,7 +802,7 @@ public class BuscaMinasController implements Initializable {
 			Stage window = new Stage(); // (Stage) ((Node) event.getSource()).getScene().getWindow();
 			window.setUserData(partidas);
 			window.setScene(escena2);
-			window.setTitle("Busca Mines");
+			window.setTitle("Pescamines");
 			window.show();
 			// añadir los juegos abiertos
 			MenuController.juegosAbiertos.add(window);

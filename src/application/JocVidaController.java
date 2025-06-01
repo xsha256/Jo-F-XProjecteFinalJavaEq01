@@ -18,7 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+
 
 public class JocVidaController implements Initializable {
 
@@ -221,7 +221,7 @@ public class JocVidaController implements Initializable {
 				String rutaFXML="Dificultad.fxml";
 				Stage window = new Stage();
 				window.setScene(scene);
-				window.setTitle("Elecció Dificultad");
+				window.setTitle("Elecció Dificultat");
 				window.show();
 				//añadir los juegos abiertos
 		        MenuController.juegosAbiertos.add(window);
@@ -313,7 +313,7 @@ public class JocVidaController implements Initializable {
 							int aux = tabla.getGeneraciones();
 							ventanaAlert alerta = new ventanaAlert();
 							alerta.alert("Bucle trobat",
-									"Se han muerto todas las celulas. Has llegado hasta la generacion " + aux,
+									"S'han mort totes les cel·lules. Has arribat fins la generació " + aux,
 									"file:imagenes/alerta.png", 100);
 						});
 					} else {
@@ -322,7 +322,7 @@ public class JocVidaController implements Initializable {
 							int aux = tabla.getGeneraciones();
 							ventanaAlert alerta = new ventanaAlert();
 							alerta.alert("Bucle trobat ",
-									"El juego ha entrado en un bucle. Has llegado hasta la generacion " + aux,
+									"El joc ha entrat en bucle. Has arribat fins a la generació " + aux,
 									"file:imagenes/alerta.png", 100);
 						});
 					}
