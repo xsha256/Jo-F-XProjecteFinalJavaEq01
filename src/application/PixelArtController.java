@@ -307,6 +307,7 @@ public class PixelArtController implements Initializable {
 						ventanaActual.close();
 						
 						VBox rootInici = (VBox) FXMLLoader.load(getClass().getResource("PixelArtIniciFXML.fxml"));
+						String rutaFXML="PixelArtIniciFXML.fxml";
 						Scene scene = new Scene(rootInici, 600, 400);
 						scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
@@ -316,6 +317,10 @@ public class PixelArtController implements Initializable {
 //						window.setMaximized(true);
 						window.setResizable(false);
 						window.show();
+						
+						// añadir los juegos abiertos
+						MenuController.juegosAbiertos.add(window);
+						MenuController.juegosPorNombre.put(rutaFXML, window);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -326,6 +331,7 @@ public class PixelArtController implements Initializable {
 						ventanaActual.close();
 						
 						VBox rootInici = (VBox) FXMLLoader.load(getClass().getResource("PixelArtIniciFXML.fxml"));
+						String rutaFXML="PixelArtIniciFXML.fxml";
 						Scene scene = new Scene(rootInici, 600, 400);
 						scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
@@ -336,6 +342,10 @@ public class PixelArtController implements Initializable {
 //						window.setMaximized(true);
 						window.setResizable(false);
 						window.show();
+						
+						// añadir los juegos abiertos
+						MenuController.juegosAbiertos.add(window);
+						MenuController.juegosPorNombre.put(rutaFXML, window);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}

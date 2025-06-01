@@ -115,15 +115,10 @@ public class MenuController implements Initializable {
 					}
 				}
 
-					
-					
-					//------------------------------------------------------------------------------------------
-					
-		        
+				//------------------------------------------------------------------------------------------
 				System.out.println("fuera del if menucontroller pixelart");
 				for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			        s.close();
-			        
 			        
 			        jocvidaActivo=false;
 			        midajocvidaActivo=false;
@@ -241,7 +236,6 @@ public class MenuController implements Initializable {
 		    System.out.println("Borrat Cancelat");
 	    }
 	    
-
 	}
 	public static boolean tancarSesioApretado=false;
 	//metodo para cerrar sesión

@@ -329,13 +329,16 @@ public class WordleController implements Initializable {
 						stage.close();
 
 						Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+						String rutaFXML="wordleLogin.fxml";
 						Scene escena2 = new Scene(escena, 600, 400);
 						Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
 						window.setScene(escena2);
 						window.setTitle("Wordle");
 
 						window.show();
-
+						// añadir los juegos abiertos
+						MenuController.juegosAbiertos.add(window);
+						MenuController.juegosPorNombre.put(rutaFXML, window);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -413,13 +416,16 @@ public class WordleController implements Initializable {
 						stage.close();
 
 						Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+						String rutaFXML="wordleLogin.fxml";
 						Scene escena2 = new Scene(escena, 600, 400);
 						Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
 						window.setScene(escena2);
 						window.setTitle("Wordle");
 
 						window.show();
-
+						// añadir los juegos abiertos
+						MenuController.juegosAbiertos.add(window);
+						MenuController.juegosPorNombre.put(rutaFXML, window);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -502,6 +508,7 @@ public class WordleController implements Initializable {
 			stage.close();
 
 			Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+			String rutaFXML="wordleLogin.fxml";
 			Scene escena2 = new Scene(escena, 600, 400);
 			// obtenim la finestra de l'aplicació actual
 			Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -509,7 +516,10 @@ public class WordleController implements Initializable {
 			window.setTitle("Wordle");
 			window.show();
 //			window.setMaximized(true);
-
+			
+			// añadir los juegos abiertos
+			MenuController.juegosAbiertos.add(window);
+			MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (IOException error) {
 			error.printStackTrace();
 		}

@@ -123,6 +123,7 @@ public class PixelArtIniciController implements Initializable {
 			DadesPixelArt.getInstancia().setTaulell(taulell);
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("PixelArtFXML.fxml"));
+			String rutaFXML="PixelArtFXML.fxml";
 			Parent root = loader.load();
 			PixelArtController controlador = loader.getController();
 			
@@ -137,6 +138,10 @@ public class PixelArtIniciController implements Initializable {
 			controlador.tancarPixelArt(window);
 
 			window.show();
+			
+			// añadir los juegos abiertos
+			MenuController.juegosAbiertos.add(window);
+			MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -186,6 +191,7 @@ public class PixelArtIniciController implements Initializable {
 				DadesPixelArt.getInstancia().setTaulell(taulellDesat);
 
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("PixelArtFXML.fxml"));
+				String rutaFXML="PixelArtFXML.fxml";
 				Parent root = loader.load();
 
 				PixelArtController controlador = loader.getController();
@@ -200,7 +206,9 @@ public class PixelArtIniciController implements Initializable {
 				window.setTitle("Pixel Art (Desat)");
 				window.setMaximized(true);
 				window.show();
-
+				// añadir los juegos abiertos
+				MenuController.juegosAbiertos.add(window);
+				MenuController.juegosPorNombre.put(rutaFXML, window);
 			} else {
 				System.out.println("No s'ha trobat cap fila amb l'id indicat.");
 			}

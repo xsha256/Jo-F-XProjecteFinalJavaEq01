@@ -38,6 +38,7 @@ public class WordleLoginController implements Initializable {
 			
 			Parent escena = FXMLLoader.load(getClass().getResource("wordle.fxml"));
 			Scene escena2 = new Scene(escena);
+			String rutaFXML="wordle.fxml";
 			//obtenim la finestra de l'aplicació actual
 			 Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();			
 			 window.setScene(escena2);
@@ -45,6 +46,10 @@ public class WordleLoginController implements Initializable {
 			 window.setMaximized(true);
 			 
 			 window.show();
+			 
+			// añadir los juegos abiertos
+			MenuController.juegosAbiertos.add(window);
+			MenuController.juegosPorNombre.put(rutaFXML, window);
 		} catch (IOException error) {
 			error.printStackTrace();
 		}
