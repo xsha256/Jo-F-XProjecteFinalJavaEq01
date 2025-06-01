@@ -81,8 +81,52 @@ public class MenuController implements Initializable {
 			ventanaActual.setOnCloseRequest(evt ->{
 				tancarSesioApretado=true;
 				System.out.println("Hola Mundo!");
+				
+				if(pixelartActivo) {
+					System.out.println("Dentro del if menucontroller pixelart");
+					//-----------------------------------------------------------------------------------------
+					Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+					alerta.setTitle("Eixida");
+					// AÇÒ FA EL MATEIX QUE EL BOTÓ DE GUARDAR, PERÒ DESPRES TANCA LA FINESTRA
+					alerta.setHeaderText("Vols guardar abans d'eixir?");
+					alerta.setContentText("Selecciona una opció:");
+
+					ButtonType botoGuardar = new ButtonType("Guardar");
+					ButtonType botoEixir = new ButtonType("Eixir");
+					ButtonType botoCancelar = new ButtonType("Cancelar");
+
+					alerta.getButtonTypes().setAll(botoGuardar, botoEixir, botoCancelar);
+
+					// UNA ESPECIA DE ARRAYLIST DELS BOTONS QUE HI HA EN EL POPUP
+					// DEPENENT DEL RESULTAT FA UNA COSA
+					Optional<ButtonType> resultat = alerta.showAndWait();
+					PixelArtController pixel= new PixelArtController();
+					
+					if (resultat.isPresent()) {
+						if (resultat.get() == botoGuardar) {
+							// SERIALITZA Y TANCA
+							pixel.guardarBDD(null);
+						} else if (resultat.get() == botoEixir) {
+							
+							MenuController.pixelartActivo=false;
+//							Stage ventanaActual = (Stage) root.getScene().getWindow();
+//							ventanaActual.close();
+						} else {
+//							event.consume();
+						}
+					} else {
+//						event.consume();
+					}
+					
+					
+					//------------------------------------------------------------------------------------------
+					
+		        }
+				System.out.println("fuera del if menucontroller pixelart");
 				for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			        s.close();
+			        
+			        
 			        jocvidaActivo=false;
 			        midajocvidaActivo=false;
 			        

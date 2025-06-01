@@ -45,9 +45,24 @@ public class PixelArtIniciController implements Initializable {
 	private TextField amplada;
 	@FXML
 	private TextField altura;
+	
+	//variable para marcar las casillas de medida
+	private Label seleccionatLabel = null;
 
 	// TAULELL SERVEIX PER CANVIAR DE DADES ENTRE FINESTRES
 	private Taulell taulell;
+	
+	//funcion para marcar las casillas marcadas
+	private void marcarLabel(Label labelSeleccionat) {
+		//Resetea el estilo a todos
+		xicotet.setStyle("");
+		mitja.setStyle("");
+		gran.setStyle("");
+
+		//Marca el seleccionado
+		labelSeleccionat.setStyle("-fx-background-color: #e4a81d; -fx-background-radius: 10px; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight:bold;");
+		seleccionatLabel = labelSeleccionat;
+	}
 
 	// COMPROVA QUE LA ENTRADA SIGUEN NUMEROS I MULTIPLES DE 16
 	public boolean comprovarEntrada(String s1, String s2) {
@@ -206,11 +221,13 @@ public class PixelArtIniciController implements Initializable {
 		amplada.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 		altura.setText("16");
 		altura.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
+		marcarLabel(xicotet);
 	}
 
 	public void canviXicotet() {
-		xicotet.setOnMouseEntered(e -> xicotet.setStyle("-fx-font-size: 20px;"));
-		xicotet.setOnMouseExited(e -> xicotet.setStyle(""));
+//		xicotet.setOnMouseEntered(e -> xicotet.setStyle("-fx-font-size: 20px;"));
+//		xicotet.setOnMouseExited(e -> xicotet.setStyle(""));
+		
 	}
 
 	// MIDA DE 32X32
@@ -219,11 +236,12 @@ public class PixelArtIniciController implements Initializable {
 		amplada.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 		altura.setText("32");
 		altura.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
+		marcarLabel(mitja);
 	}
 
 	public void canviMitja() {
-		mitja.setOnMouseEntered(e -> mitja.setStyle("-fx-font-size: 20px;"));
-		mitja.setOnMouseExited(e -> mitja.setStyle(""));
+//		mitja.setOnMouseEntered(e -> mitja.setStyle("-fx-font-size: 20px;"));
+//		mitja.setOnMouseExited(e -> mitja.setStyle(""));
 	}
 
 	// MIDA DE 64X64
@@ -232,11 +250,12 @@ public class PixelArtIniciController implements Initializable {
 		amplada.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
 		altura.setText("64");
 		altura.setStyle("-fx-text-fill: white; -fx-background-color: #365057;");
+		marcarLabel(gran);
 	}
 
 	public void canviGran() {
-		gran.setOnMouseEntered(e -> gran.setStyle("-fx-font-size: 20px;"));
-		gran.setOnMouseExited(e -> gran.setStyle(""));
+//		gran.setOnMouseEntered(e -> gran.setStyle("-fx-font-size: 20px;"));
+//		gran.setOnMouseExited(e -> gran.setStyle(""));
 
 	}
 

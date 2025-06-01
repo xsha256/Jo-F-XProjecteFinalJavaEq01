@@ -193,6 +193,7 @@ public class PixelArtController implements Initializable {
 		
 		stage.setOnCloseRequest(event -> {
 			MenuController.pixelartActivo=false;
+			
 			Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
 			alerta.setTitle("Eixida");
 			// PREGUNTA SI TANCA LA FINESTRA
@@ -272,10 +273,9 @@ public class PixelArtController implements Initializable {
 	// TORNA A LA PANTALLA DE SELECCIÓ DE MIDA
 	// PREGUNTA ABANS SI VOL GUARDAR
 	public void tornarInici() {
-		MenuController.pixelartActivo=false;
 		
 		pantallaInici.setOnMouseClicked(event -> {
-
+			
 			Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
 			alerta.setTitle("Eixida");
 			// AÇÒ FA EL MATEIX QUE EL BOTÓ DE GUARDAR, PERÒ DESPRES TANCA LA FINESTRA
@@ -293,6 +293,7 @@ public class PixelArtController implements Initializable {
 			Optional<ButtonType> resultat = alerta.showAndWait();
 
 			if (resultat.isPresent()) {
+				MenuController.pixelartActivo=false;
 				if (resultat.get() == botoGuardar) {
 					// SERIALITZA Y TANCA
 					guardarBDD(null);
@@ -314,6 +315,7 @@ public class PixelArtController implements Initializable {
 						e1.printStackTrace();
 					}
 				} else if (resultat.get() == botoEixir) {
+					MenuController.pixelartActivo=false;
 					try {
 						Stage ventanaActual = (Stage) root.getScene().getWindow();
 						ventanaActual.close();
