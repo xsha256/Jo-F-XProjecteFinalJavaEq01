@@ -357,7 +357,7 @@ public class WordleController implements Initializable {
 
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Correcte");
-				//alert.setHeaderText("Correcte"); // text al costat de la icona
+				// alert.setHeaderText("Correcte"); // text al costat de la icona
 				alert.getDialogPane().setPrefSize(550, 500);
 				// Image iconAlert = new
 				// Image(getClass().getResourceAsStream("/Jo-F-XProjecteFinalJavaEq01/src/images/icona.png"));
@@ -639,7 +639,6 @@ public class WordleController implements Initializable {
 			}
 			System.out.println("idWordle: " + idWordle);
 
-
 			// guardar la paraula que se ha ejecutat
 			PreparedStatement psParaula = c.prepareStatement(insertParaula);
 			psParaula.setInt(1, idWordle);// posar el id correcte
@@ -668,24 +667,24 @@ public class WordleController implements Initializable {
 			psSelect.setString(2, "idUsuari");
 			ResultSet rs = psSelect.executeQuery();
 			while (rs.next()) {
-				vegades = rs.getInt("comptar")+1;//+1 prq no compta el ultimo partido prq no esta en bd
+				vegades = rs.getInt("comptar") + 1;// +1 prq no compta el ultimo partido prq no esta en bd
 
 			}
 
 			// comptar quantes partides s'han guanyat en cada numero de intent
 
-			String consultaIntents = "SELECT intents FROM wordle WHERE idUsuari = ? AND encertats = 5";
-			PreparedStatement ps = c.prepareStatement(consultaIntents);
-			ps.setString(1, "idUsuari");
-			ResultSet rs2 = ps.executeQuery();
-
-			while (rs2.next()) {
-				int intents = rs.getInt("intents");
-				if (intents >= 1 && intents <= 6) {
-					comptadorIntents[intents]++; // incrementem el comptador d’aquest intent
-					encertades++;
-				}
-			}
+//			String consultaIntents = "SELECT intents FROM wordle WHERE idUsuari = ? AND encertats = 5";
+//			PreparedStatement ps = c.prepareStatement(consultaIntents);
+//			ps.setString(1, "idUsuari");
+//			ResultSet rs2 = ps.executeQuery();
+//
+//			while (rs2.next()) {
+//				int intents = rs2.getInt("intents");
+//				if (intents >= 1 && intents <= 6) {
+//					comptadorIntents[intents]++; // incrementem el comptador d’aquest intent
+//					encertades++;
+//				}
+//			}
 
 		} catch (SQLException e) {
 			System.out.println("Error: " + e.getMessage());
@@ -698,19 +697,81 @@ public class WordleController implements Initializable {
 		resultat.append("----------------------------------\n");
 
 		// total d'encerts
-		for (int i = 1; i <= 6; i++) {
-			encertades += comptadorIntents[i];
+//		for (int i = 1; i <= 6; i++) {
+//			encertades += comptadorIntents[i];
+//
+//		}
+//
+//		
+//		for (int i = 1; i <= 6; i++) {
+//			int percentatge = 0;
+//			if (encertades != 0) {
+//				percentatge = (comptadorIntents[i] * 100) / encertades;
+//			}
+//			resultat.append(i + ": " + simbol.repeat(percentatge / 10) + "(" + percentatge + "%)\n");
+//		}
 
-		}
+		// SELECT intents, COUNT(encertats) FROM wordle WHERE encertats = 1 GROUP BY
+		// (intents) ;
+		int posEncertats = 0;
+		int vegadesEncertats = 0;
+		int totalEncertats = 0;
+		int index = 0;
+		float[] posEncertatsArray = new float[6];
+		float[] vegadesEncertatsArray = new float[6];
+		float[] totalEncertatsPerArray = new float[6];
 
-		for (int i = 1; i <= 6; i++) {
-			int percentatge = 0;
-			if (encertades != 0) {
-				percentatge = (comptadorIntents[i] * 100) / encertades;
+		try {
+			Connection c = ConexionBBDD.conectar();
+
+
+			String consultaSumaEncertats = "SELECT COUNT(encertats) AS TotalEncertats FROM wordle WHERE encertats = ?";
+			PreparedStatement psSumaEncertats = c.prepareStatement(consultaSumaEncertats);
+			psSumaEncertats.setInt(1, 1);
+			ResultSet rsEncertats = psSumaEncertats.executeQuery();
+			while (rsEncertats.next()) {
+				totalEncertats = rsEncertats.getInt("TotalEncertats");
+
+				System.out.printf("Total encertats: %d \n", totalEncertats);
 			}
-			resultat.append(i + ": " + simbol.repeat(percentatge / 10) + "(" + percentatge + "%)\n");
-		}
 
+			// comptar total de partides jugades
+
+			String consultaSelect = "SELECT intents, COUNT(encertats) AS encertatsFila FROM wordle WHERE encertats = 1 GROUP BY (intents)";
+			PreparedStatement psSelect = c.prepareStatement(consultaSelect);
+			ResultSet rs = psSelect.executeQuery();
+			float totalEncertatsPer = 0.0f;
+			while (rs.next()) {
+				posEncertats = rs.getInt("intents");
+				posEncertatsArray[index] = (float) posEncertats;
+				vegadesEncertats = rs.getInt("encertatsFila");
+				vegadesEncertatsArray[index] = (float)vegadesEncertats;
+
+				totalEncertatsPer = ( (float)vegadesEncertats /  (float)totalEncertats) * 100;
+				totalEncertatsPerArray[index] = totalEncertatsPer;
+				index++;
+				System.out.printf("Posisio encertat: %d vegades encertats: %d  per %.2f \n", posEncertats,
+						vegadesEncertats, totalEncertatsPer);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error: " + e);
+		}
+		
+		//float[][] matriuCalculs = new float[3][6];
+		
+		for (int i = 0; i < posEncertatsArray.length; i++) {
+//		int percentatge = 0;
+//		if (encertades != 0) {
+//			percentatge = (comptadorIntents[i] * 100) / encertades;
+//		}
+			if (posEncertatsArray[i]!= 0.0) {
+				
+				resultat.append(i + ": " + simbol.repeat(((int)totalEncertatsPerArray[i]) / 10) + " "+ vegadesEncertatsArray[i]+ " (" + totalEncertatsPerArray[i] + "%)\n");
+				System.out.println(simbol.repeat(((int)totalEncertatsPerArray[i]) / 10));
+				System.out.println(simbol);
+			}
+		}
 		return resultat.toString();
 
 	}

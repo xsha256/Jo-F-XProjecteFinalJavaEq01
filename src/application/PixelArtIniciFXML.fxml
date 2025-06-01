@@ -25,6 +25,7 @@
             <Label alignment="CENTER" contentDisplay="CENTER" onDragDetected="#canviXicotet" onMouseClicked="#triarXicotet" prefHeight="35.0" prefWidth="71.0" styleClass="radiobuttonMidaTauler3" text="16x16" textAlignment="CENTER" textFill="#e8e8e8" fx:id="xicotet">
                <font>
                   <Font size="24.0" />
+
                </font>
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
@@ -34,6 +35,7 @@
             <Label fx:id="mitja" alignment="CENTER" contentDisplay="CENTER" onDragDetected="#canviMitja" onMouseClicked="#triarMitja" prefHeight="35.0" prefWidth="71.0" styleClass="radiobuttonMidaTauler3" text="32x32" textAlignment="CENTER" textFill="#e8e8e8">
                <font>
                   <Font size="24.0" />
+
                </font>
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
@@ -43,6 +45,7 @@
             <Label fx:id="gran" alignment="CENTER" contentDisplay="CENTER" onDragDetected="#canviGran" onMouseClicked="#triarGran" prefHeight="35.0" prefWidth="71.0" styleClass="radiobuttonMidaTauler3" text="64x64" textAlignment="CENTER" textFill="#e8e8e8">
                <font>
                   <Font size="24.0" />
+
                </font>
                <HBox.margin>
                   <Insets left="30.0" right="30.0" />
