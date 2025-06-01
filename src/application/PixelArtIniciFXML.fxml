@@ -8,13 +8,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" minHeight="0.0" minWidth="0.0" prefHeight="Infinity" prefWidth="100.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PixelArtIniciController">
+<VBox fx:id="root" alignment="CENTER" prefHeight="418.0" prefWidth="613.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PixelArtIniciController">
    <children>
       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="1076.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="59.0" prefWidth="363.0" text="Mida del Tauler" textAlignment="CENTER" textFill="#e8e8e8">
                <font>
-                  <Font size="48.0" />
+                  <Font name="System Bold" size="48.0" />
                </font>
             </Label>
          </children>
@@ -68,9 +68,9 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="98.0" prefWidth="1076.0">
          <children>
-            <Button fx:id="botoJugar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#jugar" prefHeight="82.0" prefWidth="325.0" style="-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;" styleClass="botonAjugar" text="A JUGAR!">
+            <Button fx:id="botoJugar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#jugar" prefHeight="20.0" prefWidth="230.0" style="-fx-background-color: #2a7963; -fx-background-radius: 10;" styleClass="botonAjugar" text="A jugar!" textFill="WHITE">
                <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Button>
          </children>
@@ -80,17 +80,17 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="73.0" prefWidth="1076.0">
          <children>
-            <Button fx:id="botoEnrere" alignment="CENTER" mnemonicParsing="false" onAction="#enrere" prefHeight="38.0" prefWidth="155.0" style="-fx-background-color: #2a7963; -fx-text-fill: #141414;" styleClass="botonEnrere" text="Enrere">
+            <Button fx:id="botoEnrere" alignment="CENTER" mnemonicParsing="false" onAction="#enrere" prefHeight="20.0" prefWidth="105.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Enrere" textFill="WHITE">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
                <HBox.margin>
                   <Insets left="10.0" right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="botoDesats" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#desats" prefHeight="51.0" prefWidth="154.0" style="-fx-background-color: #2a7963;" styleClass="botonEnrere" text="Desats" textAlignment="CENTER" textFill="#141414" wrapText="true">
+            <Button fx:id="botoDesats" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#desats" prefHeight="20.0" prefWidth="105.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Desats" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
-                  <Font size="24.0" />
+                  <Font size="18.0" />
                </font>
                <opaqueInsets>
                   <Insets />
