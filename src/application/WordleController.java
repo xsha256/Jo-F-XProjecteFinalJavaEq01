@@ -30,7 +30,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+
 import javafx.scene.control.TextArea;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -282,22 +286,21 @@ public class WordleController implements Initializable {
 
 		/* ALERT INCORRECTE */
 		if ((fila == 5 && columnaActual == 4) && !encertada) {// si estem en la fila 5 i no la ha acertat
-
+			InsertarBBDD();
 			try {
 				
 				Alert alert = new Alert(AlertType.NONE);
 				
 				alert.setTitle("Incorrecte");
 				// alert.setHeaderText("INCORRECTE"); // text al costat de la icona
-				alert.getDialogPane().setPrefSize(550, 500);
-//				 Image iconAlert = new
-//				 Image(getClass().getResourceAsStream("file:images/icona.png"));
-//				 ImageView alertView = new ImageView(iconAlert);
-//				 alertView.setFitWidth(200);
-//				 alertView.setPreserveRatio(true);
-
+				alert.getDialogPane().setPrefSize(650, 600);
+				 Image iconAlert = new
+				 Image("file:imagenes/equis.png");
+				 ImageView alertView = new ImageView(iconAlert);
+				 alertView.setFitWidth(150);
+				 alertView.setPreserveRatio(true);
 				Label msg = new Label(
-						"INCORRECTE\nNo has adivinant la paraula. \nLa paraula correcta es: " + paraula.toUpperCase());
+						"INCORRECTE:\n\nNo has adivinant la paraula. \nLa paraula correcta es: \n" + paraula.toUpperCase());
 				// msg.setMaxWidth(300);
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
@@ -309,7 +312,7 @@ public class WordleController implements Initializable {
 				// est.setMaxHeight(300);
 				est.getStyleClass().add("msgAlertError");
 
-				VBox content = new VBox(15, msg, est);
+				VBox content = new VBox(15, alertView, msg, est);
 				content.setAlignment(Pos.CENTER);
 				content.setPadding(new Insets(20));
 				content.setPrefWidth(500);
@@ -348,7 +351,7 @@ public class WordleController implements Initializable {
 						e.printStackTrace();
 					}
 				}
-				InsertarBBDD();
+				
 
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
@@ -358,22 +361,23 @@ public class WordleController implements Initializable {
 		}
 
 		/* ALERT CORRECTE */
-		if (encertada) {
+		else if (encertada) {
+			estadistica();
+			InsertarBBDD();
 			try {
 
 				encertats++;
 
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Correcte");
-				// alert.setHeaderText("Correcte"); // text al costat de la icona
 				alert.getDialogPane().setPrefSize(550, 500);
-				// Image iconAlert = new
-				// Image(getClass().getResourceAsStream("/Jo-F-XProjecteFinalJavaEq01/src/images/icona.png"));
-				// ImageView alertView = new ImageView(iconAlert);
-				// alertView.setFitWidth(200);
-				// alertView.setPreserveRatio(true);
+				 Image iconAlert = new
+				 Image("file:imagenes/win.png");
+				 ImageView alertView = new ImageView(iconAlert);
+				 alertView.setFitWidth(200);
+				 alertView.setPreserveRatio(true);
 
-				Label msg = new Label("Correcte\nENHORABONA HAS ENDEVINAT LA PARAULA !!!!!!");
+				Label msg = new Label("Correcte:\n\nENHORABONA HAS ENDEVINAT LA PARAULA !!!!!!");
 				msg.setMaxWidth(500);
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
@@ -406,7 +410,7 @@ public class WordleController implements Initializable {
 //					    "-fx-highlight-text-fill: white;" /* color del texto seleccionado */
 //					);
 
-				VBox content = new VBox(15, msg, est);
+				VBox content = new VBox(15, alertView, msg, est);
 				content.setAlignment(Pos.CENTER);
 				content.setPadding(new Insets(20));
 				content.setPrefWidth(500);
@@ -456,8 +460,7 @@ public class WordleController implements Initializable {
 						e.printStackTrace();
 					}
 				}
-				estadistica();
-				InsertarBBDD();
+				
 
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
@@ -694,6 +697,7 @@ public class WordleController implements Initializable {
 
 	public String estadistica() {
 		int encertades = 0;
+		int guanyats = 0;
 		try {
 			Connection c = ConexionBBDD.conectar();
 
@@ -704,52 +708,27 @@ public class WordleController implements Initializable {
 			psSelect.setString(2, "idUsuari");
 			ResultSet rs = psSelect.executeQuery();
 			while (rs.next()) {
-				vegades = rs.getInt("comptar") + 1;// +1 prq no compta el ultimo partido prq no esta en bd
+				//vegades = rs.getInt("comptar") + 1;// +1 prq no compta el ultimo partido prq no esta en bd
+				vegades = rs.getInt("comptar") ;
 
 			}
+			String consultaSelectGuanyats = "SELECT COUNT(?) AS comptarGuanyats FROM wordle WHERE encertats = ? GROUP BY (?)";
+			PreparedStatement psSelectGuanyats = c.prepareStatement(consultaSelectGuanyats);
+			psSelectGuanyats.setString(1, "encertats");
+			psSelectGuanyats.setInt(2, 1);
+			psSelectGuanyats.setString(3, "idUsuari");
+			ResultSet rsGuanyats = psSelectGuanyats.executeQuery();
+			while (rsGuanyats.next()) {
+				//vegades = rs.getInt("comptar") + 1;// +1 prq no compta el ultimo partido prq no esta en bd
+				guanyats = rsGuanyats.getInt("comptarGuanyats") ;
+				
+			}
 
-			// comptar quantes partides s'han guanyat en cada numero de intent
-
-//			String consultaIntents = "SELECT intents FROM wordle WHERE idUsuari = ? AND encertats = 5";
-//			PreparedStatement ps = c.prepareStatement(consultaIntents);
-//			ps.setString(1, "idUsuari");
-//			ResultSet rs2 = ps.executeQuery();
-//
-//			while (rs2.next()) {
-//				int intents = rs2.getInt("intents");
-//				if (intents >= 1 && intents <= 6) {
-//					comptadorIntents[intents]++; // incrementem el comptador d’aquest intent
-//					encertades++;
-//				}
-//			}
 
 		} catch (SQLException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 
-		String simbol = "⬛";
-		StringBuilder resultat = new StringBuilder();
-		resultat.append("\n ===== ESTADÍSTICA =====" + "\n");
-		resultat.append("Partides: " + vegades + "\n");
-		resultat.append("----------------------------------\n");
-
-		// total d'encerts
-//		for (int i = 1; i <= 6; i++) {
-//			encertades += comptadorIntents[i];
-//
-//		}
-//
-//		
-//		for (int i = 1; i <= 6; i++) {
-//			int percentatge = 0;
-//			if (encertades != 0) {
-//				percentatge = (comptadorIntents[i] * 100) / encertades;
-//			}
-//			resultat.append(i + ": " + simbol.repeat(percentatge / 10) + "(" + percentatge + "%)\n");
-//		}
-
-		// SELECT intents, COUNT(encertats) FROM wordle WHERE encertats = 1 GROUP BY
-		// (intents) ;
 		int posEncertats = 0;
 		int vegadesEncertats = 0;
 		int totalEncertats = 0;
@@ -769,7 +748,6 @@ public class WordleController implements Initializable {
 			while (rsEncertats.next()) {
 				totalEncertats = rsEncertats.getInt("TotalEncertats");
 
-				System.out.printf("Total encertats: %d \n", totalEncertats);
 			}
 
 			// comptar total de partides jugades
@@ -787,28 +765,33 @@ public class WordleController implements Initializable {
 				totalEncertatsPer = ( (float)vegadesEncertats /  (float)totalEncertats) * 100;
 				totalEncertatsPerArray[index] = totalEncertatsPer;
 				index++;
-				System.out.printf("Posisio encertat: %d vegades encertats: %d  per %.2f \n", posEncertats,
-						vegadesEncertats, totalEncertatsPer);
 			}
 
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
 		
-		//float[][] matriuCalculs = new float[3][6];
+		
+		String simbol = "#";
+		StringBuilder resultat = new StringBuilder();
+		resultat.append("\n+---------- ESTADÍSTICA -----------+" + "\n");
+		resultat.append("|    Partides: " + vegades + "     |  Guanyats: " + guanyats +"   |\n");
+		resultat.append("+------------------------------------+\n");
 		
 		for (int i = 0; i < posEncertatsArray.length; i++) {
-//		int percentatge = 0;
-//		if (encertades != 0) {
-//			percentatge = (comptadorIntents[i] * 100) / encertades;
-//		}
+
 			if (posEncertatsArray[i]!= 0.0) {
 				
-				resultat.append(i + ": " + simbol.repeat(((int)totalEncertatsPerArray[i]) / 10) + " "+ vegadesEncertatsArray[i]+ " (" + totalEncertatsPerArray[i] + "%)\n");
-				System.out.println(simbol.repeat(((int)totalEncertatsPerArray[i]) / 10));
-				System.out.println(simbol);
+				resultat.append("|  "+i + ":   " + simbol.repeat(((int)totalEncertatsPerArray[i]) / 10) + " "+ vegadesEncertatsArray[i]+ " (" + totalEncertatsPerArray[i] + "% )                   |\n");
+
 			}
 		}
+		resultat.append("+------------------------------------+");
+		
+
+
+
+		
 		return resultat.toString();
 
 	}
