@@ -301,11 +301,10 @@ public class PixelArtController implements Initializable {
 						Scene scene = new Scene(rootInici);
 						scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-						Stage window = (Stage) this.root.getScene().getWindow();
-
+						Stage window = new Stage();//(Stage) this.root.getScene().getWindow();
 						window.setScene(scene);
 						window.setTitle("Inici Pixel Art");
-						window.setMaximized(true);
+//						window.setMaximized(true);
 						window.show();
 					} catch (IOException e1) {
 						e1.printStackTrace();
