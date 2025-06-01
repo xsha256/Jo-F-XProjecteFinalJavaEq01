@@ -259,12 +259,15 @@ public class BuscaMinasController implements Initializable {
 				System.out.println("BooleanJoc: " + MenuController.pescaminesActivo);
 				System.out.println("BooleanCarregar: " + MenuController.carregarpescaminesActivo);
 				if(MenuController.tancarSesioApretado) {
+					System.out.println("Dentro if tancarSesio");
 					alerta("Vols guardar la partida abans d'eixir?","file:imagenes/alerta.png");
 				}
 
 			});
 			
 			ventanaActual.setOnCloseRequest(evt -> {//si se cierra desde la X la ventana, pregunta si quieres guardar.
+				System.out.println("Dentro CloseRequest");
+
 				alerta("Vols guardar la partida abans d'eixir?","file:imagenes/alerta.png");
 			});
 		});

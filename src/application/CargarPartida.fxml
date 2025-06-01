@@ -24,7 +24,7 @@
             <font>
                <Font name="System Bold" size="18.0" />
             </font></Button>
-          <Button onAction="#volver" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Volver a elegir Tamaño" textFill="WHITE">
+          <Button onAction="#volver" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Tornar a elegir Tamany" textFill="WHITE">
             <font>
                <Font name="System Bold" size="18.0" />
             </font></Button>

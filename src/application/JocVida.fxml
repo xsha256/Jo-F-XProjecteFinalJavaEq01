@@ -93,7 +93,7 @@
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Button>
-                  <Button fx:id="botonStop" onAction="#acabar" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonesJocVida" stylesheets="@application.css" text="Volver a elegir tamaño" textFill="WHITE">
+                  <Button fx:id="botonStop" onAction="#acabar" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonesJocVida" stylesheets="@application.css" text="Tornar a elegir Taman" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Button>

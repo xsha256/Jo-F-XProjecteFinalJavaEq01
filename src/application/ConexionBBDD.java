@@ -9,9 +9,9 @@ public class  ConexionBBDD {
 		try {
 		//Class.forName("com.mysql.cj.jdbc.Driver");//per al ordenador de casa
 		Class.forName("org.mariadb.jdbc.Driver");//per a classe
-		String urlBaseDades = "jdbc:mariadb://localhost:3306/jofx";
+		String urlBaseDades = "jdbc:mariadb://localhost:3308/jofx";
 		String user = "root";
-		String pwd = "";
+		String pwd = "root";
 		Connection c = DriverManager.getConnection(urlBaseDades, user, pwd);
 		return c;
 		} catch (Exception e) {

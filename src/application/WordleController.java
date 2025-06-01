@@ -1,30 +1,8 @@
 package application;
 
-
-import java.awt.Window;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
-
-import javax.security.auth.login.LoginContext;
-
-import javafx.event.EventHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,11 +16,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -50,6 +23,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Random;
+import java.util.ResourceBundle;
 
 public class WordleController implements Initializable {
 
@@ -61,21 +48,19 @@ public class WordleController implements Initializable {
 	private VBox escena;// log
 	@FXML
 	private HBox root;
-		
-	
-	
+
 	private Label[][] caselles = new Label[6][5];
 	private String paraula = paraulaAleatoria();
 	private int columnaActual = 0;
 	private int filaActual = 0;
 	private Stage finestra;
 
-	private int[] comptadorIntents = new int[7];//del 1 al 6
-	private int intents=1;
+	private int[] comptadorIntents = new int[7];// del 1 al 6
+	private int intents = 1;
 	private int encertats = 0;
 	private int vegades = 0;
-	//private String emailUsauri=LoginController.EMAIL;
-	
+	// private String emailUsauri=LoginController.EMAIL;
+
 	private EventHandler<KeyEvent> tecla = new EventHandler<KeyEvent>() {
 
 		@Override
@@ -83,23 +68,22 @@ public class WordleController implements Initializable {
 			String lletra = e.getText().toUpperCase();
 			KeyCode tecla = e.getCode();
 
-			//[comprovació extra] per assegurar que no s'accedeiz a una fila o columna inexistent
+			// [comprovació extra] per assegurar que no s'accedeiz a una fila o columna
+			// inexistent
 			if (filaActual >= caselles.length || columnaActual >= caselles[0].length) {
-			    return;
+				return;
 			}
 
-			
-			
-			if(lletra.matches("[A-Z]") && columnaActual <5) {// Per a que sols es puga escriurer lletres en majuscula
+			if (lletra.matches("[A-Z]") && columnaActual < 5) {// Per a que sols es puga escriurer lletres en majuscula
 				caselles[filaActual][columnaActual].setText(lletra);
-				if (columnaActual<4) {
-					columnaActual++; 
+				if (columnaActual < 4) {
+					columnaActual++;
 				}
 
-			}else if (tecla == KeyCode.BACK_SPACE && columnaActual >=0) {//ESBORRAR
+			} else if (tecla == KeyCode.BACK_SPACE && columnaActual >= 0) {// ESBORRAR
 				borrarLletres();
-				
-			}else if (tecla == KeyCode.ENTER && columnaActual==4) {//ENTER
+
+			} else if (tecla == KeyCode.ENTER && columnaActual == 4) {// ENTER
 				boolean filaCompleta = true;
 				for (int i = 0; i < 5; i++) {
 					String casellesText = caselles[filaActual][i].getText();// agafa el text de la casella
@@ -112,39 +96,39 @@ public class WordleController implements Initializable {
 
 				if (filaCompleta) {
 					comprovarFila(filaActual);// enter
-					intents++;//aumentem els intents
+					intents++;// aumentem els intents
 					filaActual++;// pasem a la fila de baix
 					columnaActual = 0;
-					
+
 				}
-				if (filaActual==4 && columnaActual==4) {
-					filaActual=0;
-					columnaActual=0;
+				if (filaActual == 4 && columnaActual == 4) {
+					filaActual = 0;
+					columnaActual = 0;
 				}
 				return;
 
 			}
 
-			
 		}
 	};
 
 	public void initialize(URL arg0, ResourceBundle arg1) {// creacio de caselles
-		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
-		Platform.runLater(()->{
+		// funcion que cambia el estado de los booleans para poder duplicados abiertos
+		// del mismo juego
+		Platform.runLater(() -> {
 			Stage ventanaActual = (Stage) root.getScene().getWindow();
-			if(ventanaActual.isShowing()) {
-				MenuController.wordleActivo=true;
-				System.out.println("La ventana joc-wordle esta activa. Boolean: "+MenuController.wordleActivo);
-				System.out.println("BooleanInfoWordle: "+MenuController.infowordleActivo);
+			if (ventanaActual.isShowing()) {
+				MenuController.wordleActivo = true;
+				System.out.println("La ventana joc-wordle esta activa. Boolean: " + MenuController.wordleActivo);
+				System.out.println("BooleanInfoWordle: " + MenuController.infowordleActivo);
 			}
-			ventanaActual.setOnHidden(evt ->{
-				MenuController.wordleActivo=false;
-				System.out.println("La ventana joc-wordle se cerró. Boolean: "+MenuController.wordleActivo);
-				System.out.println("BooleanInfoWordle: "+MenuController.infowordleActivo);
+			ventanaActual.setOnHidden(evt -> {
+				MenuController.wordleActivo = false;
+				System.out.println("La ventana joc-wordle se cerró. Boolean: " + MenuController.wordleActivo);
+				System.out.println("BooleanInfoWordle: " + MenuController.infowordleActivo);
 			});
 		});
-		
+
 		Platform.runLater(() -> {
 			finestra = (Stage) root.getScene().getWindow();
 			finestra.addEventFilter(KeyEvent.KEY_PRESSED, tecla);
@@ -161,7 +145,6 @@ public class WordleController implements Initializable {
 				celda.setAlignment(Pos.CENTER);
 				celda.setId("escriu");
 
-				
 				caselles[fila][columna] = celda;// guardar en la matriu
 				grid1.add(celda, columna, fila);
 
@@ -218,15 +201,15 @@ public class WordleController implements Initializable {
 
 						if (filaCompleta) {
 							comprovarFila(filaActual);// enter
-							intents++;//aumentem els intents
+							intents++;// aumentem els intents
 							filaActual++;// pasem a la fila de baix
 							columnaActual = 0;
-							
+
 						}
-						
-						if (filaActual==4 && columnaActual==4) {
-							filaActual=0;
-							columnaActual=0;
+
+						if (filaActual == 4 && columnaActual == 4) {
+							filaActual = 0;
+							columnaActual = 0;
 						}
 						return;
 
@@ -256,8 +239,9 @@ public class WordleController implements Initializable {
 
 			if (lletraUsuari == lletraCorrecta) {
 				// Verd: lletra correcta i posició correcta
-				celda.setStyle("-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10;");
-				actualitzarColorTeclat(lletraUsuari, "#43a047");//metodo per pintar el teclat
+				celda.setStyle(
+						"-fx-background-color: #43a047; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10;");
+				actualitzarColorTeclat(lletraUsuari, "#43a047");// metodo per pintar el teclat
 				comptadorIntents[intents]++;
 			} else if (lletraUsuari != lletraCorrecta && paraula.contains(String.valueOf(lletraUsuari))) {
 				int totalLletraParaula = comptarLletra(paraula, lletraUsuari);
@@ -265,19 +249,22 @@ public class WordleController implements Initializable {
 
 				if (totalLletraUsuari >= totalLletraParaula) {
 					// Ja has posat aquesta lletra més vegades de les que hi ha a la paraula
-					celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold; -fx-background-radius: 10;");
+					celda.setStyle(
+							"-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold; -fx-background-radius: 10;");
 					actualitzarColorTeclat(lletraUsuari, "lightgrey");
-					
+
 				} else {
 					// Groc: lletra està a la paraula però no en aquesta posició i encara no s'ha
 					// exhaurit el seu compte
-					celda.setStyle("-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10;");
+					celda.setStyle(
+							"-fx-background-color: #e4a81d; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-background-radius: 10;");
 					actualitzarColorTeclat(lletraUsuari, "#e4a81d");
 				}
 				encertada = false;
 			} else {
 				// Gris: lletra no està en la paraula
-				celda.setStyle("-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold; -fx-background-radius: 10;");
+				celda.setStyle(
+						"-fx-background-color: lightgrey; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight:bold; -fx-background-radius: 10;");
 				actualitzarColorTeclat(lletraUsuari, "lightgrey");
 				encertada = false;
 			}
@@ -294,36 +281,38 @@ public class WordleController implements Initializable {
 
 		/* ALERT INCORRECTE */
 		if ((fila == 5 && columnaActual == 4) && !encertada) {// si estem en la fila 5 i no la ha acertat
-			
+
 			try {
-				
+
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Incorrecte");
-				alert.setHeaderText("INCORRECTE"); // text al costat de la icona
-				alert.getDialogPane().setPrefSize(500, 400);
+				// alert.setHeaderText("INCORRECTE"); // text al costat de la icona
+				alert.getDialogPane().setPrefSize(550, 500);
 //				 Image iconAlert = new
 //				 Image(getClass().getResourceAsStream("file:images/icona.png"));
 //				 ImageView alertView = new ImageView(iconAlert);
 //				 alertView.setFitWidth(200);
 //				 alertView.setPreserveRatio(true);
-				
-				Label msg = new Label("No has adivinant la paraula. \n La paraula correcta es: " + paraula.toUpperCase());
-				msg.setMaxWidth(500);
+
+				Label msg = new Label(
+						"INCORRECTE\nNo has adivinant la paraula. \nLa paraula correcta es: " + paraula.toUpperCase());
+				// msg.setMaxWidth(300);
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
-				
+
 				Label est = new Label();
 				est.setText(estadistica());
 				est.setWrapText(true);
-				est.setMaxWidth(460);
-				est.setMaxHeight(300);
+				// est.setMaxWidth(300);
+				// est.setMaxHeight(300);
+				est.getStyleClass().add("msgAlertError");
 
-				VBox content = new VBox(15, msg,est);
+				VBox content = new VBox(15, msg, est);
 				content.setAlignment(Pos.CENTER);
 				content.setPadding(new Insets(20));
 				content.setPrefWidth(500);
 				alert.getDialogPane().setContent(content);
-				// alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
 				Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
 				okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
@@ -331,28 +320,27 @@ public class WordleController implements Initializable {
 				alert.getDialogPane().getStyleClass().add("alertError");
 				// tornar a la pantalla de inici
 				Optional<ButtonType> result = alert.showAndWait();
-				
+
 				if (result.isPresent() && result.get() == ButtonType.OK) {
-					MenuController.wordleActivo=false;
-					MenuController.infowordleActivo=true;
+					MenuController.wordleActivo = false;
+					MenuController.infowordleActivo = true;
 					try {
 						Stage stage = (Stage) root.getScene().getWindow();
 						stage.close();
-						
+
 						Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
-						Scene escena2 = new Scene(escena, 600,400);
-						Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();			
-						 window.setScene(escena2);
-						 window.setTitle("Wordle");
-						 
-						 window.show();
+						Scene escena2 = new Scene(escena, 600, 400);
+						Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
+						window.setScene(escena2);
+						window.setTitle("Wordle");
+
+						window.show();
 
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} 
+				}
 				InsertarBBDD();
-				
 
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
@@ -364,39 +352,38 @@ public class WordleController implements Initializable {
 		/* ALERT CORRECTE */
 		if (encertada) {
 			try {
-				
+
 				encertats++;
 
 				Alert alert = new Alert(AlertType.NONE);
 				alert.setTitle("Correcte");
-				alert.setHeaderText("Correcte"); // text al costat de la icona
-				alert.getDialogPane().setPrefSize(250, 500);
+				//alert.setHeaderText("Correcte"); // text al costat de la icona
+				alert.getDialogPane().setPrefSize(550, 500);
 				// Image iconAlert = new
 				// Image(getClass().getResourceAsStream("/Jo-F-XProjecteFinalJavaEq01/src/images/icona.png"));
 				// ImageView alertView = new ImageView(iconAlert);
 				// alertView.setFitWidth(200);
 				// alertView.setPreserveRatio(true);
 
-				Label msg = new Label("ENHORABONA HAS ENDEVINAT LA PARAULA !!!!!!");
+				Label msg = new Label("Correcte\nENHORABONA HAS ENDEVINAT LA PARAULA !!!!!!");
 				msg.setMaxWidth(500);
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
-				
 
 				Label est = new Label();
 				est.setText(estadistica());
 				est.setWrapText(true);
 				est.setMaxWidth(460);
 				est.setMaxHeight(300);
-				
-				
-				VBox content = new VBox(15, msg,est);
+				est.getStyleClass().add("msgAlertError");
+
+				VBox content = new VBox(15, msg, est);
 				content.setAlignment(Pos.CENTER);
 				content.setPadding(new Insets(20));
 				content.setPrefWidth(500);
 
 				alert.getDialogPane().setContent(content);
-				// alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
 				Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
 				okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
@@ -406,43 +393,40 @@ public class WordleController implements Initializable {
 				alert.setContentText(estadistica());
 				// tornar a la pantalla de inici
 				Optional<ButtonType> result = alert.showAndWait();
-				
+
 				if (result.isPresent() && result.get() == ButtonType.OK) {
-					MenuController.wordleActivo=false;
-					MenuController.infowordleActivo=true;
+					MenuController.wordleActivo = false;
+					MenuController.infowordleActivo = true;
 					try {
 						/*
-						VBox root = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
-						
-						// En comptes de usar 'escena', que és null, agafem l'stage des d'un node
-						// existent
-						Stage stage = (Stage) grid1.getScene().getWindow();
+						 * VBox root = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
+						 * 
+						 * // En comptes de usar 'escena', que és null, agafem l'stage des d'un node //
+						 * existent Stage stage = (Stage) grid1.getScene().getWindow();
+						 * 
+						 * Scene scene = new Scene(root); stage.setScene(scene);
+						 * stage.setMaximized(true); stage.show();
+						 * 
+						 */
 
-						Scene scene = new Scene(root);
-						stage.setScene(scene);
-						stage.setMaximized(true);
-						stage.show();
-						
-						*/
-						
 						Stage stage = (Stage) root.getScene().getWindow();
 						stage.close();
-						
+
 						Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
-						Scene escena2 = new Scene(escena, 600,400);
-						Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();			
-						 window.setScene(escena2);
-						 window.setTitle("Wordle");
-						 
-						 window.show();
-						
+						Scene escena2 = new Scene(escena, 600, 400);
+						Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
+						window.setScene(escena2);
+						window.setTitle("Wordle");
+
+						window.show();
+
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 				estadistica();
 				InsertarBBDD();
-				
+
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
 				System.out.println(er.getLocalizedMessage());
@@ -458,31 +442,31 @@ public class WordleController implements Initializable {
 		Random aleatori = new Random();
 		String paraulaAleatoria = "";
 		ArrayList<String> paraules = new ArrayList<String>();
-		ArrayList<String> paraulesUtilitzades=new ArrayList<String>();
-		
-		
+		ArrayList<String> paraulesUtilitzades = new ArrayList<String>();
+
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("paraules.txt"));//llig el fitxer
+			BufferedReader reader = new BufferedReader(new FileReader("paraules.txt"));// llig el fitxer
 			String linea = "";
-			Connection c= ConexionBBDD.conectar();
-			String sql = "SELECT paraula FROM paraulesFetes";//select per mostrar totes les paraules
+			Connection c = ConexionBBDD.conectar();
+			String sql = "SELECT paraula FROM paraulesFetes";// select per mostrar totes les paraules
 			PreparedStatement pst = c.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
-				paraulesUtilitzades.add(rs.getString("paraula").toUpperCase());//guardar en un array totes les paraules utilitzades
+				paraulesUtilitzades.add(rs.getString("paraula").toUpperCase());// guardar en un array totes les paraules
+																				// utilitzades
 			}
-			
+
 			while ((linea = reader.readLine()) != null) {
-				if (!paraulesUtilitzades.contains(linea)) {//si encara no se ha jugat la paraula
+				if (!paraulesUtilitzades.contains(linea)) {// si encara no se ha jugat la paraula
 					paraules.add(linea);
 				}
-				
+
 			}
 			c.close();
 			reader.close();
-			
-			int index = aleatori.nextInt(0,300);
+
+			int index = aleatori.nextInt(0, 300);
 			paraulaAleatoria = paraules.get(index);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -512,15 +496,15 @@ public class WordleController implements Initializable {
 	}
 
 	public void enrereInici(ActionEvent e) {
-		MenuController.wordleActivo=false;
+		MenuController.wordleActivo = false;
 		try {
 			Stage stage = (Stage) root.getScene().getWindow();
 			stage.close();
-			
+
 			Parent escena = FXMLLoader.load(getClass().getResource("wordleLogin.fxml"));
 			Scene escena2 = new Scene(escena, 600, 400);
 			// obtenim la finestra de l'aplicació actual
-			Stage window = new Stage();//(Stage) ((Node) e.getSource()).getScene().getWindow();
+			Stage window = new Stage();// (Stage) ((Node) e.getSource()).getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Wordle");
 			window.show();
@@ -588,136 +572,147 @@ public class WordleController implements Initializable {
 			}
 		}
 	}
-	
-	private void actualitzarColorTeclat(char lletra, String color) {
-	    for (Node node : grid2.getChildren()) {
-	        if (node instanceof Button) {
-	            Button boto = (Button) node;
-	            if (boto.getText().equalsIgnoreCase(String.valueOf(lletra))) {
-	                // Només actualitza si el color actual és "menys prioritari"
-	                String estilActual = boto.getStyle();
-	                if (estilActual.contains("#43a047")) return; //si ja es verd no el torna a pintar
-	                if (estilActual.contains("#e4a81d") && color.equals("lightgrey")) return; // No rebaixem groc a gris
 
-	                boto.setStyle("-fx-background-color: " + color + "; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");//pintem la tecla del color q pasem per parametre
-	                
-	                return;
-	            }
-	        }
-	    }
+	private void actualitzarColorTeclat(char lletra, String color) {
+		for (Node node : grid2.getChildren()) {
+			if (node instanceof Button) {
+				Button boto = (Button) node;
+				if (boto.getText().equalsIgnoreCase(String.valueOf(lletra))) {
+					// Només actualitza si el color actual és "menys prioritari"
+					String estilActual = boto.getStyle();
+					if (estilActual.contains("#43a047"))
+						return; // si ja es verd no el torna a pintar
+					if (estilActual.contains("#e4a81d") && color.equals("lightgrey"))
+						return; // No rebaixem groc a gris
+
+					boto.setStyle("-fx-background-color: " + color
+							+ "; -fx-text-fill:white; -fx-font-size: 20px; -fx-font-weight: bold;");// pintem la tecla
+																									// del color q pasem
+																									// per parametre
+
+					return;
+				}
+			}
+		}
 	}
+
 	public int consultarId() {
-		int idUsuari=0;
+		int idUsuari = 0;
+
 		try {
-			 Connection c= ConexionBBDD.conectar();
-			 String consultaInsert="SELECT id FROM usuari WHERE email = ?";		 
-			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);	
-			 psInsert.setString(1, LoginController.EMAIL);
-			 ResultSet rs = psInsert.executeQuery(consultaInsert);
-			 while (rs.next()) {
-				idUsuari=rs.getInt("id");
-			}		 
-			 return idUsuari;
+			Connection c = ConexionBBDD.conectar();
+			String consultaInsert = "SELECT id FROM usuari WHERE email = ?";
+			PreparedStatement psInsert = c.prepareStatement(consultaInsert);
+			psInsert.setString(1, LoginController.EMAIL);
+			ResultSet rs = psInsert.executeQuery();
+			while (rs.next()) {
+				idUsuari = rs.getInt("id");
+			}
+			return idUsuari;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(idUsuari);
+
 		return idUsuari;
 	}
-	
-	
+
 	public void InsertarBBDD() {
 
-		 try {
-			 Connection c= ConexionBBDD.conectar();
-			 String consultaInsert="INSERT INTO wordle (idUsuari,intents,fallades,encertats) VALUES (?,?,?,?)";		
-			 String insertParaula ="INSERT INTO paraulesfetes (idWordle, paraula) VALUES (?,?)";
-			 PreparedStatement psInsert = c.prepareStatement(consultaInsert);
-				
-			 psInsert.setInt(1, consultarId());
-			 psInsert.setInt(2, intents);
-			 psInsert.setInt(3, 0);
-			 psInsert.setInt(4, encertats);
-			 psInsert.executeUpdate();
-			
-			 //guardar la paraula que se ha ejecutat
-			 PreparedStatement psParaula = c.prepareStatement(insertParaula);
-			 psParaula.setInt(1, consultarId());//posar el id correcte
-			 psParaula.setString(2, paraula);
-			 psParaula.executeUpdate();
-			 
-			
-			 psInsert.close();
-			 psParaula.close();
-			 c.close();
-			 
-		} catch (SQLException e) {
-			System.out.println("Error: "+e);
-		}
-		 
-	}
-	
-	public String estadistica() {
-				int encertades =0;
 		try {
 			Connection c = ConexionBBDD.conectar();
-			
-			//comptar total de partides jugades
-			String consultaSelect="SELECT COUNT(?) AS comptar FROM wordle GROUP BY (?)"; 
+			String consultaInsert = "INSERT INTO wordle (idUsuari,intents,fallades,encertats) VALUES (?,?,?,?)";
+			String insertParaula = "INSERT INTO paraulesfetes (idWordle, paraula) VALUES (?,?)";
+			PreparedStatement psInsert = c.prepareStatement(consultaInsert);
+
+			psInsert.setInt(1, consultarId());
+			psInsert.setInt(2, intents);
+			psInsert.setInt(3, 0);
+			psInsert.setInt(4, encertats);
+			psInsert.executeUpdate();
+			int idWordle = 0;
+			String consultaIdParaula = "SELECT MAX(id) FROM wordle WHERE idUsuari = ?";
+			PreparedStatement psconsultaId = c.prepareStatement(consultaIdParaula);
+			psconsultaId.setInt(1, consultarId());// posar el id correcte
+			ResultSet rs = psconsultaId.executeQuery();
+			while (rs.next()) {
+				idWordle = rs.getInt("MAX(id)");
+			}
+			System.out.println("idWordle: " + idWordle);
+
+
+			// guardar la paraula que se ha ejecutat
+			PreparedStatement psParaula = c.prepareStatement(insertParaula);
+			psParaula.setInt(1, idWordle);// posar el id correcte
+			psParaula.setString(2, paraula);
+			psParaula.executeUpdate();
+
+			psInsert.close();
+			psParaula.close();
+			c.close();
+
+		} catch (SQLException e) {
+			System.out.println("Error: " + e);
+		}
+
+	}
+
+	public String estadistica() {
+		int encertades = 0;
+		try {
+			Connection c = ConexionBBDD.conectar();
+
+			// comptar total de partides jugades
+			String consultaSelect = "SELECT COUNT(?) AS comptar FROM wordle GROUP BY (?)";
 			PreparedStatement psSelect = c.prepareStatement(consultaSelect);
 			psSelect.setString(1, "idUsuari");
-			psSelect.setString(2,  "idUsuari");
+			psSelect.setString(2, "idUsuari");
 			ResultSet rs = psSelect.executeQuery();
-			while (rs.next()) {				
-				vegades = rs.getInt("comptar");
+			while (rs.next()) {
+				vegades = rs.getInt("comptar")+1;//+1 prq no compta el ultimo partido prq no esta en bd
 
 			}
-			
-			//comptar quantes partides s'han guanyat en cada numero de intent
 
-			String consultaIntents= "SELECT intents FROM wordle WHERE idUsuari = ? AND encertats = 5";
+			// comptar quantes partides s'han guanyat en cada numero de intent
+
+			String consultaIntents = "SELECT intents FROM wordle WHERE idUsuari = ? AND encertats = 5";
 			PreparedStatement ps = c.prepareStatement(consultaIntents);
-	        ps.setString(1, "idUsuari");
-	        ResultSet rs2 = ps.executeQuery();
+			ps.setString(1, "idUsuari");
+			ResultSet rs2 = ps.executeQuery();
 
-	        while (rs2.next()) {
-	            int intents = rs.getInt("intents");
-	            if (intents >= 1 && intents <= 6) {
-	                comptadorIntents[intents]++; // incrementem el comptador d’aquest intent
-	                encertades++;
-	            }
-	        }
-			
-			
+			while (rs2.next()) {
+				int intents = rs.getInt("intents");
+				if (intents >= 1 && intents <= 6) {
+					comptadorIntents[intents]++; // incrementem el comptador d’aquest intent
+					encertades++;
+				}
+			}
+
 		} catch (SQLException e) {
-			System.out.println("Error: "+e.getMessage());
+			System.out.println("Error: " + e.getMessage());
 		}
-		
-		
-		
-		
-		String simbol ="⬛";
+
+		String simbol = "⬛";
 		StringBuilder resultat = new StringBuilder();
-		resultat.append("\n ===== ESTADÍSTICA ====="+"\n");
-		resultat.append("Partides: "+vegades+"\n");
+		resultat.append("\n ===== ESTADÍSTICA =====" + "\n");
+		resultat.append("Partides: " + vegades + "\n");
 		resultat.append("----------------------------------\n");
-		
-		//total d'encerts
-		for (int i = 1; i <=6; i++) {
-			encertades+=comptadorIntents[i];
-			
+
+		// total d'encerts
+		for (int i = 1; i <= 6; i++) {
+			encertades += comptadorIntents[i];
+
 		}
-		
+
 		for (int i = 1; i <= 6; i++) {
 			int percentatge = 0;
-			if (encertades!=0) {
+			if (encertades != 0) {
 				percentatge = (comptadorIntents[i] * 100) / encertades;
 			}
-			resultat.append(i+": "+simbol.repeat(percentatge/10) + "("+percentatge+"%)\n");
+			resultat.append(i + ": " + simbol.repeat(percentatge / 10) + "(" + percentatge + "%)\n");
 		}
-	
+
 		return resultat.toString();
-	
+
 	}
 
 }
