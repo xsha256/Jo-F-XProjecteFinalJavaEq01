@@ -877,6 +877,7 @@ public class BuscaMinasController implements Initializable {
 					}
 				}
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+				label.setAlignment(Pos.CENTER);
 				etiquetas[i][j] = label;
 				gridPane.add(label, j, i);
 			}
