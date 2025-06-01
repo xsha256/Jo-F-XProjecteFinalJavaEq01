@@ -308,6 +308,7 @@ public class PixelArtController implements Initializable {
 						window.setScene(scene);
 						window.setTitle("Inici Pixel Art");
 //						window.setMaximized(true);
+						window.setResizable(false);
 						window.show();
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -326,6 +327,7 @@ public class PixelArtController implements Initializable {
 						window.setScene(scene);
 						window.setTitle("Inici Pixel Art");
 //						window.setMaximized(true);
+						window.setResizable(false);
 						window.show();
 					} catch (IOException e1) {
 						e1.printStackTrace();
