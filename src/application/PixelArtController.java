@@ -414,13 +414,13 @@ public class PixelArtController implements Initializable {
 			Stage ventanaActual = (Stage) root.getScene().getWindow();
 			if(ventanaActual.isShowing()) {
 				MenuController.pixelartActivo=true;
-				System.out.println("La ventana mida-pescaminas esta activa. Boolean: "+MenuController.pixelartActivo);
+				System.out.println("El juego Pixelart esta activo. Boolean: "+MenuController.pixelartActivo);
 				System.out.println("BooleanMida: "+MenuController.midapixelartActivo);
 				
 			}
 			ventanaActual.setOnHidden(evt ->{
 				MenuController.pixelartActivo=false;
-				System.out.println("La ventana mida-pescaminas se cerró. Boolean: "+MenuController.pixelartActivo);
+				System.out.println("El juego Pixelart se cerró. Boolean: "+MenuController.pixelartActivo);
 				System.out.println("BooleanMida: "+MenuController.midapixelartActivo);
 				
 			});
