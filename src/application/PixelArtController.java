@@ -20,12 +20,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -169,20 +175,77 @@ public class PixelArtController implements Initializable {
 		try {
 			BufferedImage image = crearImatgePNG(taulellCaselles);
 			javax.imageio.ImageIO.write(image, "png", outputFile);
-
+			/*
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Imatge Guardada");
 			alert.setHeaderText(null);
 			alert.setContentText("La imatge s'ha guardat com a: " + outputFile.getName());
 			alert.showAndWait();
+			*/
+			
+			Alert alert = new Alert(Alert.AlertType.NONE);
+		    alert.setTitle("Imatge Guardada");
+		    alert.getDialogPane().setPrefSize(500, 300);
+		    alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
+		    ImageView icon = new ImageView(new Image("file:imagenes/alerta.png"));
+		    icon.setFitWidth(100);
+		    icon.setPreserveRatio(true);
+
+		    Label msg = new Label("La imatge s'ha guardat com a: " + outputFile.getName());
+		    msg.setWrapText(true);
+		    msg.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+
+		    VBox content = new VBox(15, icon, msg);
+		    content.setAlignment(Pos.CENTER);
+		    content.setPadding(new Insets(20));
+		    alert.getDialogPane().setContent(content);
+
+		    ButtonType botoAcceptar = new ButtonType("Acceptar", ButtonBar.ButtonData.OK_DONE);
+		    alert.getButtonTypes().setAll(botoAcceptar);
+
+		    Button botonAceptar = (Button) alert.getDialogPane().lookupButton(botoAcceptar);
+		    botonAceptar.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8; -fx-font-weight: bold;");
+		    botonAceptar.setCursor(Cursor.HAND);
+
+		    alert.showAndWait();
+		    
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			/*
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("No s'ha pogut guardar la imatge");
 			alert.setContentText(e1.getMessage());
 			alert.showAndWait();
+			*/
+			
+			Alert alert = new Alert(Alert.AlertType.NONE);
+		    alert.setTitle("Error");
+		    alert.getDialogPane().setPrefSize(500, 300);
+		    alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+		    ImageView icon = new ImageView(new Image("file:imagenes/alerta.png"));
+		    icon.setFitWidth(100);
+		    icon.setPreserveRatio(true);
+
+		    Label msg = new Label(e1.getMessage());
+		    msg.setWrapText(true);
+		    msg.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+
+		    VBox content = new VBox(15, icon, msg);
+		    content.setAlignment(Pos.CENTER);
+		    content.setPadding(new Insets(20));
+		    alert.getDialogPane().setContent(content);
+
+		    ButtonType botoAcceptar = new ButtonType("Acceptar", ButtonBar.ButtonData.OK_DONE);
+		    alert.getButtonTypes().setAll(botoAcceptar);
+
+		    Button botonAceptar = (Button) alert.getDialogPane().lookupButton(botoAcceptar);
+		    botonAceptar.setStyle("-fx-background-color: #f44336; -fx-text-fill: #e8e8e8; -fx-font-weight: bold;");
+		    botonAceptar.setCursor(Cursor.HAND);
+
+		    alert.showAndWait();
 		}
 	}
 
@@ -194,6 +257,7 @@ public class PixelArtController implements Initializable {
 		stage.setOnCloseRequest(event -> {
 			MenuController.pixelartActivo=false;
 			
+			/*
 			Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
 			alerta.setTitle("Eixida");
 			// PREGUNTA SI TANCA LA FINESTRA
@@ -204,8 +268,40 @@ public class PixelArtController implements Initializable {
 			ButtonType botoCancelar = new ButtonType("Cancelar");
 
 			alerta.getButtonTypes().setAll(botoEixir, botoCancelar);
+			*/
+			
+			Alert alerta = new Alert(Alert.AlertType.NONE);
+		    alerta.setTitle("Eixida");
+		    alerta.getDialogPane().setPrefSize(500, 300);
+		    alerta.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-			Optional<ButtonType> resultat = alerta.showAndWait();
+		    ImageView icon = new ImageView(new Image("file:imagenes/alerta.png"));
+		    icon.setFitWidth(100);
+		    icon.setPreserveRatio(true);
+
+		    Label msg = new Label("Estas segur de que vols tancar el PixelArt? Es pedrà tot allò que no s'haja guardat");
+		    msg.setWrapText(true);
+		    msg.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+
+		    VBox content = new VBox(15, icon, msg);
+		    content.setAlignment(Pos.CENTER);
+		    content.setPadding(new Insets(20));
+		    alerta.getDialogPane().setContent(content);
+
+		    ButtonType botoEixir = new ButtonType("Eixir", ButtonBar.ButtonData.YES);
+		    ButtonType botoCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+		    alerta.getButtonTypes().setAll(botoEixir, botoCancelar);
+
+		    Button botonEixir = (Button) alerta.getDialogPane().lookupButton(botoEixir);
+		    botonEixir.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8; -fx-font-weight: bold;");
+		    botonEixir.setCursor(Cursor.HAND);
+
+		    Button botonCancelar = (Button) alerta.getDialogPane().lookupButton(botoCancelar);
+		    botonCancelar.setStyle("-fx-background-color: #f44336; -fx-text-fill: #e8e8e8; -fx-font-weight: bold;");
+		    botonCancelar.setCursor(Cursor.HAND);
+
+		    Optional<ButtonType> resultat = alerta.showAndWait();
+
 
 			if (resultat.isPresent()) {
 				if (resultat.get() == botoEixir) {
@@ -263,13 +359,40 @@ public class PixelArtController implements Initializable {
 
 			s.close();
 			c.close();
-
+			/*
 			Alert alerta = new Alert(Alert.AlertType.INFORMATION);
 			alerta.setTitle("Avis");
 			alerta.setHeaderText(null);
 			alerta.setContentText("Dibuix guardat satisfactoriament");
 			alerta.showAndWait();
+			*/
+			
+			Alert alerta = new Alert(Alert.AlertType.NONE);
+			alerta.setTitle("Avis");
+			alerta.getDialogPane().setPrefSize(500, 300);
+			alerta.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
+			ImageView icon = new ImageView(new Image("file:imagenes/alerta.png"));
+			icon.setFitWidth(100);
+			icon.setPreserveRatio(true);
+
+			Label msg = new Label("Dibuix guardat satisfactoriament");
+			msg.setWrapText(true);
+			msg.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+
+			VBox content = new VBox(15, icon, msg);
+			content.setAlignment(Pos.CENTER);
+			content.setPadding(new Insets(20));
+			alerta.getDialogPane().setContent(content);
+
+			ButtonType botoAcceptar = new ButtonType("Acceptar", ButtonBar.ButtonData.OK_DONE);
+			alerta.getButtonTypes().setAll(botoAcceptar);
+
+			Button botonAceptar = (Button) alerta.getDialogPane().lookupButton(botoAcceptar);
+			botonAceptar.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8; -fx-font-weight: bold;");
+			botonAceptar.setCursor(Cursor.HAND);
+
+			alerta.showAndWait();
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -280,7 +403,7 @@ public class PixelArtController implements Initializable {
 	public void tornarInici() {
 		
 		pantallaInici.setOnMouseClicked(event -> {
-			
+			/*
 			Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
 			alerta.setTitle("Eixida");
 			// AÇÒ FA EL MATEIX QUE EL BOTÓ DE GUARDAR, PERÒ DESPRES TANCA LA FINESTRA
@@ -296,10 +419,47 @@ public class PixelArtController implements Initializable {
 			// UNA ESPECIA DE ARRAYLIST DELS BOTONS QUE HI HA EN EL POPUP
 			// DEPENENT DEL RESULTAT FA UNA COSA
 			Optional<ButtonType> resultat = alerta.showAndWait();
+			*/
+			
+			Alert alertaTornar = new Alert(Alert.AlertType.NONE);
+			alertaTornar.setTitle("Eixida");
+			alertaTornar.getDialogPane().setPrefSize(500, 300);
+			alertaTornar.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-			if (resultat.isPresent()) {
-				MenuController.pixelartActivo=false;
-				if (resultat.get() == botoGuardar) {
+			ImageView iconTornar = new ImageView(new Image("file:imagenes/alerta.png"));
+			iconTornar.setFitWidth(100);
+			iconTornar.setPreserveRatio(true);
+
+			Label msgTornar = new Label("Vols guardar abans d'eixir?");
+			msgTornar.setWrapText(true);
+			msgTornar.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
+
+			VBox contentTornar = new VBox(15, iconTornar, msgTornar);
+			contentTornar.setAlignment(Pos.CENTER);
+			contentTornar.setPadding(new Insets(20));
+			alertaTornar.getDialogPane().setContent(contentTornar);
+
+			ButtonType botoGuardar = new ButtonType("Guardar", ButtonBar.ButtonData.YES);
+			ButtonType botoEixir = new ButtonType("Eixir", ButtonBar.ButtonData.NO);
+			ButtonType botoCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+			alertaTornar.getButtonTypes().setAll(botoGuardar, botoEixir, botoCancelar);
+
+			((Button) alertaTornar.getDialogPane().lookupButton(botoGuardar)).setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8; -fx-font-weight: bold;");
+			((Button) alertaTornar.getDialogPane().lookupButton(botoGuardar)).setCursor(Cursor.HAND);
+			((Button) alertaTornar.getDialogPane().lookupButton(botoEixir)).setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8; -fx-font-weight: bold;");
+			((Button) alertaTornar.getDialogPane().lookupButton(botoEixir)).setCursor(Cursor.HAND);
+			((Button) alertaTornar.getDialogPane().lookupButton(botoCancelar)).setStyle("-fx-background-color: #f44336; -fx-text-fill: #e8e8e8; -fx-font-weight: bold;");
+			((Button) alertaTornar.getDialogPane().lookupButton(botoCancelar)).setCursor(Cursor.HAND);
+
+			Optional<ButtonType> resultatTornar = alertaTornar.showAndWait();
+			
+			if (resultatTornar.isPresent()) {
+			    MenuController.pixelartActivo = false;
+			    if (resultatTornar.get() == botoGuardar) {
+			
+//			if (resultat.isPresent()) {
+//				MenuController.pixelartActivo=false;
+//				if (resultat.get() == botoGuardar) {
 					// SERIALITZA Y TANCA
 					guardarBDD(null);
 					try {
@@ -324,7 +484,8 @@ public class PixelArtController implements Initializable {
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-				} else if (resultat.get() == botoEixir) {
+			    } else if (resultatTornar.get() == botoEixir) {	
+//				} else if (resultat.get() == botoEixir) {
 					MenuController.pixelartActivo=false;
 					try {
 						Stage ventanaActual = (Stage) root.getScene().getWindow();

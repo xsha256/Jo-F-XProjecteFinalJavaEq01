@@ -1,5 +1,19 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Random;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +30,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -23,20 +38,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
 
 public class WordleController implements Initializable {
 
@@ -283,8 +284,9 @@ public class WordleController implements Initializable {
 		if ((fila == 5 && columnaActual == 4) && !encertada) {// si estem en la fila 5 i no la ha acertat
 
 			try {
-
+				
 				Alert alert = new Alert(AlertType.NONE);
+				
 				alert.setTitle("Incorrecte");
 				// alert.setHeaderText("INCORRECTE"); // text al costat de la icona
 				alert.getDialogPane().setPrefSize(550, 500);
@@ -317,7 +319,10 @@ public class WordleController implements Initializable {
 				Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
 				okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
 				okButton.getStyleClass().add("boton-hover");
+				
+				
 				alert.getDialogPane().getStyleClass().add("alertError");
+				
 				// tornar a la pantalla de inici
 				Optional<ButtonType> result = alert.showAndWait();
 
@@ -372,13 +377,34 @@ public class WordleController implements Initializable {
 				msg.setMaxWidth(500);
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
-
+				System.out.println();
+				System.out.println();
+				System.out.println("-------------------");
+				System.out.println(estadistica());
 				Label est = new Label();
 				est.setText(estadistica());
 				est.setWrapText(true);
 				est.setMaxWidth(460);
-				est.setMaxHeight(300);
+				est.setMaxHeight(600);
+				est.setStyle("-fx-text-fill:white;");
 				est.getStyleClass().add("msgAlertError");
+				
+//				TextArea est = new TextArea(estadistica());
+//				est.setWrapText(true);
+//				est.setEditable(false); // que no se pueda modificar
+//				est.setMaxWidth(460);
+//				est.setMaxHeight(600);
+//				est.setStyle(
+//					    "-fx-control-inner-background: #0d262e;" +  /* fondo oscuro como el resto del juego */
+//					    "-fx-font-size: 14px;" +
+//					    "-fx-text-fill: white;" +
+//					    "-fx-border-color: transparent;" +
+//					    "-fx-background-insets: 0;" +
+//					    "-fx-focus-color: transparent;" +
+//					    "-fx-faint-focus-color: transparent;" +
+//					    "-fx-highlight-fill: #2a7963;" +  /* color de selección de texto */
+//					    "-fx-highlight-text-fill: white;" /* color del texto seleccionado */
+//					);
 
 				VBox content = new VBox(15, msg, est);
 				content.setAlignment(Pos.CENTER);
@@ -389,7 +415,7 @@ public class WordleController implements Initializable {
 				alert.getDialogPane().getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
 				Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
-				okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: #e8e8e8;");
+				okButton.setStyle("-fx-background-color: #2a7963; -fx-text-fill: white;");
 				okButton.getStyleClass().add("boton-hover");
 				alert.getDialogPane().getStyleClass().add("alertError");
 
@@ -449,7 +475,7 @@ public class WordleController implements Initializable {
 		String paraulaAleatoria = "";
 		ArrayList<String> paraules = new ArrayList<String>();
 		ArrayList<String> paraulesUtilitzades = new ArrayList<String>();
-
+		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("paraules.txt"));// llig el fitxer
 			String linea = "";
@@ -474,6 +500,7 @@ public class WordleController implements Initializable {
 
 			int index = aleatori.nextInt(0, 300);
 			paraulaAleatoria = paraules.get(index);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -481,7 +508,7 @@ public class WordleController implements Initializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println("La palabra para el wordle es: "+paraulaAleatoria);
 		return paraulaAleatoria;
 
 	}
