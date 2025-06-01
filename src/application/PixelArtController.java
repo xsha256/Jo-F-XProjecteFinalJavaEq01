@@ -92,7 +92,7 @@ public class PixelArtController implements Initializable {
 				label.setOnMouseClicked(e -> {
 					if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
 						casellaModel.setColor(colorString(color.getValue())); // actualitza model
-						label.setStyle("-fx-background-color:" + color + ";");
+						label.setStyle("-fx-background-color:" + colorString(color.getValue()) + ";");
 					} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
 						String colorBuit = ((fila + col) % 2 == 0) ? "#ffffff" : "#cccccc";
 						casellaModel.setColor(colorBuit);
@@ -104,7 +104,7 @@ public class PixelArtController implements Initializable {
 					label.startFullDrag();
 					if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
 						casellaModel.setColor(colorString(color.getValue()));
-						label.setStyle("-fx-background-color:" + color + ";");
+						label.setStyle("-fx-background-color:" + colorString(color.getValue()) + ";");
 					} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
 						String colorBuit = ((fila + col) % 2 == 0) ? "#ffffff" : "#cccccc";
 						casellaModel.setColor(colorBuit);
@@ -115,7 +115,7 @@ public class PixelArtController implements Initializable {
 				label.setOnMouseDragEntered(e -> {
 					if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
 						casellaModel.setColor(colorString(color.getValue()));
-						label.setStyle("-fx-background-color:" + color + ";");
+						label.setStyle("-fx-background-color:" + colorString(color.getValue()) + ";");
 					} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
 
 						String colorBuit = ((fila + col) % 2 == 0) ? "#ffffff" : "#cccccc";
