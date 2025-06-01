@@ -304,12 +304,14 @@ public class WordleController implements Initializable {
 				palabraCorrecta.setStyle("-fx-fill: red; -fx-font-weight: bold;");
 				TextFlow msg = new TextFlow(texto1, palabraCorrecta);
 				msg.setTextAlignment(TextAlignment.CENTER);
+
 				Label est = new Label();
 				est.setText(estadistica());
 				est.setWrapText(true);
 				est.getStyleClass().add("msgAlertError");
 				est.setTextAlignment(TextAlignment.CENTER);
 				est.setAlignment(Pos.CENTER);
+
 				VBox content = new VBox(15, alertView, msg, est);
 				content.setAlignment(Pos.CENTER);
 				content.setPadding(new Insets(20));
@@ -349,6 +351,7 @@ public class WordleController implements Initializable {
 					}
 				}
 
+
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
 				System.out.println(er.getLocalizedMessage());
@@ -361,6 +364,7 @@ public class WordleController implements Initializable {
 			encertats++;
 			InsertarBBDD();
 			estadistica();
+
 			try {
 
 				Alert alert = new Alert(AlertType.NONE);
@@ -371,6 +375,7 @@ public class WordleController implements Initializable {
 				alertView.setFitWidth(150);
 				alertView.setPreserveRatio(true);
 				Label msg = new Label("Correcte:\n\nENHORABONA HAS ENDEVINAT LA PARAULA!!!");
+
 				msg.setWrapText(true);
 				msg.getStyleClass().add("msgAlertError");
 				msg.setTextAlignment(TextAlignment.CENTER);
@@ -435,6 +440,7 @@ public class WordleController implements Initializable {
 						e.printStackTrace();
 					}
 				}
+
 
 			} catch (Exception er) {
 				System.out.println("Error: " + er);
@@ -686,6 +692,7 @@ public class WordleController implements Initializable {
 				// no esta en bd
 				vegades = rs.getInt("comptar");
 
+
 			}
 			String consultaSelectGuanyats = "SELECT COUNT(?) AS comptarGuanyats FROM wordle WHERE encertats = ? GROUP BY (?)";
 			PreparedStatement psSelectGuanyats = c.prepareStatement(consultaSelectGuanyats);
@@ -699,6 +706,7 @@ public class WordleController implements Initializable {
 				guanyats = rsGuanyats.getInt("comptarGuanyats");
 
 			}
+
 
 		} catch (SQLException e) {
 			System.out.println("Error: " + e.getMessage());
@@ -767,6 +775,7 @@ public class WordleController implements Initializable {
 
 		System.out.println(resultat.toString());
 		
+
 
 
 		return resultat.toString();
