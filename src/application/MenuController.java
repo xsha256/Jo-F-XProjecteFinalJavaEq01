@@ -73,6 +73,9 @@ public class MenuController implements Initializable {
 	//instancia de pixelart para poder guardar
 	public static PixelArtController controladorPixelArt = null;
 	
+	//instancia que se usará para poder guardar al cerrar menucontroller
+	public static BuscaMinasController controladorBuscaMinas;
+	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
 	this.emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
@@ -244,7 +247,7 @@ public class MenuController implements Initializable {
 	//metodo para cerrar sesión
 	public void actionLogout(ActionEvent e) {
 		tancarSesioApretado=true;
-		
+		//comprobar si el pixelart esta activo y preguntar para guardar
 		if (pixelartActivo) {
 			Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
 			alerta.setTitle("Eixida");
@@ -269,7 +272,22 @@ public class MenuController implements Initializable {
 				}
 			}
 		}
+		//---------------------------------------------------------------------------------
 		
+		//comprobar si pescamines esta activo y preguntar para guardar
+		if (pescaminesActivo) {
+//		    FXMLLoader loader = new FXMLLoader(getClass().getResource("BuscaMinas.fxml"));
+		    try {
+		        // IMPORTANTE: NO uses load() solo para llamar a alerta.
+		        // Mejor usa la instancia real del controlador guardada cuando se abre el juego.
+		    	if (controladorBuscaMinas != null) {
+		    	    controladorBuscaMinas.alerta("Vols guardar la partida abans d'eixir?", "file:imagenes/alerta.png");
+		    	}
+		    } catch (Exception ex) {
+		        ex.printStackTrace();
+		    }
+		}
+		//-------------------------------------------------------------------------------
 		try {
 			
 			for (Stage s : new ArrayList<>(juegosAbiertos)) {

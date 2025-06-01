@@ -34,7 +34,7 @@ public class TamanyController implements Initializable{
 	// recoger idUsuario y guardarlo
 	private static int idUsuari = 0;
 	public static String emailMoha = LoginController.EMAIL;
-	
+
 	public void initialize(URL location, ResourceBundle resources) {
 		//funcion que cambia el estado de los booleans para poder duplicados abiertos del mismo juego
 		Platform.runLater(()->{
@@ -85,7 +85,9 @@ public class TamanyController implements Initializable{
 			try {
 				Stage ventanaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				ventanaActual.close();
-				VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("BuscaMinas.fxml"));
+				VBox root2 = loader.load(); 
+//				VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
 				String rutaFXML="BuscaMinas.fxml";
 				Scene escena2 = new Scene(root2);
 				escena2.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -95,6 +97,9 @@ public class TamanyController implements Initializable{
 				window.setTitle("Pescamines");
 				window.setMaximized(true);// lo abrimos en maximizado
 				window.show();
+				
+				// Guardamos el controlador para usarlo después
+				MenuController.controladorBuscaMinas = loader.getController();
 				
 				//añadir los juegos abiertos
 		        MenuController.juegosAbiertos.add(window);
