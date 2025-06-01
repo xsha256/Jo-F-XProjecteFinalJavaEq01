@@ -221,6 +221,11 @@ public class PixelArtController implements Initializable {
 
 	// SERIALITZA I GUARDA A LA BDD
 	public void guardarBDD(ActionEvent e) {
+		if (taulellCaselles == null) {
+			System.err.println("⚠ No es pot guardar. taulellCaselles = null");
+			return;
+		}
+
 		try {
 
 			// SERIALITZACIO

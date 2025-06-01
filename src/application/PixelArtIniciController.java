@@ -26,7 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class PixelArtIniciController implements Initializable {
-
+	
 	@FXML
 	private VBox root;
 	@FXML
@@ -125,6 +125,8 @@ public class PixelArtIniciController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("PixelArtFXML.fxml"));
 			Parent root = loader.load();
 			PixelArtController controlador = loader.getController();
+			
+			MenuController.controladorPixelArt = controlador;//lo necesita yordan para guardar!! no borrar
 
 			Scene escena2 = new Scene(root);
 			Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -187,6 +189,8 @@ public class PixelArtIniciController implements Initializable {
 				Parent root = loader.load();
 
 				PixelArtController controlador = loader.getController();
+				MenuController.controladorPixelArt = controlador;//lo necesita yordan para guardar!
+
 				controlador.carregarTaulellUltimaSessio(taulellDesat);
 
 				Scene escena = new Scene(root);

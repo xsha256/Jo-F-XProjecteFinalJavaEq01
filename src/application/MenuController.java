@@ -70,6 +70,9 @@ public class MenuController implements Initializable {
 	//hashmap para no poder abrir el mismo juego a la vez
 	public static Map<String, Stage> juegosPorNombre = new HashMap<>();
 	
+	//instancia de pixelart para poder guardar
+	public static PixelArtController controladorPixelArt = null;
+	
 	//metodo que hace que se inicie 
 	public void initialize(URL location, ResourceBundle resources) {
 	this.emailUsuario=LoginController.EMAIL; //poner nombre archivo.nombreVariable del login de Moha;
@@ -84,10 +87,9 @@ public class MenuController implements Initializable {
 				
 				if(pixelartActivo) {
 					System.out.println("Dentro del if menucontroller pixelart");
-					//-----------------------------------------------------------------------------------------
+
 					Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
 					alerta.setTitle("Eixida");
-					// AÇÒ FA EL MATEIX QUE EL BOTÓ DE GUARDAR, PERÒ DESPRES TANCA LA FINESTRA
 					alerta.setHeaderText("Vols guardar abans d'eixir?");
 					alerta.setContentText("Selecciona una opció:");
 
@@ -97,31 +99,24 @@ public class MenuController implements Initializable {
 
 					alerta.getButtonTypes().setAll(botoGuardar, botoEixir, botoCancelar);
 
-					// UNA ESPECIA DE ARRAYLIST DELS BOTONS QUE HI HA EN EL POPUP
-					// DEPENENT DEL RESULTAT FA UNA COSA
 					Optional<ButtonType> resultat = alerta.showAndWait();
-					PixelArtController pixel= new PixelArtController();
-					
+
 					if (resultat.isPresent()) {
 						if (resultat.get() == botoGuardar) {
-							// SERIALITZA Y TANCA
-							pixel.guardarBDD(null);
-						} else if (resultat.get() == botoEixir) {
-							
-							MenuController.pixelartActivo=false;
-//							Stage ventanaActual = (Stage) root.getScene().getWindow();
-//							ventanaActual.close();
-						} else {
-//							event.consume();
+							if (controladorPixelArt != null) {
+								controladorPixelArt.guardarBDD(null);
+							} else {
+								System.err.println("⚠ No hi ha cap controladorPixelArt carregat.");
+							}
 						}
-					} else {
-//						event.consume();
 					}
+				}
+
 					
 					
 					//------------------------------------------------------------------------------------------
 					
-		        }
+		        
 				System.out.println("fuera del if menucontroller pixelart");
 				for (Stage s : new ArrayList<>(juegosAbiertos)) {
 			        s.close();
@@ -249,6 +244,32 @@ public class MenuController implements Initializable {
 	//metodo para cerrar sesión
 	public void actionLogout(ActionEvent e) {
 		tancarSesioApretado=true;
+		
+		if (pixelartActivo) {
+			Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+			alerta.setTitle("Eixida");
+			alerta.setHeaderText("Vols guardar abans de tancar sessió?");
+			alerta.setContentText("Selecciona una opció:");
+
+			ButtonType botoGuardar = new ButtonType("Guardar");
+			ButtonType botoEixir = new ButtonType("Tancar sense guardar");
+			ButtonType botoCancelar = new ButtonType("Cancelar");
+
+			alerta.getButtonTypes().setAll(botoGuardar, botoEixir, botoCancelar);
+
+			Optional<ButtonType> resultat = alerta.showAndWait();
+
+			if (resultat.isPresent()) {
+				if (resultat.get() == botoGuardar) {
+					if (controladorPixelArt != null) {
+						controladorPixelArt.guardarBDD(null);
+					}
+				} else if (resultat.get() == botoCancelar) {
+					return; // CANCELA el logout
+				}
+			}
+		}
+		
 		try {
 			
 			for (Stage s : new ArrayList<>(juegosAbiertos)) {
