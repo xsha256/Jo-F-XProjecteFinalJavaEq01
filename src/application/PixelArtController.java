@@ -190,8 +190,9 @@ public class PixelArtController implements Initializable {
 	// SEGUR
 	// NO GUARDA EL DIBUIX ACTUAL, SOLAMENT AVISA AL USUARI
 	public void tancarPixelArt(Stage stage) {
+		
 		stage.setOnCloseRequest(event -> {
-
+			MenuController.pixelartActivo=false;
 			Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
 			alerta.setTitle("Eixida");
 			// PREGUNTA SI TANCA LA FINESTRA
@@ -219,8 +220,6 @@ public class PixelArtController implements Initializable {
 
 	// SERIALITZA I GUARDA A LA BDD
 	public void guardarBDD(ActionEvent e) {
-		MenuController.pixelartActivo=false;
-		MenuController.desatspixelartActivo=true;
 		try {
 
 			// SERIALITZACIO
@@ -274,7 +273,6 @@ public class PixelArtController implements Initializable {
 	// PREGUNTA ABANS SI VOL GUARDAR
 	public void tornarInici() {
 		MenuController.pixelartActivo=false;
-		MenuController.desatspixelartActivo=false;
 		
 		pantallaInici.setOnMouseClicked(event -> {
 

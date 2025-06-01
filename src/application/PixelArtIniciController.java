@@ -135,9 +135,6 @@ public class PixelArtIniciController implements Initializable {
 
 	// DESERIALITZA I CARREGA EL ULTIM PANELL
 	public void desats() {
-		MenuController.midapixelartActivo=false;
-		MenuController.desatspixelartActivo=true;
-		
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement psEliminar = null;
