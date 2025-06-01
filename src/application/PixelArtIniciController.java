@@ -65,7 +65,8 @@ public class PixelArtIniciController implements Initializable {
 	// FA UN RECULL DE LES DADES PASSADES PER SETTEXT, LES COMPROVA I CREA EL NOU
 	// PANELL COMPROVAR QUE NO POSA TEXT, SI POSA TEXT 32X32 PREDEFINIT
 	public void jugar(ActionEvent e) {
-
+		MenuController.midapixelartActivo=false;
+		MenuController.pixelartActivo=true;
 		try {
 
 			boolean valorsValids = comprovarEntrada(amplada.getText(), altura.getText());
@@ -126,7 +127,7 @@ public class PixelArtIniciController implements Initializable {
 
 	// TANCA LA FINESTRA I TORNA A LA PANTALLA DE SELECCIO DE JOC
 	public void enrere() {
-
+		MenuController.midapixelartActivo=false;
 		Stage stage = (Stage) botoEnrere.getScene().getWindow();
 		stage.close();
 
@@ -134,6 +135,9 @@ public class PixelArtIniciController implements Initializable {
 
 	// DESERIALITZA I CARREGA EL ULTIM PANELL
 	public void desats() {
+		MenuController.midapixelartActivo=false;
+		MenuController.desatspixelartActivo=true;
+		
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement psEliminar = null;
@@ -248,13 +252,14 @@ public class PixelArtIniciController implements Initializable {
 				MenuController.midapixelartActivo=true;
 				System.out.println("La ventana mida-pixelart esta activa. Boolean: "+MenuController.midapixelartActivo);
 				System.out.println("BooleaJoc: "+MenuController.pixelartActivo);
+				System.out.println("BooleaDesats: "+MenuController.desatspixelartActivo);
 				
 			}
 			ventanaActual.setOnHidden(evt ->{
 				MenuController.midapixelartActivo=false;
 				System.out.println("La ventana mida-pixelart se cerró. Boolean: "+MenuController.midapixelartActivo);
 				System.out.println("BooleanJoc: "+MenuController.pixelartActivo);
-				
+				System.out.println("BooleaDesats: "+MenuController.desatspixelartActivo);
 			});
 		});
 		

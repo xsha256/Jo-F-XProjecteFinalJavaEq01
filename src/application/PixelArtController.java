@@ -219,6 +219,8 @@ public class PixelArtController implements Initializable {
 
 	// SERIALITZA I GUARDA A LA BDD
 	public void guardarBDD(ActionEvent e) {
+		MenuController.pixelartActivo=false;
+		MenuController.desatspixelartActivo=true;
 		try {
 
 			// SERIALITZACIO
@@ -271,6 +273,9 @@ public class PixelArtController implements Initializable {
 	// TORNA A LA PANTALLA DE SELECCIÓ DE MIDA
 	// PREGUNTA ABANS SI VOL GUARDAR
 	public void tornarInici() {
+		MenuController.pixelartActivo=false;
+		MenuController.desatspixelartActivo=false;
+		
 		pantallaInici.setOnMouseClicked(event -> {
 
 			Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
@@ -416,13 +421,13 @@ public class PixelArtController implements Initializable {
 				MenuController.pixelartActivo=true;
 				System.out.println("El juego Pixelart esta activo. Boolean: "+MenuController.pixelartActivo);
 				System.out.println("BooleanMida: "+MenuController.midapixelartActivo);
-				
+				System.out.println("BooleaDesats: "+MenuController.desatspixelartActivo);
 			}
 			ventanaActual.setOnHidden(evt ->{
 				MenuController.pixelartActivo=false;
 				System.out.println("El juego Pixelart se cerró. Boolean: "+MenuController.pixelartActivo);
 				System.out.println("BooleanMida: "+MenuController.midapixelartActivo);
-				
+				System.out.println("BooleaDesats: "+MenuController.desatspixelartActivo);
 			});
 		});
 		

@@ -93,6 +93,7 @@ public class MenuController implements Initializable {
 			    	
 			    	pixelartActivo=false;
 			    	midapixelartActivo=false;
+			    	desatspixelartActivo=false;
 			    	
 			    	wordleActivo=false;
 			    	infowordleActivo=false;
@@ -219,6 +220,7 @@ public class MenuController implements Initializable {
 		    	
 		    	pixelartActivo=false;
 		    	midapixelartActivo=false;
+		    	desatspixelartActivo=false;
 		    	
 		    	wordleActivo=false;
 		    	infowordleActivo=false;
@@ -315,6 +317,8 @@ public class MenuController implements Initializable {
 	
 	public static boolean pixelartActivo=false;
 	public static boolean midapixelartActivo=false;
+	public static boolean desatspixelartActivo=false;
+	
 	
 	public static boolean wordleActivo=false;
 	public static boolean infowordleActivo=false;
