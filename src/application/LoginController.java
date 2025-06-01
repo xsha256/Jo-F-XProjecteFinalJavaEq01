@@ -1,5 +1,6 @@
 package application;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -114,7 +115,6 @@ public class LoginController implements Initializable {
 
 				window.setScene(nuevaEscena);
 		        window.setMaximized(true);//abrimos maximizado
-
 				window.show();
 
 			} catch (IOException ex) {
@@ -285,7 +285,11 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) enter.getScene().getWindow();
+	        ventanaActual.setResizable(false);
+		});
+		
 		correutxt.setPromptText(promptCorreu);
 		correutxt.focusedProperty().addListener((obs, oldVal, newVal) -> {
 			if (newVal) {

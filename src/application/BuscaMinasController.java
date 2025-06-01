@@ -449,13 +449,18 @@ public class BuscaMinasController implements Initializable {
 	public void reiniciar() {
 
 		try {
+			
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+			ventanaActual.close();
+			
 			VBox root2 = FXMLLoader.load(getClass().getResource("BuscaMinas.fxml"));
 			Scene escena2 = new Scene(root2);
 			String rutaFXML = "BuscaMinas.fxml";
-			Stage window = (Stage) root.getScene().getWindow();
+			Stage window = (Stage) ventanaActual.getScene().getWindow();//(Stage) root.getScene().getWindow();
 			window.setScene(escena2);
 			window.setTitle("Joc de la Vida");
 			window.setMaximized(true);
+			
 			window.show();
 			// añadir los juegos abiertos
 			MenuController.juegosAbiertos.add(window);

@@ -1,5 +1,17 @@
 package application;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ResourceBundle;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,20 +27,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ResourceBundle;
 
 public class RegistreController implements Initializable {
 	@FXML
@@ -67,9 +69,10 @@ public class RegistreController implements Initializable {
 	private Hyperlink accedirURL;
 	@FXML
 	private Button registreBoton;
-
+	
 	private Stage stage;
-
+	@FXML private HBox root;
+	
 	private final String promptNom = "Nom*";
 	private final String promptCognoms = "Cognoms*";
 	private final String promptCorreu = "Correu electrònic*";
@@ -282,7 +285,11 @@ public class RegistreController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+	        ventanaActual.setResizable(false);
+		});
+		
 		nomtxt.setPromptText(promptNom);
 		nomtxt.focusedProperty().addListener((obs, oldVal, newVal) -> {
 			if (newVal) {
