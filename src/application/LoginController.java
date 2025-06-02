@@ -37,7 +37,6 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-
 	public static String EMAIL = "";
 	@FXML
 	private Label labelCorreu;
@@ -114,7 +113,7 @@ public class LoginController implements Initializable {
 				Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
 				window.setScene(nuevaEscena);
-		        window.setMaximized(true);//abrimos maximizado
+				window.setMaximized(true);
 				window.show();
 
 			} catch (IOException ex) {
@@ -144,8 +143,6 @@ public class LoginController implements Initializable {
 
 		try {
 
-
-			
 			Connection c = ConexionBBDD.conectar();
 			String sentencia = "SELECT email FROM usuari WHERE email = ?";
 			PreparedStatement s = c.prepareStatement(sentencia);
@@ -158,17 +155,20 @@ public class LoginController implements Initializable {
 			}
 			if (valid) {
 
-  				c = ConexionBBDD.conectar();
-
-				sentencia = "SELECT contrasenya FROM usuari WHERE email = ?";
+				c = ConexionBBDD.conectar();
+				String contrasenyaBd = "";
+				String saltBd = "";
+				sentencia = "SELECT contrasenya, salt FROM usuari WHERE email = ?";
 				s = c.prepareStatement(sentencia);
 				s.setString(1, email);
 				r = s.executeQuery();
 				while (r.next()) {
-					valid = verificarContrasenya(r.getString("contrasenya"), contrasenya);
+					contrasenyaBd= r.getString("contrasenya");
+					saltBd = r.getString("salt");
+					valid = verificarContrasenya(contrasenyaBd, contrasenya, saltBd);
 				}
 			} else {
-				alerta("No tens compte!🕹️", 1, e,"file:imagenes/errorRegistre.png", "login");
+				alerta("No tens compte!🕹️", 1, e, "file:imagenes/errorRegistre.png", "login");
 
 			}
 		}
@@ -179,22 +179,22 @@ public class LoginController implements Initializable {
 		return valid;
 	}
 
-	public boolean verificarContrasenya(String hashBBDD, String contrasenya) {
+	public boolean verificarContrasenya(String hashBBDD, String contrasenya, String salt) {
 		boolean contrasenyaCorrecta = false;
 		String hashContrasenya;
 		// hashBBDD =
 		// "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3";
 		// contrasenya="123";
-		System.out.println(hashBBDD);
-		System.out.println(contrasenya);
+
 		try {
-			hashContrasenya = RegistreController.hashContrasenya(contrasenya);
+
+			hashContrasenya = RegistreController.hashContrasenya(contrasenya, salt);
 
 			if (hashContrasenya.equals(hashBBDD)) {
 				System.out.println("Login correcto");
 				contrasenyaCorrecta = true;
 			} else {
-				alerta("La contrasenya no es correcta️", 0, null,"file:imagenes/errorRegistre.png", "login");
+				alerta("La contrasenya no es correcta️", 0, null, "file:imagenes/errorRegistre.png", "login");
 
 			}
 		} catch (NoSuchAlgorithmException e1) {
@@ -204,7 +204,7 @@ public class LoginController implements Initializable {
 		return contrasenyaCorrecta;
 	}
 
-	public void alerta(String msgParam, int op, ActionEvent e, String fotoPath, String controller ) {
+	public void alerta(String msgParam, int op, ActionEvent e, String fotoPath, String controller) {
 		try {
 			Alert alert = new Alert(AlertType.NONE);
 			alert.setTitle("🚩 Error");
@@ -231,14 +231,14 @@ public class LoginController implements Initializable {
 				alert.getDialogPane().getStyleClass().add("alertError");
 				alert.showAndWait();
 			} else {
-				
+
 				ButtonType login = new ButtonType("Login", ButtonBar.ButtonData.CANCEL_CLOSE);
 				ButtonType registrar = new ButtonType("Registrar", ButtonBar.ButtonData.OK_DONE);
-				if (controller == "registre") {	
-					 registrar = new ButtonType("Registrar", ButtonBar.ButtonData.CANCEL_CLOSE);
-					 login = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
+				if (controller == "registre") {
+					registrar = new ButtonType("Registrar", ButtonBar.ButtonData.CANCEL_CLOSE);
+					login = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
 				}
-				
+
 				alert.getDialogPane().getButtonTypes().addAll(registrar, login);
 
 				Button registrarButton = (Button) alert.getDialogPane().lookupButton(registrar);
@@ -268,7 +268,7 @@ public class LoginController implements Initializable {
 					contrasenyatxt.setStyle(
 							"-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 					System.out.println("Aqio bajo");
-				}else {
+				} else {
 					if (resultado.isPresent() && resultado.get() == login) {
 						RegistreController rcAccedirLogin = new RegistreController();
 						rcAccedirLogin.accedirLogin(e);
@@ -282,13 +282,12 @@ public class LoginController implements Initializable {
 		}
 	}
 
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Platform.runLater(()->{
+		Platform.runLater(() -> {
 			Stage ventanaActual = (Stage) enter.getScene().getWindow();
 		});
-		
+
 		correutxt.setPromptText(promptCorreu);
 		correutxt.focusedProperty().addListener((obs, oldVal, newVal) -> {
 			if (newVal) {

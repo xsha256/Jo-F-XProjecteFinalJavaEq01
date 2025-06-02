@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `usuari` (
     `imatge` LONGBLOB,
     `contrasenya` VARCHAR(100) NOT NULL,
     `poblacio` VARCHAR(50) NOT NULL,
+    `salt` VARCHAR(100) NOT NULL,
     PRIMARY KEY (`id`)
 );
 CREATE TABLE IF NOT EXISTS `pixelArt` (
@@ -45,5 +46,3 @@ CREATE TABLE IF NOT EXISTS `paraulesFetes` (
     PRIMARY KEY (`id`),
     fOREIGN KEY (`idWordle`) REFERENCES `wordle`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-DROP TABLE paraulesFetes; 

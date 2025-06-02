@@ -1,16 +1,5 @@
 package application;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +20,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Base64;
+import java.util.ResourceBundle;
 
 public class RegistreController implements Initializable {
 	@FXML
@@ -69,15 +71,16 @@ public class RegistreController implements Initializable {
 	private Hyperlink accedirURL;
 	@FXML
 	private Button registreBoton;
-	
+
 	private Stage stage;
-	@FXML private HBox root;
-	
+	@FXML
+	private HBox root;
+
 	private final String promptNom = "Nom*";
 	private final String promptCognoms = "Cognoms*";
 	private final String promptCorreu = "Correu electrònic*";
 	private final String promptPoblacio = "Població*";
-	private final String promptContrasenya = "Contrasenya*";
+	private final String promptContrasenya = "Contrasenya (mínim 8 caràcters amb !,#,$,A-Z,a-z,0-9)*";
 	private final String promptConfContrasenya = "Confirmació de contrasenya*";
 
 	public void setStage(Stage stage) {
@@ -101,18 +104,22 @@ public class RegistreController implements Initializable {
 				if (verificarCampos(labelCorreu, correutxt, promptCorreu, "Correu no vàlid ex: email@emailcom", 1)) {
 					if (verificarCampos(labelPoblacio, poblaciotxt, promptPoblacio, "El poble és obligatori", 0)) {
 						if (contrasenyatxt.getText().trim() != ""
-								&& contrasenyatxt.getText().equals(confcontrasenyatxt.getText())) {
+								&& contrasenyatxt.getText().equals(confcontrasenyatxt.getText())
+								&& contrasenyatxt.getText().matches(
+										"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#\\.$!\\-_])[A-Za-z\\d@#$!\\-_]{8,16}$")) {
+
 							inserirBBDD(nomtxt.getText(), cognomstxt.getText(), correutxt.getText(),
 									poblaciotxt.getText(), contrasenyatxt.getText(), imginput.getText(), e);
 						} else {
-							labelContrasenya.setText("La contrasenya no es la mateixa");
+							labelContrasenya.setText("La contrasenya no es la mateixa o té menys de 8 caràcters");
 							labelContrasenya.setStyle("-fx-text-fill: red;");
-							labelConfContrasenya.setText("La contrasenya no es la mateixa");
+							labelConfContrasenya.setText("La contrasenya no es la mateixa o té menys de 8 caràcters");
 							labelConfContrasenya.setStyle("-fx-text-fill: red;");
-							contrasenyatxt.setPromptText("La contrasenya no es la mateixa");
+							contrasenyatxt.setPromptText("La contrasenya no es la mateixa o té menys de 8 caràcters");
 							contrasenyatxt.setStyle(
 									"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
-							confcontrasenyatxt.setPromptText("La contrasenya no es la mateixa");
+							confcontrasenyatxt
+									.setPromptText("La contrasenya no es la mateixa o té menys de 8 caràcters");
 							confcontrasenyatxt.setStyle(
 									"-fx-background-color: red; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
 						}
@@ -177,7 +184,6 @@ public class RegistreController implements Initializable {
 
 	public void netejar(ActionEvent e) {
 		nomtxt.setText("");
-		nomtxt.setText("");
 		cognomstxt.setText("");
 		correutxt.setText("");
 		poblaciotxt.setText("");
@@ -187,11 +193,26 @@ public class RegistreController implements Initializable {
 		cognomstxt.setPromptText("Cognoms*");
 		correutxt.setPromptText("Correu electrònic*");
 		poblaciotxt.setPromptText("Poblaciò*");
-		contrasenyatxt.setPromptText("Contrasenya*");
+		contrasenyatxt.setPromptText("Contrasenya (mínim 8 caràcters amb !,#,$,A-Z,a-z,0-9)*");
 		confcontrasenyatxt.setPromptText("Confirmació de contrasenya*");
 		Image imageShow = new Image("file:imagenes/imgdefault.jpg");
 		showPic.setImage(imageShow);
 		imginput.setText("Pujar imatge");
+		nomtxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+
+		labelNom.setStyle("-fx-prompt-text-fill: #e8e8e8");
+		cognomstxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+		labelCognoms.setStyle("-fx-prompt-text-fill: #e8e8e8");
+		correutxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+		labelCorreu.setStyle("-fx-prompt-text-fill: #e8e8e8");
+		poblaciotxt.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+		labelPoblacio.setStyle("-fx-prompt-text-fill: #e8e8e8");
+		contrasenyatxt
+				.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+		labelContrasenya.setStyle("-fx-prompt-text-fill: #e8e8e8");
+		confcontrasenyatxt
+				.setStyle("-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;");
+		labelConfContrasenya.setStyle("-fx-prompt-text-fill: #e8e8e8");
 
 	}
 
@@ -211,9 +232,12 @@ public class RegistreController implements Initializable {
 				System.out.println(img);
 				File imagen = new File(img);
 				FileInputStream fis = new FileInputStream(imagen);
-				String contrasenyaCifString = hashContrasenya(contrasenya);
+				System.out.println("PWD: " + contrasenya);
+				String salt = generarSalt();
+				System.out.println("salt: " + salt);
+				String contrasenyaCifString = hashContrasenya(contrasenya, salt);
 
-				String sentencia = "INSERT INTO usuari(nom, cognoms, email, imatge, contrasenya, poblacio) VALUES (?,?,?,?,?,?)";
+				String sentencia = "INSERT INTO usuari(nom, cognoms, email, imatge, contrasenya, poblacio, salt) VALUES (?,?,?,?,?,?,?)";
 				PreparedStatement s = c.prepareStatement(sentencia);
 				s.setString(1, nom);
 				s.setString(2, cognoms);
@@ -221,6 +245,7 @@ public class RegistreController implements Initializable {
 				s.setBinaryStream(4, fis);
 				s.setString(5, contrasenyaCifString);
 				s.setString(6, poblacio);
+				s.setString(7, salt);
 				System.out.println(s);
 				s.executeUpdate();
 				loginAlerta.alerta("El compte s'ha creat perfectament! 🎮", 0, e, "file:imagenes/creatUsuari.png",
@@ -245,7 +270,6 @@ public class RegistreController implements Initializable {
 			s.setString(1, email);
 			ResultSet r = s.executeQuery();
 			while (r.next()) {
-				System.out.println("dentro while");
 				if (r.getString("email").equals(email)) {
 					valid = false;
 				}
@@ -258,11 +282,17 @@ public class RegistreController implements Initializable {
 		return valid;
 	}
 
-	
-	//salt
-	public static String hashContrasenya(String password) throws NoSuchAlgorithmException {
+	public static String generarSalt() {
+		byte[] salt = new byte[16];
+		SecureRandom sr = new SecureRandom();
+		sr.nextBytes(salt);
+		return Base64.getEncoder().encodeToString(salt);
+	}
+
+	public static String hashContrasenya(String contrasenya, String salt) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
-		byte[] hashBytes = md.digest(password.getBytes());
+		String input = salt + contrasenya;
+		byte[] hashBytes = md.digest(input.getBytes());
 
 		StringBuilder sb = new StringBuilder();
 		for (byte b : hashBytes) {
@@ -288,11 +318,10 @@ public class RegistreController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		Platform.runLater(()->{
+		Platform.runLater(() -> {
 			Stage ventanaActual = (Stage) root.getScene().getWindow();
 		});
 
-		
 		nomtxt.setPromptText(promptNom);
 		nomtxt.focusedProperty().addListener((obs, oldVal, newVal) -> {
 			if (newVal) {

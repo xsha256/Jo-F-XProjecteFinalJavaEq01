@@ -65,7 +65,7 @@
 						<Insets bottom="5.0" />
 					</VBox.margin>
 				</TextField>
-				<Label fx:id="labelContrasenya" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Contrasenya*" visible="false" />
+				<Label fx:id="labelContrasenya" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Contrasenya (mínim 8 caràcters amb !,#,$,A-Z,a-z,0-9)*" visible="false" />
             <PasswordField fx:id="contrasenyatxt" prefHeight="28.0" promptText="Contrasenya" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;">
                <VBox.margin>
                   <Insets bottom="5.0" />
