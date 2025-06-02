@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="escena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.WordleLoginController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="157.0" prefWidth="600.0">
+         <children>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="165.0" prefWidth="468.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="178.0" text="WORDLE" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="40.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="428.0" text="Tens 6 oportunitats per encertar la paraula: " textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
+      </HBox>
+      <VBox alignment="CENTER" prefHeight="154.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF0D; -fx-background-radius: 10;">
+         <children>
+            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="600.0">
+               <children>
+                  <Label style="-fx-text-fill: #e4a81d;" text="Groc: ">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label contentDisplay="TOP" style="-fx-text-fill: #e8e8e8;" text="significa que la lletra està en una posició errònia">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="42.0" prefWidth="600.0">
+               <children>
+                  <Label style="-fx-text-fill: #43a047;" text="Verd: ">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label contentDisplay="TOP" text="significa que la lletra està en la posició correcta" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="27.0" prefWidth="600.0">
+               <children>
+                  <Label style="-fx-text-fill: lightgrey;" text="Gris: ">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label contentDisplay="TOP" style="-fx-text-fill: #e8e8e8;" text="significa que la lletra no és correcta, per tant, no està">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets top="15.0" />
+         </padding>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="163.0" prefWidth="600.0">
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+         <children>
+            <Button fx:id="botojugar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#jugar" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #2a7963; -fx-background-radius: 10;" styleClass="botonAjugar" text="A JUGAR!" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="botoenrere" mnemonicParsing="false" onAction="#enrere" prefHeight="20.0" prefWidth="100.0" style="-fx-background-radius: 10; -fx-background-color: #365057;" styleClass="botonEnrere" text="Enrere" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="50.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</VBox>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="root" alignment="CENTER" prefHeight="765.0" prefWidth="934.0" spacing="20.0" styleClass="fondoJocVida" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.JocVidaController">
+
+   <children>
+
+      <HBox alignment="CENTER" spacing="60.0">
+         <children>
+            <Text fx:id="textoGeneraciones" fill="WHITE" style="-fx-font-size: 16px;" text="Generació:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Text>
+            <Text fx:id="textoTotal" fill="WHITE" style="-fx-font-size: 16px;" text="Cèl·lules Totals:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Text>
+            <Text fx:id="textoVivas" fill="WHITE" style="-fx-font-size: 16px;" text="Cèl·lules Vives:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Text>
+            <Text fx:id="textoMuertas" fill="WHITE" style="-fx-font-size: 16px;" text="Cèl·lules Mortes:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Text>
+         </children>
+      </HBox>
+
+      <HBox alignment="CENTER" spacing="30.0">
+         <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+         </padding>
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
+               <children>
+                  <Circle fill="green" radius="6.0" stroke="BLACK" />
+                  <Text fill="WHITE" text="Cèl·lules Vives">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
+               <children>
+                  <Circle fill="lightgreen" radius="6.0" stroke="BLACK" />
+                  <Text fill="WHITE" text="Cèl·lules Acabades de Néixer">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
+               <children>
+                  <Circle fill="white" radius="6.0" stroke="BLACK" />
+                  <Text fill="WHITE" text="Cèl·lules Mortes">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
+               <children>
+                  <Circle fill="gray" radius="6.0" stroke="BLACK" />
+                  <Text fill="WHITE" text="Cèl·lules Acabades de Morir">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Text>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+
+      <GridPane fx:id="gridPane" alignment="CENTER" gridLinesVisible="true" prefHeight="400.0" prefWidth="400.0" />
+
+      <HBox alignment="CENTER" spacing="200.0">
+         <children>
+
+            <HBox alignment="CENTER" spacing="40.0">
+               <children>
+                  <Button fx:id="botonPausa" onAction="#pausar" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonesJocVida" stylesheets="@application.css" text="Pausar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
+                  <Button fx:id="botonReanudar" onAction="#reanudar" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonesJocVida" stylesheets="@application.css" text="Reanudar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
+                  <Button fx:id="botonStop" onAction="#acabar" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonesJocVida" stylesheets="@application.css" text="Tornar a elegir Grandària" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
+                  <Button fx:id="botonReiniciar" onAction="#reiniciar" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonesJocVida" stylesheets="@application.css" text="Reiniciar" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+
+            <HBox alignment="CENTER" spacing="40.0">
+               <children>
+                  <Button fx:id="botonX2" onAction="#x2" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonesJocVida" stylesheets="@application.css" text="&gt;&gt;2" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
+                  <Button fx:id="botonE2" onAction="#E2" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonesJocVida" stylesheets="@application.css" text="&lt;&lt;2" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Button>
+               </children>
+            </HBox>
+
+         </children>
+      </HBox>
+
+   </children>
+</VBox>

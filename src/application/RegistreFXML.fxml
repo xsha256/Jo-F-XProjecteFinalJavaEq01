@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="root" alignment="CENTER" onKeyPressed="#enterKey" prefHeight="539.0" prefWidth="700.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegistreController">
+	<children>
+		<VBox alignment="CENTER_LEFT" prefHeight="450.0" prefWidth="390.0">
+			<children>
+				<Label alignment="CENTER" contentDisplay="CENTER" text="Crear un nou compte" textAlignment="CENTER" textFill="#e8e8e8">
+					<font>
+						<Font name="Arial" size="29.0" />
+					</font>
+					<VBox.margin>
+						<Insets bottom="20.0" left="58.0" right="58.0" top="35.0" />
+					</VBox.margin>
+				</Label>
+				<HBox alignment="CENTER" prefHeight="51.0" prefWidth="390.0">
+					<children>
+						<VBox prefHeight="91.0" prefWidth="195.0">
+							<children>
+								<Label fx:id="labelNom" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Nom*" visible="false" />
+								<TextField fx:id="nomtxt" alignment="TOP_LEFT" prefHeight="28.0" prefWidth="134.0" promptText="Nom" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;" />
+							</children>
+							<HBox.margin>
+								<Insets right="2.5" />
+							</HBox.margin>
+						</VBox>
+						<VBox prefHeight="91.0" prefWidth="195.0">
+							<children>
+								<Label fx:id="labelCognoms" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Cognoms*" visible="false" />
+								<TextField fx:id="cognomstxt" prefHeight="28.0" prefWidth="220.0" promptText="Cognoms" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8;-fx-text-fill: #e8e8e8;">
+									<padding>
+										<Insets left="2.0" />
+									</padding>
+								</TextField>
+							</children>
+							<HBox.margin>
+								<Insets left="2.5" />
+							</HBox.margin>
+						</VBox>
+					</children>
+					<VBox.margin>
+						<Insets bottom="5.0" />
+					</VBox.margin>
+				</HBox>
+				<Label fx:id="labelCorreu" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Correu electrònic*" visible="false" />
+				<TextField fx:id="correutxt" prefHeight="28.0" promptText="Correu electrònic" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;">
+					<VBox.margin>
+						<Insets bottom="5.0" />
+					</VBox.margin>
+				</TextField>
+				<Label fx:id="labelPoblacio" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Població*" visible="false" />
+				<TextField fx:id="poblaciotxt" prefHeight="28.0" promptText="Població" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;">
+					<VBox.margin>
+						<Insets bottom="5.0" />
+					</VBox.margin>
+				</TextField>
+				<Label fx:id="labelContrasenya" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Contrasenya*" visible="false" />
+            <PasswordField fx:id="contrasenyatxt" prefHeight="28.0" promptText="Contrasenya" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </PasswordField>
+            <Label fx:id="labelConfContrasenya" style="-fx-font-size: 14px; -fx-text-fill: #e8e8e8;" text="Confirmacio de contrasenya*" visible="false" />
+            <PasswordField fx:id="confcontrasenyatxt" prefHeight="28.0" promptText="Confirmació de contrasenya" style="-fx-background-color: #365057; -fx-prompt-text-fill: #e8e8e8; -fx-text-fill: #e8e8e8;" />
+				<HBox alignment="CENTER_LEFT" prefHeight="76.0" prefWidth="390.0">
+					<children>
+						<ImageView fx:id="showPic" fitHeight="76.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+
+							<HBox.margin>
+								<Insets right="20.0" />
+							</HBox.margin>
+                     <image>
+                        <Image url="@../../imagenes/imgdefault.jpg" />
+                     </image>
+						</ImageView>
+                  <TextField fx:id="imginput" editable="false" prefHeight="24.0" style="-fx-background-color: #365057; -fx-text-fill: #e8e8e8;" text="Pujar imatge" />
+						<ImageView id="addpic" fx:id="imgurl" fitHeight="28" fitWidth="34" layoutX="115.0" layoutY="10.0" onMouseClicked="#addimg" pickOnBounds="true" preserveRatio="true" styleClass="boton-hover">
+							<HBox.margin>
+								<Insets left="8.0" top="5.0" />
+							</HBox.margin>
+                     <image>
+                        <Image url="@../../imagenes/addIcon.png" />
+                     </image>
+						</ImageView>
+					</children>
+					<VBox.margin>
+						<Insets bottom="20.0" />
+					</VBox.margin>
+				</HBox>
+				<HBox alignment="CENTER" prefHeight="28.0" prefWidth="423.0">
+					<children>
+						<Button fx:id="registreBoton" mnemonicParsing="false" onAction="#registrar" prefHeight="28.0" prefWidth="220.0" style="-fx-background-color: #2a7963;" styleClass="boton-hover" text="Registre" textFill="#e8e8e8">
+							<HBox.margin>
+								<Insets right="12.0" />
+							</HBox.margin>
+						</Button>
+						<Button mnemonicParsing="false" onAction="#netejar" prefHeight="28.0" prefWidth="220.0" style="-fx-background-color: #365057;" styleClass="boton-hover" text="Netejar" textFill="#e8e8e8">
+							<HBox.margin>
+								<Insets />
+							</HBox.margin>
+						</Button>
+					</children>
+					<VBox.margin>
+						<Insets bottom="15.0" />
+					</VBox.margin>
+				</HBox>
+				<HBox alignment="CENTER" prefHeight="28.0" prefWidth="423.0">
+					<children>
+						<Label text="Ja tens compte? " textFill="#e8e8e8" />
+						<Hyperlink fx:id="accedirURL" onAction="#accedirLogin" styleClass="boton-hover" text="Accedir" textFill="#2a7963">
+							<HBox.margin>
+								<Insets />
+							</HBox.margin>
+							<font>
+								<Font name="Arial Italic" size="13.0" />
+							</font>
+						</Hyperlink>
+					</children>
+					<VBox.margin>
+						<Insets />
+					</VBox.margin>
+				</HBox>
+				<TextField prefHeight="15.0" prefWidth="100.0" promptText="Pujar imatge" style="-fx-background-color: #365057;" visible="false" />
+			</children>
+			<HBox.margin>
+				<Insets />
+			</HBox.margin>
+		</VBox>
+	</children>
+</HBox>

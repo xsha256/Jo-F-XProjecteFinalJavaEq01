@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: #0d262e;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DificultadController">
+	<children>
+		<HBox alignment="CENTER" prefHeight="132.0" prefWidth="600.0">
+			<children>
+				<VBox alignment="CENTER" prefHeight="109.0" prefWidth="133.0">
+					<children>
+						<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Mida del Tauler" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="50.0" />
+                     </font></Text>
+					</children>
+				</VBox>
+			</children>
+		</HBox>
+		<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" styleClass="botonesMidaTauler">
+			<children>
+				<VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+					<children>
+						<RadioButton fx:id="petita" mnemonicParsing="false" styleClass="radiobuttonMidaTauler" text="Petita" textFill="WHITE">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="opcionesGrupo" />
+                     </toggleGroup>
+                     <font>
+                        <Font size="20.0" />
+                     </font></RadioButton>
+					</children>
+				</VBox>
+				<Line endX="80.0" startX="80.0" startY="-80.0" stroke="WHITE" strokeWidth="2.0" styleClass="botonesMidaTauler" />
+				<VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+               <children>
+                  <RadioButton fx:id="media" mnemonicParsing="false" styleClass="radiobuttonMidaTauler" text="Mitjana" textFill="WHITE" toggleGroup="$opcionesGrupo">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></RadioButton>
+               </children></VBox>
+				<Line endX="80.0" startX="80.0" startY="-80.0" stroke="WHITE" strokeWidth="2.0" />
+				<VBox alignment="CENTER" prefHeight="200.0" prefWidth="120.0">
+               <children>
+                  <RadioButton fx:id="gran" mnemonicParsing="false" styleClass="radiobuttonMidaTauler" text="Gran" textFill="WHITE" toggleGroup="$opcionesGrupo">
+                     <font>
+                        <Font size="20.0" />
+                     </font></RadioButton>
+               </children></VBox>
+			</children>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+		</HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="jugar" mnemonicParsing="false" onAction="#canviaEscena" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #2a7963; -fx-background-radius: 10;" styleClass="botonAjugar" text="A jugar!" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <children>
+            <Button fx:id="botoEnrere" mnemonicParsing="false" onAction="#anarEnrere" prefHeight="20.0" prefWidth="100.0" style="-fx-background-color: #365057; -fx-background-radius: 10;" styleClass="botonEnrere" text="Enrere" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+	</children>
+</VBox>
