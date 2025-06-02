@@ -285,10 +285,10 @@ public class RegistreController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Platform.runLater(()->{
-			Stage ventanaActual = (Stage) root.getScene().getWindow();
-	        ventanaActual.setResizable(false);
-		});
+//		Platform.runLater(()->{
+//			Stage ventanaActual = (Stage) root.getScene().getWindow();
+//	        ventanaActual.setResizable(false);
+//		});
 		
 		nomtxt.setPromptText(promptNom);
 		nomtxt.focusedProperty().addListener((obs, oldVal, newVal) -> {
