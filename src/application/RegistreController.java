@@ -258,6 +258,8 @@ public class RegistreController implements Initializable {
 		return valid;
 	}
 
+	
+	//salt
 	public static String hashContrasenya(String password) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		byte[] hashBytes = md.digest(password.getBytes());
@@ -285,10 +287,11 @@ public class RegistreController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		Platform.runLater(()->{
-//			Stage ventanaActual = (Stage) root.getScene().getWindow();
-//	        ventanaActual.setResizable(false);
-//		});
+
+		Platform.runLater(()->{
+			Stage ventanaActual = (Stage) root.getScene().getWindow();
+		});
+
 		
 		nomtxt.setPromptText(promptNom);
 		nomtxt.focusedProperty().addListener((obs, oldVal, newVal) -> {

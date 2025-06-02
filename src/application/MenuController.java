@@ -1,18 +1,5 @@
 package application;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,13 +17,30 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
 	//atributos
@@ -64,6 +68,13 @@ public class MenuController implements Initializable {
 	//items del MenuButton
 	@FXML private MenuItem itemBaixa;
 	@FXML private MenuItem itemLogout;
+	@FXML
+	private ImageView icono;
+
+	@FXML
+	private Slider slider;
+
+	private MediaPlayer mediaPlayer;
 	
 	//array de ventanas abiertas
 	public static ArrayList<Stage> juegosAbiertos=new ArrayList<Stage>();
@@ -165,7 +176,8 @@ public class MenuController implements Initializable {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-				
+	    inicializarMusica();
+	
 	}
 	
 	
@@ -321,7 +333,7 @@ public class MenuController implements Initializable {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+		mediaPlayer.stop();
 	}
 
 	
@@ -486,8 +498,64 @@ public class MenuController implements Initializable {
 		}
 	    
 	}
-
 	
+	public void inicializarMusica() {
+	    // Icono inicial
+	    Image icon = new Image("file:imagenes/speakerMedio.png");
+	    icono.setImage(icon);
+
+	    // Música
+	    Media media = new Media(new File("inicio.mp3").toURI().toString());
+	    mediaPlayer = new MediaPlayer(media);
+	    mediaPlayer.play();
+
+	    // Establecer el valor inicial del slider
+	    slider.setValue(50);
+
+	    // Añadir listener para el volumen
+	    slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+	        double valor = newVal.doubleValue();
+
+	        // Cambiar icono según el volumen
+	        if (valor == 0) {
+	            icono.setImage(new Image("file:imagenes/mute.png"));
+	        } else if (valor <= 30) {
+	            icono.setImage(new Image("file:imagenes/speakerMin.png"));
+	        } else if (valor <= 60){
+	            icono.setImage(new Image("file:imagenes/speakerMedio.png"));
+	        } else {
+	            icono.setImage(new Image("file:imagenes/speaker.png"));
+	        }
+
+	        // Ajustar volumen
+	        if (mediaPlayer != null) {
+	            mediaPlayer.setVolume(valor / 100.0);
+	        }
+	    });
+	}
+
+
+
+	@FXML
+	private void mostrarSlider() {
+	    slider.setVisible(true);
+	}
+
+	@FXML
+	private void ocultarSlider() {
+	    slider.setVisible(false);
+	}
+	
+	@FXML
+	 private void mute() {
+        if (slider.getValue() == 0) {
+            slider.setValue(50);
+            icono.setImage(new Image("file:imagenes/speakerMedio.png"));
+        } else {
+            slider.setValue(0);
+            icono.setImage(new Image("file:imagenes/mute.png"));
+        }
+    }
 
 	
 	/*
@@ -523,6 +591,6 @@ public class MenuController implements Initializable {
 	}
 	
 	*/
-	
+
 	
 }

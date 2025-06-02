@@ -13,6 +13,10 @@
   -fx-alignment: CENTER;
 }
 
+.slidVoz{
+-fx-cursor: hand;
+  -fx-color: #2a7963;
+}
 .msgAlertError {
   -fx-wrap-text: true;
   -fx-font-size: 16px;
