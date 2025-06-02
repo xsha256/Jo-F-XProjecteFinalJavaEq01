@@ -707,10 +707,10 @@ public class WordleController implements Initializable {
 			Connection c = ConexionBBDD.conectar();
 
 			// comptar total de partides jugades
-			String consultaSelect = "SELECT COUNT(?) AS comptar FROM wordle GROUP BY (?)";
+			String consultaSelect = "SELECT COUNT(*) AS comptar FROM wordle WHERE idUsuari = ?";
 			PreparedStatement psSelect = c.prepareStatement(consultaSelect);
-			psSelect.setString(1, "idUsuari");
-			psSelect.setString(2, "idUsuari");
+			psSelect.setInt(1, consultarId());
+//			psSelect.setString(2, "idUsuari");
 			ResultSet rs = psSelect.executeQuery();
 			while (rs.next()) {
 				// vegades = rs.getInt("comptar") + 1;// +1 prq no compta el ultimo partido prq
@@ -719,11 +719,11 @@ public class WordleController implements Initializable {
 
 
 			}
-			String consultaSelectGuanyats = "SELECT COUNT(?) AS comptarGuanyats FROM wordle WHERE encertats = ? GROUP BY (?)";
+			String consultaSelectGuanyats = "SELECT COUNT(*) AS comptarGuanyats FROM wordle WHERE encertats = ? AND idUsuari = ?";
 			PreparedStatement psSelectGuanyats = c.prepareStatement(consultaSelectGuanyats);
-			psSelectGuanyats.setString(1, "encertats");
-			psSelectGuanyats.setInt(2, 1);
-			psSelectGuanyats.setString(3, "idUsuari");
+//			psSelectGuanyats.setString(1, "encertats");
+			psSelectGuanyats.setInt(1, 1);
+			psSelectGuanyats.setInt(2, consultarId());
 			ResultSet rsGuanyats = psSelectGuanyats.executeQuery();
 			while (rsGuanyats.next()) {
 				// vegades = rs.getInt("comptar") + 1;// +1 prq no compta el ultimo partido prq
@@ -748,9 +748,10 @@ public class WordleController implements Initializable {
 		try {
 			Connection c = ConexionBBDD.conectar();
 
-			String consultaSumaEncertats = "SELECT COUNT(encertats) AS TotalEncertats FROM wordle WHERE encertats = ?";
+			String consultaSumaEncertats = "SELECT COUNT(*) AS TotalEncertats FROM wordle WHERE encertats = ? AND idUsuari = ?";
 			PreparedStatement psSumaEncertats = c.prepareStatement(consultaSumaEncertats);
 			psSumaEncertats.setInt(1, 1);
+			psSumaEncertats.setInt(2, consultarId());
 			ResultSet rsEncertats = psSumaEncertats.executeQuery();
 			while (rsEncertats.next()) {
 				totalEncertats = rsEncertats.getInt("TotalEncertats");
@@ -759,8 +760,9 @@ public class WordleController implements Initializable {
 
 			// comptar total de partides jugades
 
-			String consultaSelect = "SELECT intents, COUNT(encertats) AS encertatsFila FROM wordle WHERE encertats = 1 GROUP BY (intents)";
+			String consultaSelect = "SELECT intents, COUNT(encertats) AS encertatsFila FROM wordle WHERE encertats = 1 AND idUsuari = ? GROUP BY intents";
 			PreparedStatement psSelect = c.prepareStatement(consultaSelect);
+			psSelect.setInt(1, consultarId());
 			ResultSet rs = psSelect.executeQuery();
 			float totalEncertatsPer = 0.0f;
 			while (rs.next()) {
