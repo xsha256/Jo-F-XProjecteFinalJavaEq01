@@ -150,11 +150,17 @@
 ### Si es fa des de terminal:
 
 ```bash
-javac --module-path /ruta/javafx-sdk-21.0.7/lib --add-modules javafx.controls,javafx.fxml -d bin src/Main.java
+javac --module-path /ruta/javafx-sdk-21.0.7/lib --add-modules javafx.controls,javafx.fxml,javafx.media -d bin src/Main.java
 ```
 
 ```bash
-java --module-path /ruta/javafx-sdk-21.0.7/lib --add-modules javafx.controls,javafx.fxml -cp bin Main
+java --module-path /ruta/javafx-sdk-21.0.7/lib --add-modules javafx.controls,javafx.fxml,javafx.media -cp bin Main
+```
+
+### Si es fa des de Eclipse > main > run as > run configurations > arguments:
+
+```bash
+javac --module-path /ruta/javafx-sdk-21.0.7/lib --add-modules javafx.controls,javafx.fxml,javafx.media
 ```
 
 ---
