@@ -99,17 +99,28 @@ public class WordleController implements Initializable {
 					}
 				}
 
+//				if (filaCompleta) {
+//					comprovarFila(filaActual);// enter
+//					intents++;// aumentem els intents
+//					filaActual++;// pasem a la fila de baix
+//					columnaActual = 0;
+//
+//				}
+				//cambiamos lo anterior comentado por esto de abajo porque si no, no controla bien el limite de filas
 				if (filaCompleta) {
-					comprovarFila(filaActual);// enter
-					intents++;// aumentem els intents
-					filaActual++;// pasem a la fila de baix
-					columnaActual = 0;
-
-				}
-				if (filaActual == 4 && columnaActual == 4) {
-					filaActual = 0;
+					comprovarFila(filaActual);
+					intents++;
+					if (filaActual < 5) {
+						filaActual++;
+					}
 					columnaActual = 0;
 				}
+				//------------------------------------
+				
+//				if (filaActual == 4 && columnaActual == 4) {
+//					filaActual = 0;
+//					columnaActual = 0;
+//				}
 				return;
 
 			}
@@ -203,19 +214,29 @@ public class WordleController implements Initializable {
 								break;
 							}
 						}
-
+						
+//						if (filaCompleta) {
+//							comprovarFila(filaActual);// enter
+//							intents++;// aumentem els intents
+//							filaActual++;// pasem a la fila de baix
+//							columnaActual = 0;
+//
+//						}
+						//cambiamos lo de arriba comentado por esto de aquí para controlar mejor los limites y que no falle
 						if (filaCompleta) {
-							comprovarFila(filaActual);// enter
-							intents++;// aumentem els intents
-							filaActual++;// pasem a la fila de baix
-							columnaActual = 0;
-
-						}
-
-						if (filaActual == 4 && columnaActual == 4) {
-							filaActual = 0;
+							comprovarFila(filaActual);
+							intents++;
+							if (filaActual < 5) {
+								filaActual++;
+							}
 							columnaActual = 0;
 						}
+						//------------------------------------------------------
+//						
+//						if (filaActual == 4 && columnaActual == 4) {
+//							filaActual = 0;
+//							columnaActual = 0;
+//						}
 						return;
 
 					}
@@ -235,6 +256,10 @@ public class WordleController implements Initializable {
 	//// *MÈTODES*/////
 
 	public void comprovarFila(int fila) {
+		if (fila >= caselles.length) {
+			System.out.println("Fila fuera de rango: " + fila);
+			return;
+		}
 		boolean encertada = true;
 		for (int columna = 0; columna < 5; columna++) {
 			Label celda = caselles[fila][columna];
