@@ -505,7 +505,7 @@ public class MenuController implements Initializable {
 	    icono.setImage(icon);
 
 	    // Música
-	    Media media = new Media(new File("inicio.mp3").toURI().toString());
+	    Media media = new Media(new File("media/inicio.mp3").toURI().toString());
 	    mediaPlayer = new MediaPlayer(media);
 	    mediaPlayer.play();
 
