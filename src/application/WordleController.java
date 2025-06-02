@@ -736,7 +736,7 @@ public class WordleController implements Initializable {
 		} catch (SQLException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
-
+		
 		int posEncertats = 0;
 		int vegadesEncertats = 0;
 		int totalEncertats = 0;
@@ -744,7 +744,7 @@ public class WordleController implements Initializable {
 		float[] posEncertatsArray = new float[6];
 		float[] vegadesEncertatsArray = new float[6];
 		float[] totalEncertatsPerArray = new float[6];
-
+		
 		try {
 			Connection c = ConexionBBDD.conectar();
 
