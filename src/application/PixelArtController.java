@@ -1,20 +1,5 @@
 package application;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -38,6 +24,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class PixelArtController implements Initializable {
 
@@ -525,6 +526,7 @@ public class PixelArtController implements Initializable {
 		mode = Mode.BORRAR;
 		borrador.setStyle("-fx-background-color: #e85a71;");
 		pinzell.setStyle("-fx-background-color:  #2a7963;");
+
 	}
 
 	// CANVIA EL MODE DEL BOTO A PINTAR I POSA ATRIBUTS
@@ -560,14 +562,22 @@ public class PixelArtController implements Initializable {
 		// HABILITA EL DRAG EN TOTES LES CEL·LES
 		casella.setOnDragDetected(e -> {
 			casella.startFullDrag();
+
 			if (e.getButton() == MouseButton.PRIMARY && mode == Mode.PINTAR) {
 				casella.setStyle("-fx-background-color: " + colorString(color.getValue()) + ";");
 				taulellCaselles[fila][col].setColor(colorString(color.getValue()));
 				taulellCaselles[fila][col].setOcupat(true);
+				Image image = new Image("file:imagenes/Pinzell.png", 32, 32, true, true); // Ruta relativa
+				ImageCursor customCursor = new ImageCursor(image);
+				casella.setCursor(customCursor);
 			} else if (e.getButton() == MouseButton.SECONDARY || mode == Mode.BORRAR) {
 				casella.setStyle("-fx-background-color:" + colorBase + ";");
 				taulellCaselles[fila][col].setColor(colorBase);
 				taulellCaselles[fila][col].setOcupat(false);
+				Image image = new Image("file:imagenes/goma.png", 32, 32, true, true); // Ruta relativa
+				ImageCursor customCursor = new ImageCursor(image);
+				casella.setCursor(customCursor);
+
 			}
 		});
 
